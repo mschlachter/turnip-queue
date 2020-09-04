@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\VerifyRecaptchaMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ Route::name('queue.')->group(function () {
 
 	Route::middleware(['verified'])->group(function() {
 		Route::get('/queue/create', 'QueueController@create')->name('create');
-		Route::post('/queue/create', 'QueueController@store')->name('store');
+		Route::post('/queue/create', 'QueueController@store')->name('store')->middleware(VerifyRecaptchaMiddleware::class);
 		Route::post('/queue/admin/boot-seeker', 'QueueController@bootSeeker')->name('boot-seeker');
 
 		Route::get('/queue/admin/{turnipQueue:token}', 'QueueController@admin')->name('admin');
@@ -30,7 +31,7 @@ Route::name('queue.')->group(function () {
 	});
 
 	Route::get('/queue/{turnipQueue:token}', 'QueueController@join')->name('join');
-	Route::post('/queue/{turnipQueue:token}', 'QueueController@register')->name('register');
+	Route::post('/queue/{turnipQueue:token}', 'QueueController@register')->name('register')->middleware(VerifyRecaptchaMiddleware::class);
 
 	Route::get('/queue/{turnipQueue:token}/ping', 'QueueController@ping')->name('ping');
 	Route::post('/queue/{turnipQueue:token}/leave', 'QueueController@leave')->name('leave');

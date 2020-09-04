@@ -77,9 +77,16 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit"
+                            class="btn btn-primary g-recaptcha" 
+                            data-sitekey="{{ config('recaptcha.site-key') }}" 
+                            data-callback='recaptchaCallback' 
+                            data-action='submit'>
                             @lang('Create Turnip Queue')
                         </button>
+                        @error('recaptcha')
+                            <div class="invalid-feedback d-block mt-2">{{ $message }}</div>
+                        @enderror
                     </form>
                 </div>
             </div>
@@ -90,4 +97,5 @@
 
 @push('js')
 <script type="text/javascript" src="{{ mix('js/queue/create.js') }}"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 @endpush

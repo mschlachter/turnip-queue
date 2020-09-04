@@ -15,3 +15,8 @@ visitorOutput.innerHTML = visitorSlider.value; // Display the default slider val
 visitorSlider.oninput = function() {
   visitorOutput.innerHTML = this.value;
 }
+
+// Recaptcha success callback
+window.recaptchaCallback = function(token) {
+	document.getElementById('form-queue-details').submit();
+}
