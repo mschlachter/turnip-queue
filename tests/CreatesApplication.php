@@ -17,6 +17,9 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        // Ensure migrations have been run:
+        $this->artisan('migrate');
+
         return $app;
     }
 }
