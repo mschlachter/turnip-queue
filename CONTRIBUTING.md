@@ -24,7 +24,7 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 In short, when you submit code changes, your submissions are understood to be under the same [Attribution 4.0 International (CC BY 4.0) License](https://creativecommons.org/licenses/by/4.0/) that covers the project. Feel free to contact the maintainers if that's a concern. For purposes of licensing and copyright, Matthew Schlachter becomes the owner of code merged to the main repository of this project in order to enable changing or updating the license as needed.
 
 ## Report bugs using Github's [issues](https://github.com/mschlachter/turnip-queue/issues)
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](); it's that easy!
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/mschlachter/turnip-queue/issues/new); it's that easy!
 
 ## Write bug reports with detail, background, and sample code
 [This is an example](https://stackoverflow.com/questions/51368941/using-css3-variables-in-knockout-style-binding) of a bug report I wrote, and I think it's not a bad model. Here's [another example from Craig Hockenberry](http://www.openradar.me/11905408), an app developer whom I greatly respect.
