@@ -175,9 +175,6 @@ function timeToGo(s, l) {
     return z(hours) + ':' + z(mins) + ':' + z(secs);
 }
 
-var closeTime = document.getElementById('queue-close-time').innerText;
-var timeDisplay = document.getElementById('queue-close-time');
-
 window.setInterval(function() {
     document.querySelectorAll('[data-relative-from-timestamp]').forEach(function(element) {
         element.innerText = timeToGo(

@@ -7,6 +7,11 @@ queueChannel.listen('QueueClosed', function(e) {
     window.location.href = meta('close-redirect');
 });
 
+queueChannel.listen('QueueExpiryChanged', function(e) {
+    // Expiry time was changed
+    document.getElementById('expiry-display').setAttribute('data-relative-from-timestamp', e.newExpiry);
+});
+
 // Events for position changed or booted from queue
 var seekerChannel = Echo.private('App.TurnipSeeker.' + meta('seeker-token'));
 
@@ -75,3 +80,44 @@ function blinkTitle(text) {
         }, 1000);
     }
 }
+
+// Use 'time to go' logic for the close time
+function isoToObj(s) {
+    var b = s.split(/[-TZ:]/i);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5]));
+}
+
+function timeToGo(s, l) {
+    // Utility to add leading zero
+    function z(n) {
+      return (n < 10? '0' : '') + n;
+    }
+
+    // Convert string to date object
+    var d = isoToObj(s);
+    var diff = d - new Date();
+
+    // Allow for previous times
+    var sign = diff < 0? '-' : '';
+    diff = Math.abs(diff);
+
+    // Get time components
+    var hours = diff/3.6e6 | 0;
+    var mins  = diff%3.6e6 / 6e4 | 0;
+    var secs  = Math.round(diff%6e4 / 1e3);
+
+    if(l) {
+        // return formatted string
+        return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';   
+    }
+    return sign + z(hours) + ':' + z(mins) + ':' + z(secs);
+}
+
+window.setInterval(function() {
+    document.querySelectorAll('[data-relative-from-timestamp]').forEach(function(element) {
+        element.innerText = timeToGo(
+            element.getAttribute('data-relative-from-timestamp'),
+            element.getAttribute('data-display-long') === 'true',
+        );
+    });
+}, 1000);

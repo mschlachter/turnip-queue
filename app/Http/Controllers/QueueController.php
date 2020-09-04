@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\TurnipQueue;
 use App\TurnipSeeker;
 use App\Events\SeekerBooted;
-use App\Jobs\ExpireQueue;
 use Str;
 use Auth;
 
@@ -197,9 +196,6 @@ class QueueController extends Controller
 			'concurrent_visitors' => $validated['visitors'],
 			'custom_question' => $validated['custom-question'],
     	]);
-
-        // Set expiry job
-        ExpireQueue::dispatch($turnipQueue)->delay(now()->addHours($validated['duration']));
 
         return redirect(route('queue.admin', compact('turnipQueue')))->withStatus('Your Turnip Queue has been created.');
     }
