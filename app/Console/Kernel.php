@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\PurgeAbandonnedSeekers;
+use App\Console\Commands\PurgeExpiredQueues;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         PurgeAbandonnedSeekers::class,
+        PurgeExpiredQueues::class,
     ];
 
     /**
