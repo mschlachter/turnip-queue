@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Pusher Token -->
-    <meta name="pusher-token" content="{{ env('MIX_PUSHER_APP_KEY') }}">
+    <meta name="pusher-token" content="{{ config('broadcasting.connections.pusher.key') }}">
 
     @stack('meta')
 
