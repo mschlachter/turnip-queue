@@ -43334,6 +43334,16 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+document.addEventListener('submit', function (e) {
+  if (e.target && e.target.hasAttribute('data-confirm')) {
+    if (!confirm(e.target.getAttribute('data-confirm'))) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  }
+});
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

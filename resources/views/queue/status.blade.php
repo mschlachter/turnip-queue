@@ -42,7 +42,7 @@
                     <div class="alert alert-danger text-center">
                         @lang('Leave this window open until you have left the island.<br />Once you have left the island, click the button below:')
                     </div>
-                    <form class="text-center" method="post" action="{{ route('queue.leave', compact('turnipQueue')) }}">
+                    <form class="text-center" method="post" action="{{ route('queue.leave', compact('turnipQueue')) }}" data-confirm="Are you sure you want to leave this Turnip Queue?">
                         @csrf
                         <button class="btn btn-outline-danger">
                             @lang('Leave the Queue')

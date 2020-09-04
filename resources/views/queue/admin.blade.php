@@ -87,7 +87,7 @@
                             @lang('Cancel')
                         </button>
                     </form>
-                    <form id="form-close-queue" method="post" action="{{ route('queue.close', compact('turnipQueue')) }}">
+                    <form id="form-close-queue" method="post" action="{{ route('queue.close', compact('turnipQueue')) }}" data-confirm="Are you sure you want to close this Queue?">
                         @csrf
                     </form>
                 </div>
