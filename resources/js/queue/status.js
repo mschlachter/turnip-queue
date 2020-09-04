@@ -40,7 +40,7 @@ seekerChannel.listen('SeekerBooted', function(e) {
     window.location.href = meta('boot-redirect');
 });
 
-// Ping the server every 30 seconds to remain in the queue
+// Ping the server every 15 seconds to remain in the queue
 function maintainSession() {
     var xmlHttp = new XMLHttpRequest();
     // We don't use this for now but maybe in the future ...?
@@ -53,7 +53,7 @@ function maintainSession() {
     xmlHttp.send(null);
 }
 
-window.setInterval(maintainSession, 30 * 1000);
+window.setInterval(maintainSession, 15 * 1000);
 
 // Functions to blink the title when out of focus (when needed)
 var timer = "";
