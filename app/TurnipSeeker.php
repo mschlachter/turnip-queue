@@ -42,7 +42,7 @@ class TurnipSeeker extends Model
     	return $query->where('left_queue', false);
     }
 
-    public function turnipSeeker()
+    public function turnipQueue()
     {
         return $this->belongsTo(TurnipQueue::class);
     }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Broadcast;
 use App\TurnipQueue;
+use App\TurnipSeeker;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,13 @@ Broadcast::channel('App.TurnipQueue.{token}', function ($user, $token) {
     return (int) $user->id === (int) $turnipQueue->user_id;
 });
 
-Broadcast::channel('App.TurnipSeeker.{token}', function ($token) {
-	// I guess the authorization here is... 'does the user have the token?'?
-    return true;
+Broadcast::channel('App.TurnipSeeker.{token}', function ($user, $token) {
+	$turnipSeeker = TurnipSeeker::where('token', $token)->first();
+	if($turnipSeeker === null || $turnipSeeker->left_queue) {
+		return false;
+	}
+
+	// Authentication scheme is: does request token match session token?
+    $seekerToken = session('queue-' . $turnipSeeker->turnipQueue->token . '|seekerToken', null);
+	return $seekerToken === $token;
 });
