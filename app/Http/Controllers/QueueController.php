@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TurnipQueue;
 use App\TurnipSeeker;
-use App\Events\QueueChanged;
+use App\Events\SeekerBooted;
 use App\Jobs\ExpireQueue;
 use Str;
 use Auth;
@@ -281,5 +281,30 @@ class QueueController extends Controller
     	]);
 
         return redirect(route('queue.create'))->withStatus('Your Turnip Queue has been closed.');
+    }
+
+    public function bootSeeker()
+    {
+        $turnipQueue = TurnipQueue::where('token', request('queue-token'))->firstOrFail();
+        $turnipSeeker = $turnipQueue->turnipSeekers()->where('token', request('seeker-token'))->firstOrFail();
+
+        if($turnipQueue->user_id !== Auth::id()) {
+            abort(404);
+        }
+        if(!$turnipQueue->is_open) {
+            abort(404);
+        }
+
+        if(
+            !$turnipSeeker->left_queue
+        ) {
+            // Remove them from the queue
+            $turnipSeeker->update(['left_queue' => true]);
+
+            // Let them know they've been booted
+            SeekerBooted::dispatch($turnipSeeker);
+        }
+
+        return back();
     }
 }

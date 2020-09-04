@@ -22,6 +22,7 @@ Route::name('queue.')->group(function () {
 	Route::middleware(['verified'])->group(function() {
 		Route::get('/queue/create', 'QueueController@create')->name('create');
 		Route::post('/queue/create', 'QueueController@store')->name('store');
+		Route::post('/queue/admin/boot-seeker', 'QueueController@bootSeeker')->name('boot-seeker');
 
 		Route::get('/queue/admin/{turnipQueue:token}', 'QueueController@admin')->name('admin');
 		Route::post('/queue/admin/{turnipQueue:token}', 'QueueController@update')->name('update');

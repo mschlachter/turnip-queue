@@ -3,6 +3,7 @@
 @push('meta')
 <meta name="queue-token" content="{{ $turnipQueue->token }}">
 <meta name="expire-redirect" content="{{ route('queue.create') }}">
+<meta name="boot-route" content="{{ route('queue.boot-seeker') }}">
 @endpush
 
 @section('content')
@@ -115,6 +116,9 @@
                                 <th>
                                     Status
                                 </th>
+                                <th class="sr-only">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody id="queue-table-body">
@@ -137,6 +141,13 @@
                                 <td>
                                     {{ $loop->index < $turnipQueue->concurrent_visitors ? __('Has code') : __('In queue') }}
                                 </td>
+                                <td>
+                                    <form class="form-boot-seeker" data-confirm="Are you sure you want to remove {{ $seeker->reddit_username }} from the Queue?" method="post" action="{{ route('queue.boot-seeker') }}">
+                                        @csrf
+                                        <input type="hidden" name="queue-token" value="{{ $turnipQueue->token }}">
+                                        <input type="hidden" name="seeker-token" value="{{ $seeker->token }}">
+                                        <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                    </form>
                             </tr>
                             @endforeach
                         </tbody>

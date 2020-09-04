@@ -24,7 +24,7 @@ class TurnipSeeker extends Model
      * @var array
      */
     protected $hidden = [
-        'token',
+        // 'token',
     ];
 
     /**

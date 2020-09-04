@@ -14,12 +14,14 @@ class SeekerBooted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $turnipSeekerToken;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($turnipQueue, $turnipSeeker, $position)
+    public function __construct($turnipSeeker)
     {
         $this->turnipSeekerToken = $turnipSeeker->token;
     }

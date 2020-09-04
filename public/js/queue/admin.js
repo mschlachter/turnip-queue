@@ -133,6 +133,35 @@ Echo["private"]('App.TurnipQueue.' + meta('queue-token')).listen('QueueChanged',
     var status_row = document.createElement('td');
     status_row.innerText = i < e.concurrentVisitors ? 'Has code' : 'In queue';
     seekerRow.appendChild(status_row);
+    var action_row = document.createElement('td');
+    var action_form = document.createElement('form');
+    action_form.classList.add('form-boot-seeker');
+    action_form.setAttribute('data-confirm', 'Are you sure you want to remove ' + seekers[i].reddit_username + ' from the Queue?');
+    action_form.method = 'post';
+    action_form.action = meta('boot-route');
+    var csrf_input = document.createElement('input');
+    csrf_input.type = 'hidden';
+    csrf_input.name = '_token';
+    csrf_input.value = meta('csrf-token');
+    action_form.appendChild(csrf_input);
+    var queue_token_input = document.createElement('input');
+    queue_token_input.type = 'hidden';
+    queue_token_input.name = 'queue-token';
+    queue_token_input.value = meta('queue-token');
+    action_form.appendChild(queue_token_input);
+    var seeker_token_input = document.createElement('input');
+    seeker_token_input.type = 'hidden';
+    seeker_token_input.name = 'seeker-token';
+    seeker_token_input.value = seekers[i].token;
+    action_form.appendChild(seeker_token_input);
+    var remove_button = document.createElement('button');
+    remove_button.type = 'submit';
+    remove_button.innerText = 'Remove';
+    remove_button.classList.add('btn');
+    remove_button.classList.add('btn-outline-danger');
+    action_form.appendChild(remove_button);
+    action_row.appendChild(action_form);
+    seekerRow.appendChild(action_row);
     newTBody.appendChild(seekerRow);
   } // Update the table body:
 
@@ -233,7 +262,20 @@ window.setInterval(function () {
   document.querySelectorAll('[data-relative-from-timestamp]').forEach(function (element) {
     element.innerText = timeToGo(element.getAttribute('data-relative-from-timestamp'), element.getAttribute('data-display-long') === 'true');
   });
-}, 1000);
+}, 1000); // Use ajax for "remove from queue" forms
+
+document.addEventListener('submit', function (e) {
+  if (e.target && e.target.classList.contains('form-boot-seeker')) {
+    // Send a post request to the backend with the form data
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData(e.target);
+    xhr.open("POST", e.target.action);
+    xhr.send(formData);
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+});
 
 /***/ }),
 
