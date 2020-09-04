@@ -45,6 +45,10 @@ Route::name('terms.')->group(function() {
 	Route::get('/terms-and-conditions', 'TermsController@index')->name('index');
 });
 
+Route::name('notifications.')->group(function() {
+	Route::get('/notifications/dismiss', 'SiteNotificationController@dismiss')->name('dismiss');
+});
+
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');

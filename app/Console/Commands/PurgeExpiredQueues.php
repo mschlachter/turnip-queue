@@ -38,7 +38,7 @@ class PurgeExpiredQueues extends Command
      */
     public function handle()
     {
-        $queuesToPurge = TurnipQueue::where('is_open', true)->where('expiry_date', '<', now());
+        $queuesToPurge = TurnipQueue::where('is_open', true)->where('expires_at', '<', now());
         if($queuesCount = $queuesToPurge->count()) {
             foreach($queuesToPurge->get() as $turnipSeeker) {
                 $turnipSeeker->update(['is_open' => false]);
