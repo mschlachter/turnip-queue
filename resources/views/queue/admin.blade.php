@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <p class="label">
-                                @lang('Time Queue closes:')
+                                @lang('Time Queue expires:')
                                 <span id="queue-close-time" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}" data-display-long="true">{{ $turnipQueue->expires_at }}</span>
                             </p>
                             <p>
