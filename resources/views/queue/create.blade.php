@@ -20,7 +20,7 @@
                                 @lang('You currently have an open queue:')
                                 <a href="{{ route('queue.admin', ['turnipQueue' => $openQueue]) }}">
                                     @lang('view your open queue')
-                                </a>
+                                </a>m
                             </p>
                             <p class="mb-0">
                                 @lang('Opening a new queue will close your currently opened queue.')
@@ -89,23 +89,5 @@
 @endsection
 
 @push('js')
-<script type="text/javascript">
-    var durationSlider = document.getElementById("duration");
-    var durationOutput = document.getElementById("duration-display");
-    durationOutput.innerHTML = durationSlider.value; // Display the default slider value
-
-    // Update the current slider value (each time you drag the slider handle)
-    durationSlider.oninput = function() {
-      durationOutput.innerHTML = this.value;
-    } 
-
-    var visitorSlider = document.getElementById("visitors");
-    var visitorOutput = document.getElementById("visitors-display");
-    visitorOutput.innerHTML = visitorSlider.value; // Display the default slider value
-
-    // Update the current slider value (each time you drag the slider handle)
-    visitorSlider.oninput = function() {
-      visitorOutput.innerHTML = this.value;
-    } 
-</script>
+<script type="text/javascript" src="{{ mix('js/queue/create.js') }}"></script>
 @endpush

@@ -6,6 +6,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Pusher Token -->
+    <meta name="pusher-token" content="{{ env('MIX_PUSHER_APP_KEY') }}">
 
     @stack('meta')
 

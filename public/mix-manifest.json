@@ -1,4 +1,7 @@
 {
-    "/js/app.js": "/js/app.js?id=2e798ae1270ff1a0a877",
-    "/css/app.css": "/css/app.css?id=b50cefbc428d46b11e81"
+    "/js/app.js": "/js/app.js?id=1b6e8cc1fbe0a784ba66",
+    "/css/app.css": "/css/app.css?id=b50cefbc428d46b11e81",
+    "/js/queue/admin.js": "/js/queue/admin.js?id=a79edbee38571339f5a2",
+    "/js/queue/create.js": "/js/queue/create.js?id=ecc3859cb28da2bb6183",
+    "/js/queue/status.js": "/js/queue/status.js?id=d09095edc953b338d083"
 }

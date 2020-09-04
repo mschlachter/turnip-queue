@@ -43369,16 +43369,25 @@ try {
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
+ * Custom function to get values from meta tags
+ */
+
+window.meta = function (key) {
+  var metaTag = document.querySelector('meta[name=' + key + ']');
+  return metaTag.content;
+};
+/**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
 
 
+
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "a2fd205bcb07e574c174",
+  key: meta('pusher-token'),
   cluster: 'us2'
 });
 
