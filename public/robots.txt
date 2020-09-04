@@ -1,3 +1,2 @@
 User-agent: *
-Allow: /queue
-Disallow: /queue/*
+Disallow:
