@@ -30,6 +30,10 @@ class VerifyRecaptchaMiddleware
     private function verifyRecaptcha()
     {
         $responseToken = request('g-recaptcha-response');
+        if(!$responseToken) {
+            return false;
+        }
+        
         $secret = config('recaptcha.secret-key');
         $apiUrl = 'https://www.google.com/recaptcha/api/siteverify';
 
