@@ -14,8 +14,8 @@ There are a few prerequisites by way of software and api keys in order to instal
 - MySQL or another Laravel-compatible database
 - Composer
 - NPM
-- Pusher Channel API keys, which can be obtained for free for development from (https://pusher.com/channels)[https://pusher.com/channels]
-- Google ReCaptcha v3 API keys, which can be obtained for free from (https://www.google.com/recaptcha/about/)[https://www.google.com/recaptcha/about/]
+- Pusher Channel API keys, which can be obtained for free for development from [https://pusher.com/channels](https://pusher.com/channels)
+- Google ReCaptcha v3 API keys, which can be obtained for free from [https://www.google.com/recaptcha/about/](https://www.google.com/recaptcha/about/)
 - An email provider (I use GMail with SMTP and an App Password)
 
 ## Installation Process
@@ -62,7 +62,7 @@ There are a few prerequisites by way of software and api keys in order to instal
     npm install && npm run watch
     ```
 
-Navigate to the site with your browser and you should be good to go. If you're using Valet, it'll likely be located at (http://turnip-queue.test)[http://turnip-queue.test]
+Navigate to the site with your browser and you should be good to go. If you're using Valet, it'll likely be located at [http://turnip-queue.test](http://turnip-queue.test)
 
 ## Contributing
 
