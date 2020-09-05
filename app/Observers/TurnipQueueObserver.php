@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\TurnipQueue;
 use App\Events\QueueClosed;
 use App\Events\QueueExpiryChanged;
+use App\Events\DodoCodeChanged;
 use App\Jobs\ExpireQueue;
 
 class TurnipQueueObserver
@@ -38,6 +39,10 @@ class TurnipQueueObserver
 
             // Set expiry job; no need to delete old job as it'll check whether job should expire before running
             ExpireQueue::dispatch($turnipQueue)->delay($turnipQueue->expires_at);
+        }
+
+        if($turnipQueue->isDirty('dodo_code')) {
+            DodoCodeChanged::dispatch($turnipQueue);
         }
     }
 

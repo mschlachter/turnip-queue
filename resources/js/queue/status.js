@@ -62,6 +62,10 @@ queueChannel.listen('QueueMessageDeleted', function(e) {
 // Events for position changed or booted from queue
 var seekerChannel = Echo.private('App.TurnipSeeker.' + meta('seeker-token'));
 
+function dodoCodeChanged(e) {
+    document.getElementById('dodo-code-area').innerText = e.newDodoCode;
+}
+
 if(meta('check-status')) {
     seekerChannel.listen('StatusChanged', function(e) {
         console.log(e);
@@ -79,6 +83,9 @@ if(meta('check-status')) {
 
             // Stop listening to this specific event:
             seekerChannel.stopListening('StatusChanged');
+
+            // Start listening to the 'dodo code changed' event
+            seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
         } else {
             document.getElementById('position-area').innerText = e.position;
         }
@@ -90,6 +97,10 @@ seekerChannel.listen('SeekerBooted', function(e) {
     alert('You have been removed from the Queue.');
     window.location.href = meta('boot-redirect');
 });
+
+if(!meta('check-status')) {
+    seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
+}
 
 // Ping the server every 15 seconds to remain in the queue
 function maintainSession() {
