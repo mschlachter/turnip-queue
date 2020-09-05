@@ -12,6 +12,7 @@ There are a few prerequisites by way of software and api keys in order to instal
 
 - PHP 7.2.5 or higher
 - MySQL or another Laravel-compatible database
+- Redis or another backend for the Laravel Queue (`file` works for local development)
 - Composer
 - NPM
 - Pusher Channel API keys, which can be obtained for free for development from [https://pusher.com/channels](https://pusher.com/channels)
