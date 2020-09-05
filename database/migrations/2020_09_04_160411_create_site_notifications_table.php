@@ -16,6 +16,7 @@ class CreateSiteNotificationsTable extends Migration
         Schema::create('site_notifications', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->enum('type', ['success', 'warning', 'danger', 'info'])->default('info');
             $table->string('message');
             $table->boolean('is_active')->default(true);

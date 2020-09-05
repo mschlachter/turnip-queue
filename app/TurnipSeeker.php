@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TurnipSeeker extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'turnip_queue_id',
         'reddit_username',
