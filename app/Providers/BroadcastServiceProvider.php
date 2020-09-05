@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
-use Auth;
-use App\User;
-use Route;
+use Illuminate\Broadcasting\BroadcastController as BaseController;
+use App\Http\Controllers\BroadcastController;
 
 class BroadcastServiceProvider extends ServiceProvider
 {
@@ -15,16 +16,11 @@ class BroadcastServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
-        Broadcast::routes();
+        app()->bind(BaseController::class, BroadcastController::class);
 
-        // Give temporary guest account for authenticating to seeker private channel
-        if(Auth::user() === null && request()->is('broadcasting/auth')) {
-            Auth::login(factory(User::class)->make([
-                'id' => (int)str_replace('.', '', microtime(true))
-            ]));
-        }
+        Broadcast::routes();
 
         require base_path('routes/channels.php');
     }

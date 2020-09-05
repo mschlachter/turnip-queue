@@ -50,8 +50,8 @@
                         </div>
                         <div class="form-group">
                             <p class="label">
-                                @lang('Time Queue expires:')
-                                <span id="queue-close-time" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}" data-display-long="true">{{ $turnipQueue->expires_at }}</span>
+                                @lang('Queue will expire:')
+                                <span id="expiry-display" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}" data-display-long="true">{{ $turnipQueue->expires_at }}</span>
                             </p>
                             <p>
                                 <button type="submit" form="form-add-half-hour" class="btn btn-outline-success mr-2">
@@ -100,6 +100,46 @@
                 </div>
             </div>
 
+
+            <div class="card mt-3">
+                <div class="card-header">@lang('Send message to Queue')</div>
+
+                <div class="card-body">
+                    <div id="message-section" class="mb-3">
+                        @foreach($turnipQueue->turnipQueueMessages as $turnipQueueMessage)
+                        <div class="shadow-sm rounded border py-2 px-2 mb-3" id="queue-message-{{ $turnipQueueMessage->id }}">
+                            <form method="post" action="{{ route('message.destroy', compact('turnipQueueMessage')) }}" class="form-delete-message">
+                                @csrf
+                                <button type="submit" class="btn btn-link float-right btn-sm">
+                                    @lang('Delete message')
+                                </button>
+                            </form>
+                            <small class="text-muted" data-relative-from-timestamp="{{ $turnipQueueMessage->sent_at->toISOString() }}">
+                                {{ $turnipQueueMessage->sent_at }}
+                            </small>
+                            <div class="message-text whitespace-preline">{{ $turnipQueueMessage->message }}</div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <form id="form-send-message" method="post" action="{{ route('message.store') }}">
+                        @csrf
+                        <input type="hidden" name="queue-token" value="{{ $turnipQueue->token }}">
+                        <div class="form-group">
+                            <label for="message-text">
+                                @lang('Message text')
+                            </label>
+                            <textarea id="message-text" name="message" class="form-control @error('message') is-invalid @enderror">{{ old('message') }}</textarea>
+                            @error('message')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            @lang('Send message')
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             <div class="card mt-3">
                 <div class="card-header">@lang('Current Queue')</div>
 
@@ -122,8 +162,10 @@
                                 <th>
                                     Status
                                 </th>
-                                <th class="sr-only">
-                                    Actions
+                                <th>
+                                    <span class="sr-only">
+                                        Actions
+                                    </span>
                                 </th>
                             </tr>
                         </thead>

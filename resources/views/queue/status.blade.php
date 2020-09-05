@@ -54,6 +54,19 @@
                             @lang('Leave the Queue')
                         </button>
                     </form>
+                    <h2 id="messages-header" class="mt-3 @if($turnipQueue->turnipQueueMessages()->count() === 0) d-none @endif">
+                        @lang('Messages from host')
+                    </h2>
+                    <div id="message-section">
+                        @foreach($turnipQueue->turnipQueueMessages()->orderByDesc('sent_at')->get() as $turnipQueueMessage)
+                        <div class="shadow-sm rounded border py-2 px-2 mb-3" id="queue-message-{{ $turnipQueueMessage->id }}">
+                            <small class="text-muted" data-relative-from-timestamp="{{ $turnipQueueMessage->sent_at->toISOString() }}">
+                                {{ $turnipQueueMessage->sent_at}}
+                            </small>
+                            <div class="message-text whitespace-preline">{{ $turnipQueueMessage->message }}</div>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

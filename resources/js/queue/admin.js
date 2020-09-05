@@ -88,12 +88,70 @@ Echo.private('App.TurnipQueue.' + meta('queue-token'))
         curTableBody.innerHTML = newTBody.innerHTML;
     });
 
-// Detect a 'queue closed' event
-Echo.channel('App.TurnipQueue.' + meta('queue-token'))
-    .listen('QueueClosed', function(e) {
+var queueChannel = Echo.channel('App.TurnipQueue.' + meta('queue-token'));
+
+queueChannel.listen('QueueClosed', function(e) {
         alert('The Queue has expired.');
         window.location.href = meta('expire-redirect');
     });
+
+queueChannel.listen('QueueMessageSent', function(e) {
+    var messageSection = document.getElementById('message-section');
+    var message = e.turnipQueueMessage;
+
+    var message_container = document.createElement('div');
+    message_container.id = 'queue-message-' + message.id;
+    message_container.classList.add('shadow-sm');
+    message_container.classList.add('rounded');
+    message_container.classList.add('border');
+    message_container.classList.add('p-2');
+    message_container.classList.add('mb-3');
+
+    var delete_form = document.createElement('form');
+    delete_form.method = 'post';
+    delete_form.action = '/message/destroy/' + message.id;
+    delete_form.classList.add('form-delete-message');
+
+    var csrf_input = document.createElement('input');
+    csrf_input.type = 'hidden';
+    csrf_input.name = '_token';
+    csrf_input.value = meta('csrf-token');
+    delete_form.appendChild(csrf_input);
+
+    var delete_button = document.createElement('button');
+    delete_button.type = 'submit';
+    delete_button.innerText = 'Delete message';
+    delete_button.classList.add('btn');
+    delete_button.classList.add('btn-link');
+    delete_button.classList.add('float-right');
+    delete_button.classList.add('btn-sm');
+    delete_form.appendChild(delete_button);
+
+    message_container.appendChild(delete_form);
+
+    var timestamp = document.createElement('small');
+    timestamp.setAttribute('data-relative-from-timestamp', message.sent_at);
+    timestamp.classList.add('text-muted');
+    timestamp.innerText = timeToGo(message.sent_at);
+    message_container.appendChild(timestamp);
+
+    var message_text = document.createElement('div');
+    message_text.classList.add('message-text');
+    message_text.classList.add('whitespace-preline');
+    message_text.innerText = message.message;
+    message_container.appendChild(message_text);
+
+    messageSection.appendChild(message_container);
+});
+
+queueChannel.listen('QueueMessageDeleted', function(e) {
+    document.getElementById('queue-message-' + e.turnipQueueMessageId).remove();
+});
+
+queueChannel.listen('QueueExpiryChanged', function(e) {
+    // Expiry time was changed
+    document.getElementById('expiry-display').setAttribute('data-relative-from-timestamp', e.newExpiry);
+});
 
 // Copy to clipboard button:
 function fallbackCopyTextToClipboard(text, button) {
@@ -192,6 +250,45 @@ document.addEventListener('submit',function(e){
         const formData = new FormData(e.target);
         xhr.open("POST", e.target.action);
         xhr.send( formData );
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    // Handle messaging section
+    if(e.target && e.target.id === 'form-send-message') {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData(e.target);
+        xhr.open("POST", e.target.action);
+        xhr.send( formData );
+
+        document.getElementById('message-text').value = '';
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    if(e.target && e.target.classList.contains('form-delete-message')) {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData(e.target);
+        xhr.open("POST", e.target.action);
+        xhr.send( formData );
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    // Handle "Add half hour" form as ajax
+    if(e.target && e.target.id === 'form-add-half-hour') {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData(e.target);
+        xhr.open("POST", e.target.action);
+        xhr.send( formData );
+
+        document.getElementById('message-text').value = '';
 
         e.preventDefault();
         e.stopPropagation();

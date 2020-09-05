@@ -20,7 +20,7 @@
                                 @lang('You currently have an open queue:')
                                 <a href="{{ route('queue.admin', ['turnipQueue' => $openQueue]) }}">
                                     @lang('view your open queue')
-                                </a>m
+                                </a>
                             </p>
                             <p class="mb-0">
                                 @lang('Opening a new queue will close your currently opened queue.')

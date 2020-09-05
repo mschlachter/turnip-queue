@@ -12,6 +12,47 @@ queueChannel.listen('QueueExpiryChanged', function(e) {
     document.getElementById('expiry-display').setAttribute('data-relative-from-timestamp', e.newExpiry);
 });
 
+queueChannel.listen('QueueMessageSent', function(e) {
+    var messageSection = document.getElementById('message-section');
+    var message = e.turnipQueueMessage;
+
+    var messageDiv = document.createElement('div');
+    messageDiv.id = 'queue-message-' + message.id;
+    messageDiv.classList.add('shadow-sm');
+    messageDiv.classList.add('rounded');
+    messageDiv.classList.add('border');
+    messageDiv.classList.add('p-2');
+    messageDiv.classList.add('mb-3');
+
+    var timestamp = document.createElement('small');
+    timestamp.setAttribute('data-relative-from-timestamp', message.sent_at);
+    timestamp.classList.add('text-muted');
+    timestamp.innerText = timeToGo(message.sent_at);
+    messageDiv.appendChild(timestamp);
+
+    var messageContent = document.createElement('div');
+    messageContent.classList.add('message-text');
+    messageContent.classList.add('whitespace-preline');
+    messageContent.innerText = message.message;
+    messageDiv.appendChild(messageContent);
+
+    if (messageSection.firstChild) {
+        messageSection.insertBefore(messageDiv, messageSection.firstChild);
+    } else {
+        messageSection.appendChild(messageDiv);
+    }
+    
+    document.getElementById('messages-header').classList.remove('d-none');
+});
+
+queueChannel.listen('QueueMessageDeleted', function(e) {
+    document.getElementById('queue-message-' + e.turnipQueueMessageId).remove();
+
+    if(document.getElementById('message-section').children.length === 0) {
+        document.getElementById('messages-header').classList.add('d-none');
+    }
+});
+
 // Events for position changed or booted from queue
 var seekerChannel = Echo.private('App.TurnipSeeker.' + meta('seeker-token'));
 

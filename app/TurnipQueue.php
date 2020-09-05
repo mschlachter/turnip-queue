@@ -31,6 +31,11 @@ class TurnipQueue extends Model
 		return $this->hasMany(TurnipSeeker::class);
 	}
 
+    public function turnipQueueMessages()
+    {
+        return $this->hasMany(TurnipQueueMessage::class);
+    }
+
     public function scopeOpen($query) {
     	return $query->where('is_open', true);
     }

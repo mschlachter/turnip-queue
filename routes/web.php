@@ -38,6 +38,12 @@ Route::name('queue.')->group(function () {
 	Route::post('/queue/{turnipQueue:token}/leave', 'QueueController@leave')->name('leave');
 });
 
+
+Route::name('message.')->middleware(['verified'])->group(function() {
+	Route::post('message/store', 'MessageController@store')->name('store');
+	Route::post('message/destroy/{turnipQueueMessage:id}', 'MessageController@destroy')->name('destroy');
+});
+
 Route::name('donate.')->group(function() {
 	Route::get('/donate', 'DonationController@index')->name('index');
 	Route::get('/donate/thank-you', 'DonationController@thankYou')->name('thank-you');
