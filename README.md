@@ -18,7 +18,7 @@ There are a few prerequisites by way of software and api keys in order to instal
 - Google ReCaptcha v3 API keys, which can be obtained for free from [https://www.google.com/recaptcha/about/](https://www.google.com/recaptcha/about/)
 - An email provider (I use GMail with SMTP and an App Password)
 
-## Installation Process
+### Installation Process
 
 1)  Clone the repository from GitHub
     ```sh
@@ -63,6 +63,22 @@ There are a few prerequisites by way of software and api keys in order to instal
     ```
 
 Navigate to the site with your browser and you should be good to go. If you're using Valet, it'll likely be located at [http://turnip-queue.test](http://turnip-queue.test)
+
+### Cronjobs and Supervisor tasks
+
+For proper function there are also two cronjobs and one Supervisor task that need to be run.
+
+The cronjobs are:
+```sh
+* * * * * php {$PROJECT_DIRECTORY}/artisan queue:purge-seekers
+*/5 * * * * php {$PROJECT_DIRECTORY}/artisan queue:purge-queues
+
+```
+
+The Supervisor task (should be run continuously) is:
+```sh
+php {$PROJECT_DIRECTORY}/artisan queue:work --daemon
+```
 
 ## Contributing
 
