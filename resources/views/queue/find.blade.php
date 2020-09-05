@@ -18,7 +18,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="queue-id">
-                                @lang('Enter a Turnip Queue Token to join the queue:')
+                                @lang('Enter a Turnip Queue Token to join the Queue:')
                             </label>
                             <input type="text" name="token" id="queue-id" class="form-control @error('token') is-invalid @enderror" />
                             @error('token')
