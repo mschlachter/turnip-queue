@@ -27,6 +27,7 @@ Route::name('queue.')->group(function () {
 
 		Route::get('/queue/admin/{turnipQueue:token}', 'QueueController@admin')->name('admin');
 		Route::post('/queue/admin/{turnipQueue:token}', 'QueueController@update')->name('update');
+		Route::post('/queue/admin/{turnipQueue:token}/add-half-hour', 'QueueController@addHalfHour')->name('add-half-hour');
 		Route::post('/queue/admin/{turnipQueue:token}/close', 'QueueController@close')->name('close');
 	});
 

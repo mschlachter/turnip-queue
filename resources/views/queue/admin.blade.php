@@ -54,6 +54,9 @@
                                 <span id="queue-close-time" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}" data-display-long="true">{{ $turnipQueue->expires_at }}</span>
                             </p>
                             <p>
+                                <button type="submit" form="form-add-half-hour" class="btn btn-outline-success mr-2">
+                                    @lang('Add half-hour')
+                                </button>
                                 <button type="submit" form="form-close-queue" class="btn btn-outline-danger">
                                     @lang('Close Queue now')
                                 </button>
@@ -81,12 +84,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary mr-2">
                             @lang('Update Queue details')
                         </button>
                         <button type="reset" class="btn btn-outline-secondary">
                             @lang('Cancel')
                         </button>
+                    </form>
+                    <form id="form-add-half-hour" method="post" action="{{ route('queue.add-half-hour', compact('turnipQueue')) }}" data-confirm="Are you sure you want to add half an hour to the expiry time?">
+                        @csrf
                     </form>
                     <form id="form-close-queue" method="post" action="{{ route('queue.close', compact('turnipQueue')) }}" data-confirm="Are you sure you want to close this Queue?">
                         @csrf

@@ -262,6 +262,27 @@ class QueueController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function addHalfHour(TurnipQueue $turnipQueue)
+    {
+        if($turnipQueue->user_id !== Auth::id()) {
+            abort(404);
+        }
+        if(!$turnipQueue->is_open) {
+            abort(404);
+        }
+
+        $turnipQueue->update([
+            'expires_at' => $turnipQueue->expires_at->addMinutes(30),
+        ]);
+
+        return back();
+    }
+
+    /**
+     * Close a Turnip Queue.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function close(TurnipQueue $turnipQueue)
     {
     	if($turnipQueue->user_id !== Auth::id()) {
@@ -271,7 +292,7 @@ class QueueController extends Controller
     		abort(404);
     	}
 
-    	// Hopefully we'll have observers to notify people that were in the queue:
+        // We have an observer to kick seekers out of the queue
     	$turnipQueue->update([
     		'is_open' => false,
     	]);
