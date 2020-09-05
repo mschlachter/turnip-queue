@@ -43,6 +43,12 @@ queueChannel.listen('QueueMessageSent', function(e) {
     }
     
     document.getElementById('messages-header').classList.remove('d-none');
+
+    // Play a notification sound
+    playNotificationSound();
+
+    // Blink the title if the window is inactive
+    blinkTitle('New message from host');
 });
 
 queueChannel.listen('QueueMessageDeleted', function(e) {
@@ -66,8 +72,7 @@ if(meta('check-status')) {
             document.getElementById('status-in-queue').classList.add('d-none');
 
             // Play a notification sound
-            var notification = new Audio('/sounds/notification-sound.mp3');
-            notification.play();
+            playNotificationSound();
 
             // Blink the title if the window is inactive
             blinkTitle('Dodo code received');
@@ -120,6 +125,12 @@ function blinkTitle(text) {
             document.title = document.title == originalTitle ? text : originalTitle;
         }, 1000);
     }
+}
+
+function playNotificationSound() {
+    // Keeping this in one place will make it easier to add a toggle later
+    var notification = new Audio('/sounds/notification-sound.mp3');
+    notification.play();
 }
 
 // Use 'time to go' logic for the close time
