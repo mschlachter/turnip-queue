@@ -21,7 +21,7 @@
                                 </picture>
                                 <figcaption class="text-left text-md-center">
                                     <small>
-                                        @lang('Image courtesy of <a href="https://animalcrossing.fandom.com/wiki/Daisy_Mae" rel="noopener" target="_blank">fandom.com</a>, licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/legalcode" rel="noopener" target="_blank">CC-BY-SA</a>')
+                                        @lang('Image credit: Nintendo')
                                     </small>
                                 </figcaption>
                             </figure>
