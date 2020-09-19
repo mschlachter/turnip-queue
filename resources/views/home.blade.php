@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', __('Turnip Queue: Simplifying the Turnip Economy'))
-@section('meta-description', __('Designed to optimize the workflow of r/acturnips, Turnip Queue provides an automated way for you to invite a large number of people to your island on Animal Crossing: New Horizons, a few people at a time.'))
+@section('meta-description', __('Designed to optimize the workflow of r/acturnips, Turnip Queue automates letting a few people at a time onto your island in Animal Crossing: New Horizons.'))
 
 @section('content')
 <div class="container">
@@ -20,7 +20,7 @@
                                 <picture>
                                     <source srcset="{{ asset('img/Daisy_Mae_NH.webp') }}" type="image/webp">
                                     <source srcset="{{ asset('img/Daisy_Mae_NH.png') }}" type="image/png">
-                                    <img src="{{ asset('img/Daisy_Mae_NH.png') }}" width="215" height="310" alt="Daisy Mae" />
+                                    <img src="{{ asset('img/Daisy_Mae_NH.png') }}" width="215" height="310" alt="Daisy Mae" style="margin-left: 15%;" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
                                     <small>
@@ -34,7 +34,7 @@
                                 @lang('Simplifying the Turnip Economy')
                             </h1>
                             <h2 class="h5 mb-4">
-                                @lang('Turnip Queue provides an automated way for you to invite a large number of people to your island on Animal Crossing: New Horizons, a few people at a time.')
+                                @lang('Turnip Queue automates letting a few people at a time onto your island in Animal Crossing: New Horizons.')
                             </h2>
                             <p>
                                 @lang('<strong>Open a free account</strong> and start creating Queues now.')
@@ -94,7 +94,10 @@
                                         <strong>@lang('Send or post the link to your Queue')</strong>
                                     </p>
                                     <p>
-                                        @lang('Once your Queue is opened, you\'ll be given a link; only people who have the link will be able to join your Turnip Queue. Post your link to <a href="https://reddit.com/r/acturnips" rel="noopener" target="_blank">r/acturnips</a> or anywhere else where you would like to invite people from.')
+                                        @lang('Once your Queue is opened, you\'ll be given a link; only people who have the link will be able to join your Turnip Queue by filling out a short form with their Reddit username, in-game username, island name, and an answer to your custom question.')
+                                    </p>
+                                    <p>
+                                        @lang('Post your link to <a href="https://reddit.com/r/acturnips" rel="noopener" target="_blank">r/acturnips</a> or anywhere else from which you would like to invite people.')
                                     </p>
                                 </li>
                                 <li>
