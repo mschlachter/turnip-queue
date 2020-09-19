@@ -22,17 +22,20 @@ Route::name('queue.')->group(function () {
 
     Route::middleware(['verified'])->group(function () {
         Route::get('/queue/create', 'QueueController@create')->name('create');
-        Route::post('/queue/create', 'QueueController@store')->name('store')->middleware(VerifyRecaptchaMiddleware::class);
+        Route::post('/queue/create', 'QueueController@store')->name('store')
+            ->middleware(VerifyRecaptchaMiddleware::class);
         Route::post('/queue/admin/boot-seeker', 'QueueController@bootSeeker')->name('boot-seeker');
 
         Route::get('/queue/admin/{turnipQueue:token}', 'QueueController@admin')->name('admin');
         Route::post('/queue/admin/{turnipQueue:token}', 'QueueController@update')->name('update');
-        Route::post('/queue/admin/{turnipQueue:token}/add-half-hour', 'QueueController@addHalfHour')->name('add-half-hour');
+        Route::post('/queue/admin/{turnipQueue:token}/add-half-hour', 'QueueController@addHalfHour')
+            ->name('add-half-hour');
         Route::post('/queue/admin/{turnipQueue:token}/close', 'QueueController@close')->name('close');
     });
 
     Route::get('/queue/{turnipQueue:token}', 'QueueController@join')->name('join');
-    Route::post('/queue/{turnipQueue:token}', 'QueueController@register')->name('register')->middleware(VerifyRecaptchaMiddleware::class);
+    Route::post('/queue/{turnipQueue:token}', 'QueueController@register')->name('register')
+        ->middleware(VerifyRecaptchaMiddleware::class);
 
     Route::get('/queue/{turnipQueue:token}/ping', 'QueueController@ping')->name('ping');
     Route::post('/queue/{turnipQueue:token}/leave', 'QueueController@leave')->name('leave');

@@ -36,7 +36,12 @@ class DodoCodeChanged implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        $seekersToNotify = $this->turnipQueue->turnipSeekers()->inQueue()->orderBy('id')->limit($this->turnipQueue->concurrent_visitors)->get();
+        $seekersToNotify = $this->turnipQueue
+            ->turnipSeekers()
+            ->inQueue()
+            ->orderBy('id')
+            ->limit($this->turnipQueue->concurrent_visitors)
+            ->get();
         return $seekersToNotify->map(function ($turnipSeeker) {
             return new PrivateChannel('App.TurnipSeeker.' . $turnipSeeker->token);
         })->all();

@@ -43,8 +43,9 @@ People *love* thorough bug reports. I'm not even kidding.
 
 ## Use a Consistent Coding Style
 
-* 4 spaces for indentation rather than tabs
+* 4 spaces for indentation rather than tabs.
 * In general, we follow the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) autoloading standard.
+* Run `vendor/bin/phpcs --standard=./phpcs.xml .` before committing to ensure there aren't any errors.
 
 ## License
 By contributing, you agree that your contributions will be licensed under its Attribution 4.0 International (CC BY 4.0) License.

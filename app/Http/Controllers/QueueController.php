@@ -194,7 +194,8 @@ class QueueController extends Controller
             'custom_question' => $validated['custom-question'],
         ]);
 
-        return redirect(route('queue.admin', compact('turnipQueue')))->withStatus('Your Turnip Queue has been created.');
+        return redirect(route('queue.admin', compact('turnipQueue')))
+            ->withStatus('Your Turnip Queue has been created.');
     }
 
     /**
@@ -251,7 +252,8 @@ class QueueController extends Controller
             'custom_question' => $validated['custom-question'],
         ]);
 
-        return redirect(route('queue.admin', compact('turnipQueue')))->withStatus('Your Turnip Queue has been updated.');
+        return redirect(route('queue.admin', compact('turnipQueue')))
+            ->withStatus('Your Turnip Queue has been updated.');
     }
 
     /**
@@ -294,13 +296,16 @@ class QueueController extends Controller
             'is_open' => false,
         ]);
 
-        return redirect(route('queue.create'))->withStatus('Your Turnip Queue has been closed.');
+        return redirect(route('queue.create'))
+            ->withStatus('Your Turnip Queue has been closed.');
     }
 
     public function bootSeeker()
     {
         $turnipQueue = TurnipQueue::where('token', request('queue-token'))->firstOrFail();
-        $turnipSeeker = $turnipQueue->turnipSeekers()->where('token', request('seeker-token'))->firstOrFail();
+        $turnipSeeker = $turnipQueue->turnipSeekers()
+            ->where('token', request('seeker-token'))
+            ->firstOrFail();
 
         if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);
