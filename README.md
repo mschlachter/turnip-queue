@@ -2,7 +2,7 @@
 
 ## About Turnip Queue
 
-Turnip Queue is designed to make a queue for people wishing to visit your island in Animal Crossing: New Horizons. It shows the Dodo Code to visit your island to a set number of people at a time, with live updates to the provided via pusher channels. See it in action at [https://turnip-queue.schlachter.xyz](https://turnip-queue.schlachter.xyz)
+Turnip Queue is designed to make a queue for people wishing to visit your island in Animal Crossing: New Horizons. It shows the Dodo Code to visit your island to a set number of people at a time, with live updates via pusher channels. See it in action at [https://turnip-queue.schlachter.xyz](https://turnip-queue.schlachter.xyz)
 
 ## Installation
 
@@ -23,11 +23,11 @@ There are a few prerequisites by way of software and api keys in order to instal
 
 1)  Clone the repository from GitHub
     ```sh
-    https://github.com/mschlachter/turnip-queue.git && cd turnip-queue
+    git clone https://github.com/mschlachter/turnip-queue.git && cd turnip-queue
     ```
     or
     ```sh
-    git@github.com:mschlachter/turnip-queue.git && cd turnip-queue
+    git clone git@github.com:mschlachter/turnip-queue.git && cd turnip-queue
     ```
 
 2)  Install the Composer dependencies
