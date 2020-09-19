@@ -14,7 +14,7 @@ use App\Http\Middleware\VerifyRecaptchaMiddleware;
 |
 */
 
-Route::redirect('/', '/queue');
+Route::get('/', 'HomeController@index')->name('index');
 
 Route::name('queue.')->group(function () {
 	Route::get('/queue', 'QueueController@index')->name('find');
@@ -59,4 +59,4 @@ Route::name('notifications.')->group(function() {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+Route::redirect('/home', '/queue/create')->name('home')->middleware('verified');

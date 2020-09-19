@@ -13,7 +13,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -23,7 +22,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect(route('queue.create'));
-        // return view('home');
+        return view('home');
     }
 }
