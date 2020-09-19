@@ -56,7 +56,7 @@ class PagesTest extends TestCase
      */
     public function testJoinQueuePage()
     {
-        $user = User::factory()->create();
+        $user = factory(User::class)->create();
 
         // Generate a token
         do {
