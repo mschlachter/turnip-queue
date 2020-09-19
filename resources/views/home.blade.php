@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-8 order-md-4">
                             <p>
-                                @lang('Designed to optimize the workflow for <a href="https://reddit.com/r/acturnips" rel="noopener">r/acturnips</a>, Turnip Queue has a simple three-step flow for automating island visitor management:')
+                                @lang('Designed to optimize the workflow for <a href="https://reddit.com/r/acturnips" rel="noopener" target="_blank">r/acturnips</a>, Turnip Queue has a simple three-step flow for automating island visitor management:')
                             </p>
                             <ol>
                                 <li>
@@ -91,7 +91,7 @@
                                         <strong>@lang('Send or post the link to your Queue')</strong>
                                     </p>
                                     <p>
-                                        @lang('Once your Queue is opened, you\'ll be given a link; only people who have the link will be able to join your Turnip Queue. Post your link to <a href="https://reddit.com/r/acturnips" rel="noopener">r/acturnips</a> or anywhere else where you would like to invite people from.')
+                                        @lang('Once your Queue is opened, you\'ll be given a link; only people who have the link will be able to join your Turnip Queue. Post your link to <a href="https://reddit.com/r/acturnips" rel="noopener" target="_blank">r/acturnips</a> or anywhere else where you would like to invite people from.')
                                     </p>
                                 </li>
                                 <li>
