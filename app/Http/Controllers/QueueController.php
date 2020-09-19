@@ -110,7 +110,7 @@ class QueueController extends Controller
     	// Generate a token
 		do {
 		    $token = (string) Str::uuid();
-		} while (TurnipSeeker::where("token", "=", $token)->first() instanceof TurnipQueue);
+		} while (TurnipQueue::where("token", "=", $token)->first() instanceof TurnipQueue);
 
 		TurnipSeeker::create([
 	        'turnip_queue_id' => $turnipQueue->id,

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\TurnipQueue;
 use App\User;
+use Str;
 
 class PagesTest extends TestCase
 {
@@ -61,7 +62,7 @@ class PagesTest extends TestCase
         // Generate a token
         do {
             $token = (string) Str::uuid();
-        } while (TurnipSeeker::where("token", "=", $token)->first() instanceof TurnipQueue);
+        } while (TurnipQueue::where("token", "=", $token)->first() instanceof TurnipQueue);
 
         $turnipQueue = TurnipQueue::create([
             'user_id' => $user->id,
