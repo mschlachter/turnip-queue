@@ -23,7 +23,7 @@ class BroadcastController extends BaseController
         }
         
         // Give temporary guest account for authenticating to seeker private channel
-        if($request->user() === null) {
+        if ($request->user() === null) {
             Auth::login(factory(User::class)->make([
                 'id' => (int)str_replace('.', '', microtime(true))
             ]));

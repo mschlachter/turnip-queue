@@ -10,13 +10,13 @@ class TurnipQueueMessage extends Model
     use SoftDeletes;
     
     protected $fillable = [
-    	'turnip_queue_id',
-		'sent_at',
-		'message',
+        'turnip_queue_id',
+        'sent_at',
+        'message',
     ];
 
     protected $casts = [
-    	'sent_at' => 'datetime',
+        'sent_at' => 'datetime',
     ];
 
     public function turnipQueue()

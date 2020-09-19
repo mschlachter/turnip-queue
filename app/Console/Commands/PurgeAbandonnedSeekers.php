@@ -39,8 +39,8 @@ class PurgeAbandonnedSeekers extends Command
     public function handle()
     {
         $seekersToPurge = TurnipSeeker::where('left_queue', false)->where('last_ping', '<=', now()->addMinutes(-2));
-        if($seekersCount = $seekersToPurge->count()) {
-            foreach($seekersToPurge->get() as $turnipSeeker) {
+        if ($seekersCount = $seekersToPurge->count()) {
+            foreach ($seekersToPurge->get() as $turnipSeeker) {
                 $turnipSeeker->update(['left_queue' => true]);
             }
             $this->info('Seekers purged from queues: ' . $seekersCount);

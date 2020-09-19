@@ -12,9 +12,9 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-	.js('resources/js/queue/admin.js', 'public/js/queue')
-	.js('resources/js/queue/status.js', 'public/js/queue')
-	.js('resources/js/queue/create.js', 'public/js/queue')
-	.js('resources/js/queue/join.js', 'public/js/queue')
+    .js('resources/js/queue/admin.js', 'public/js/queue')
+    .js('resources/js/queue/status.js', 'public/js/queue')
+    .js('resources/js/queue/create.js', 'public/js/queue')
+    .js('resources/js/queue/join.js', 'public/js/queue')
     .sass('resources/sass/app.scss', 'public/css')
     .version();

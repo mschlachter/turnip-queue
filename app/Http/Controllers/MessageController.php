@@ -39,10 +39,10 @@ class MessageController extends Controller
     {
         $turnipQueue = TurnipQueue::where('token', request('queue-token'))->firstOrFail();
 
-        if($turnipQueue->user_id !== Auth::id()) {
+        if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);
         }
-        if(!$turnipQueue->is_open) {
+        if (!$turnipQueue->is_open) {
             abort(404);
         }
 
@@ -56,7 +56,7 @@ class MessageController extends Controller
             'message' => $validated['message'],
         ]);
 
-        if(request()->ajax()) {
+        if (request()->ajax()) {
             return $turnipQueueMessage;
         }
         return back();
@@ -106,16 +106,16 @@ class MessageController extends Controller
     {
         $turnipQueue = $turnipQueueMessage->turnipQueue;
 
-        if($turnipQueue->user_id !== Auth::id()) {
+        if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);
         }
-        if(!$turnipQueue->is_open) {
+        if (!$turnipQueue->is_open) {
             abort(404);
         }
 
         $turnipQueueMessage->delete();
 
-        if(request()->ajax()) {
+        if (request()->ajax()) {
             return [
                 'success' => true,
             ];

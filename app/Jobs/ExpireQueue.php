@@ -33,7 +33,7 @@ class ExpireQueue implements ShouldQueue
     public function handle()
     {
         $turnipQueue = TurnipQueue::find($this->turnipQueueId);
-        if($turnipQueue->is_open && $turnipQueue->expires_at <= now()) {
+        if ($turnipQueue->is_open && $turnipQueue->expires_at <= now()) {
             $turnipQueue->update(['is_open' => false]);
         }
     }

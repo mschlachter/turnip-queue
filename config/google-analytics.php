@@ -1,5 +1,5 @@
 <?php
 
 return [
-	'key' => env('GA_KEY'),
+    'key' => env('GA_KEY'),
 ];

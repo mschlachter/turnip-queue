@@ -9,23 +9,23 @@ class SiteNotification extends Model
 {
     use SoftDeletes;
     
-	const TYPE_SUCCESS = 'success';
-	const TYPE_WARNING = 'warning';
-	const TYPE_DANGER = 'danger';
-	const TYPE_INFO = 'info';
+    const TYPE_SUCCESS = 'success';
+    const TYPE_WARNING = 'warning';
+    const TYPE_DANGER = 'danger';
+    const TYPE_INFO = 'info';
 
     protected $fillable = [
-    	'type',
-		'message',
-		'is_active',
-	];
+        'type',
+        'message',
+        'is_active',
+    ];
 
-	protected $casts = [
-		'is_active' => 'boolean',
-	];
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 
-	public function scopeActive($builder)
-	{
-		return $builder->where('is_active', true);
-	}
+    public function scopeActive($builder)
+    {
+        return $builder->where('is_active', true);
+    }
 }

@@ -17,7 +17,7 @@ class VerifyRecaptchaMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(!$this->verifyRecaptcha()) {
+        if (!$this->verifyRecaptcha()) {
             $error = ValidationException::withMessages([
                'recaptcha' => 'ReCaptcha verification failed, please try again.',
             ]);
@@ -30,7 +30,7 @@ class VerifyRecaptchaMiddleware
     private function verifyRecaptcha()
     {
         $responseToken = request('g-recaptcha-response');
-        if(!$responseToken) {
+        if (!$responseToken) {
             return false;
         }
         
@@ -42,7 +42,7 @@ class VerifyRecaptchaMiddleware
             'response' => $responseToken,
         ]);
 
-        if($response->successful()) {
+        if ($response->successful()) {
             $success = $response['success'];
 
             return $success;

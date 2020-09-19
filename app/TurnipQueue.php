@@ -10,14 +10,14 @@ class TurnipQueue extends Model
     use SoftDeletes;
     
     protected $fillable = [
-	    'user_id',
-		'token',
-		'dodo_code',
-		'expires_at',
-		'concurrent_visitors',
-		'custom_question',
-		'is_open',
-	];
+        'user_id',
+        'token',
+        'dodo_code',
+        'expires_at',
+        'concurrent_visitors',
+        'custom_question',
+        'is_open',
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -29,17 +29,18 @@ class TurnipQueue extends Model
         'is_open' => 'boolean',
     ];
 
-	public function turnipSeekers()
-	{
-		return $this->hasMany(TurnipSeeker::class);
-	}
+    public function turnipSeekers()
+    {
+        return $this->hasMany(TurnipSeeker::class);
+    }
 
     public function turnipQueueMessages()
     {
         return $this->hasMany(TurnipQueueMessage::class);
     }
 
-    public function scopeOpen($query) {
-    	return $query->where('is_open', true);
+    public function scopeOpen($query)
+    {
+        return $query->where('is_open', true);
     }
 }

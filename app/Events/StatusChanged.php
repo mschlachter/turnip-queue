@@ -27,7 +27,7 @@ class StatusChanged implements ShouldBroadcast
     {
         $this->turnipSeekerToken = $turnipSeeker->token;
         $this->position = $position;
-        if($position <= 0) {
+        if ($position <= 0) {
             $this->dodoCode = $turnipQueue->dodo_code;
         }
     }

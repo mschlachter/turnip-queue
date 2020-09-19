@@ -30,18 +30,18 @@ class TurnipQueueObserver
      */
     public function updated(TurnipQueue $turnipQueue)
     {
-        if($turnipQueue->isDirty('is_open') && !$turnipQueue->is_open) {
+        if ($turnipQueue->isDirty('is_open') && !$turnipQueue->is_open) {
             QueueClosed::dispatch($turnipQueue);
         }
 
-        if($turnipQueue->isDirty('expires_at')) {
+        if ($turnipQueue->isDirty('expires_at')) {
             QueueExpiryChanged::dispatch($turnipQueue);
 
             // Set expiry job; no need to delete old job as it'll check whether job should expire before running
             ExpireQueue::dispatch($turnipQueue)->delay($turnipQueue->expires_at);
         }
 
-        if($turnipQueue->isDirty('dodo_code')) {
+        if ($turnipQueue->isDirty('dodo_code')) {
             DodoCodeChanged::dispatch($turnipQueue);
         }
     }

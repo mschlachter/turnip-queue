@@ -42,7 +42,7 @@ class TurnipSeeker extends Model
 
     public function scopeInQueue($query)
     {
-    	return $query->where('left_queue', false);
+        return $query->where('left_queue', false);
     }
 
     public function turnipQueue()

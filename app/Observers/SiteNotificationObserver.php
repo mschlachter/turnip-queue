@@ -30,10 +30,9 @@ class SiteNotificationObserver
     {
         if ($siteNotification->isDirty('is_active') && $siteNotification->is_active) {
             SiteNotificationAdded::broadcast($siteNotification);
-        } else if ($siteNotification->isDirty('is_active') && !$siteNotification->is_active) {
+        } elseif ($siteNotification->isDirty('is_active') && !$siteNotification->is_active) {
             SiteNotificationRemoved::broadcast($siteNotification);
-        } else if (
-            $siteNotification->is_active && 
+        } elseif ($siteNotification->is_active &&
             (
                 $siteNotification->isDirty('message') ||
                 $siteNotification->isDirty('type')
