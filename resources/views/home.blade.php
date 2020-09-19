@@ -34,7 +34,7 @@
                                 @lang('Turnip Queue provides an automated way for you to invite a large number of people to your island on Animal Crossing: New Horizons, a few people at a time.')
                             </h2>
                             <p>
-                                @lang('<b>Open a free account</b> and start creating Queues now.')
+                                @lang('<strong>Open a free account</strong> and start creating Queues now.')
                             </p>
                             <p>
                                 <a class="btn btn-primary" href="{{ route('register') }}">
