@@ -2,7 +2,12 @@
 <ruleset name="PSR2">
 	<description>The PSR2 coding standard.</description>
 	<rule ref="PSR2"/>
-	<file>app/</file>
+
+	<file>app</file>
+    <file>config</file>
+    <file>routes</file>
+    <file>tests</file>
+
 	<exclude-pattern>vendor</exclude-pattern>
 	<exclude-pattern>resources</exclude-pattern>
 	<exclude-pattern>database/</exclude-pattern>
