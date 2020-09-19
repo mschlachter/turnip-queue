@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "laravel-echo": "^1.8.1",
+        "node-forge": "^0.10.0",
         "pusher-js": "^7.0.0"
     }
 }
