@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\TurnipQueue;
 use App\User;
 use Str;
+use Illuminate\Support\Facades\Event;
 
 class PagesTest extends TestCase
 {
@@ -76,6 +77,8 @@ class PagesTest extends TestCase
         // Test that the 'join queue' page loads
         $response = $this->get('/queue/' . $token);
         $response->assertStatus(200);
+
+        Event::fake();
 
         $turnipQueue->forceDelete();
         $user->delete();
