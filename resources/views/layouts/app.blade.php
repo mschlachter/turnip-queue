@@ -16,6 +16,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Preload for speed -->
+    <link rel="preload" href="{{ mix('css/app.css') }}" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito&display=swap" as="style">
+    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v14/XRXV3I6Li01BKofINeaB.woff2" as="font">
+    <link rel="preload" href="{{ mix('js/app.js') }}" as="script">
+    <link rel="preload" href="{{ asset('favicon/favicon-32x32.png') }}" as="image">
+
     <!-- Favicon, etc. -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
