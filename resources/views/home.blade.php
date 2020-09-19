@@ -55,7 +55,7 @@
                                 <picture>
                                     <source srcset="{{ asset('img/Visitor_Group.webp') }}" type="image/webp">
                                     <source srcset="{{ asset('img/Visitor_Group.jpg') }}" type="image/jpeg">
-                                    <img class="mw-100" src="{{ asset('img/Visitor_Group.jpg') }}" alt="Group of Villagers around a picnic table" loading="lazy" />
+                                    <img class="mw-100 h-auto" src="{{ asset('img/Visitor_Group.jpg') }}" alt="Group of Villagers around a picnic table" loading="lazy" width="468" height="263" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
                                     <small>
@@ -67,7 +67,7 @@
                                 <picture>
                                     <source srcset="{{ asset('img/Daisy_Mae_Selling.webp') }}" type="image/webp">
                                     <source srcset="{{ asset('img/Daisy_Mae_Selling.jpg') }}" type="image/jpeg">
-                                    <img class="mw-100" src="{{ asset('img/Daisy_Mae_Selling.jpg') }}" alt="Daisy Mae Selling Turnips" loading="lazy" />
+                                    <img class="mw-100 h-auto" src="{{ asset('img/Daisy_Mae_Selling.jpg') }}" alt="Daisy Mae Selling Turnips" loading="lazy" width="720" height="405" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
                                     <small>
