@@ -10,3 +10,14 @@
 .whitespace-preline {
 	white-space: pre-line;
 }
+
+.skip-navigation {
+  @include sr-only;
+  @include sr-only-focusable;
+
+  display: block;
+  background: #eee;
+  color: #000;
+  text-decoration: underline;
+  padding: 1em;
+}
