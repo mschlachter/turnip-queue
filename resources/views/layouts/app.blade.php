@@ -38,7 +38,8 @@
 
     @stack('meta')
 
-    <title>{{ config('app.name', 'Turnip Queue') }}</title>
+    <title>@yield('title', config('app.name', 'Turnip Queue'))</title>
+    <meta name="description" content="@yield('meta-description')">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

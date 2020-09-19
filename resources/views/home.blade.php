@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', __('Turnip Queue: Simplifying the Turnip Economy'))
+@section('meta-description', __('Designed to optimize the workflow of r/acturnips, Turnip Queue provides an automated way for you to invite a large number of people to your island on Animal Crossing: New Horizons, a few people at a time.'))
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
