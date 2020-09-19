@@ -15,7 +15,7 @@
                     @endif
 
                     <p>
-                        @lang('I\'m an independent developer who created this site as a hobby and as a service to the community. Unfortunately, servers and some of the third-party services I use for this site come with a financial cost, so if you would like to help support the site with a monetary donation I would be eternally grateful.')
+                        @lang('I\'m an independent developer who created this web application as a service to the community. Unfortunately, servers and some of the third-party services I use for this site come with a financial cost, so if you would like to help support the site with a monetary donation I would be eternally grateful.')
                     </p>
                     <p>
                         @lang('Donations will go toward costs associated with hosting (domain name, server droplet, server management software) and third-party services that are used for the operation of the site. If donations significantly offset these costs, I\'ll be able to upgrade the infrastructure and it\'ll also encourage me to spend more time developing and improving the site.')
