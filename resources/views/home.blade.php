@@ -18,8 +18,8 @@
                         <div class="col-md-5 order-md-2 text-center">
                             <figure>
                                 <picture>
-                                    <source srcset="{{ asset('img/Daisy_Mae_NH.webp') }}" type="image/webp">
-                                    <source srcset="{{ asset('img/Daisy_Mae_NH.png') }}" type="image/png">
+                                    <source srcset="{{ asset('img/Daisy_Mae_NH.webp') }}" type="image/webp"/>
+                                    <source srcset="{{ asset('img/Daisy_Mae_NH.png') }}" type="image/png"/>
                                     <img src="{{ asset('img/Daisy_Mae_NH.png') }}" width="215" height="310" alt="Daisy Mae" style="margin-left: 15%;" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
@@ -53,8 +53,8 @@
                         <div class="col-md-4 order-md-3 text-center pt-5 d-flex flex-row flex-md-column justify-content-around">
                             <figure>
                                 <picture>
-                                    <source srcset="{{ asset('img/Visitor_Group.webp') }}" type="image/webp">
-                                    <source srcset="{{ asset('img/Visitor_Group.jpg') }}" type="image/jpeg">
+                                    <source srcset="{{ asset('img/Visitor_Group.webp') }}" type="image/webp"/>
+                                    <source srcset="{{ asset('img/Visitor_Group.jpg') }}" type="image/jpeg"/>
                                     <img class="mw-100 h-auto" src="{{ asset('img/Visitor_Group.jpg') }}" alt="Group of Villagers around a picnic table" loading="lazy" width="468" height="263" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
@@ -65,8 +65,8 @@
                             </figure>
                             <figure class="d-none d-md-block">
                                 <picture>
-                                    <source srcset="{{ asset('img/Daisy_Mae_Selling.webp') }}" type="image/webp">
-                                    <source srcset="{{ asset('img/Daisy_Mae_Selling.jpg') }}" type="image/jpeg">
+                                    <source srcset="{{ asset('img/Daisy_Mae_Selling.webp') }}" type="image/webp"/>
+                                    <source srcset="{{ asset('img/Daisy_Mae_Selling.jpg') }}" type="image/jpeg"/>
                                     <img class="mw-100 h-auto" src="{{ asset('img/Daisy_Mae_Selling.jpg') }}" alt="Daisy Mae Selling Turnips" loading="lazy" width="720" height="405" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
@@ -132,3 +132,13 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "{{  route('home') }}",
+    }
+</script>
+@endpush
