@@ -19,7 +19,7 @@
     <!-- Preload for speed -->
     <link rel="preload" href="{{ mix('css/app.css') }}" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito&display=swap" as="style">
-    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v14/XRXV3I6Li01BKofINeaB.woff2" as="font">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="{{ mix('js/app.js') }}" as="script">
     <link rel="preload" href="{{ asset('favicon/favicon-32x32.png') }}" as="image">
 
