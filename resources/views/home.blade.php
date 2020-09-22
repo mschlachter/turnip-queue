@@ -138,7 +138,7 @@
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "url": "{{  route('home') }}",
+        "url": "{{  route('home') }}"
     }
 </script>
 @endpush
