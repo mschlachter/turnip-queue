@@ -118,7 +118,7 @@ class QueueController extends Controller
             'messages' => $turnipQueue->turnipQueueMessages()
             ->orderByDesc('sent_at')
             ->get()
-            ->map(function($message) {
+            ->map(function ($message) {
                 return [
                     'sent_at' => $message->sent_at->toISOString(),
                     'message' => $message->message,
