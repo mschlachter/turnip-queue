@@ -132,8 +132,8 @@ seekerChannel.on('pusher:subscription_succeeded', function(e) {
                 queueExpiryChanged(response);
                 // TODO: update messages...
                 break;
-                }
-            } else if(xmlHttp.readyState == 4 && xmlHttp.status == 404) {
+            }
+        } else if(xmlHttp.readyState == 4 && xmlHttp.status == 404) {
                 // If we get a 404 when checking the status, it's likely because
                 // the queue doesn't exist
                 queueClosed(response);
