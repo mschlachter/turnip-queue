@@ -63,17 +63,68 @@ class QueueController extends Controller
 
             // Get their current position in the queue
             $position = $turnipQueue->turnipSeekers()
-                ->where('left_queue', false)
-                ->where('id', '<', $turnipSeeker->id)
-                ->count()
+            ->where('left_queue', false)
+            ->where('id', '<', $turnipSeeker->id)
+            ->count()
                 // Adjusts for the visitors already shown the code
-                - $turnipQueue->concurrent_visitors + 1;
+            - $turnipQueue->concurrent_visitors + 1;
 
             // Show them their place in the queue
             return view('queue.status', compact('turnipQueue', 'turnipSeeker', 'position'));
         }
 
         return view('queue.join', compact('turnipQueue'));
+    }
+
+    public function getSeekerStatus(TurnipQueue $turnipQueue)
+    {
+        // Get their token from the session
+        $seekerToken = session('queue-' . $turnipQueue->token . '|seekerToken', null);
+
+        // Check whether the queue is open
+        if ($seekerToken === null || !$turnipQueue->is_open) {
+            return [
+                'status' => 'closed',
+            ];
+        }
+
+        // Check whether they're in the queue
+        $turnipSeeker = $turnipQueue->turnipSeekers()->where('token', $seekerToken)->first();
+
+        if ($turnipSeeker === null || $turnipSeeker->left_queue) {
+            return [
+                'status' => 'booted',
+            ];
+        }
+
+        // Token exists on request (and they're still active)
+
+        // Update the ping time
+        $turnipSeeker->update(['last_ping' => now()]);
+
+        // Get their current position in the queue
+        $position = $turnipQueue->turnipSeekers()
+        ->where('left_queue', false)
+        ->where('id', '<', $turnipSeeker->id)
+        ->count()
+            // Adjusts for the visitors already shown the code
+        - $turnipQueue->concurrent_visitors + 1;
+
+        return [
+            'status' => 'active',
+            'position' => $position,
+            'dodoCode' => $position > 0 ? null : $turnipQueue->dodo_code,
+            'newExpiry' => $turnipQueue->expires_at->toISOString(),
+            'messages' => $turnipQueue->turnipQueueMessages()
+            ->orderByDesc('sent_at')
+            ->get()
+            ->map(function($message) {
+                return [
+                    'sent_at' => $message->sent_at->toISOString(),
+                    'message' => $message->message,
+                ];
+            }),
+        ];
     }
 
     public function ping(TurnipQueue $turnipQueue)
@@ -97,7 +148,7 @@ class QueueController extends Controller
     {
         // Rules for reddit usernames come from
         // https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/validator/validator.py#L1567
-        
+
         $validated = request()->validate([
             'reddit-username' => 'required|string|min:3|max:20|regex:/^[\w-]+$/',
             'in-game-username' => 'required|string|max:20',
@@ -195,7 +246,7 @@ class QueueController extends Controller
         ]);
 
         return redirect(route('queue.admin', compact('turnipQueue')))
-            ->withStatus('Your Turnip Queue has been created.');
+        ->withStatus('Your Turnip Queue has been created.');
     }
 
     /**
@@ -253,7 +304,7 @@ class QueueController extends Controller
         ]);
 
         return redirect(route('queue.admin', compact('turnipQueue')))
-            ->withStatus('Your Turnip Queue has been updated.');
+        ->withStatus('Your Turnip Queue has been updated.');
     }
 
     /**
@@ -297,15 +348,15 @@ class QueueController extends Controller
         ]);
 
         return redirect(route('queue.create'))
-            ->withStatus('Your Turnip Queue has been closed.');
+        ->withStatus('Your Turnip Queue has been closed.');
     }
 
     public function bootSeeker()
     {
         $turnipQueue = TurnipQueue::where('token', request('queue-token'))->firstOrFail();
         $turnipSeeker = $turnipQueue->turnipSeekers()
-            ->where('token', request('seeker-token'))
-            ->firstOrFail();
+        ->where('token', request('seeker-token'))
+        ->firstOrFail();
 
         if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);

@@ -1,16 +1,20 @@
 // Detect a 'queue closed' event
 var queueChannel = Echo.channel('App.TurnipQueue.' + meta('queue-token'));
 
-queueChannel.listen('QueueClosed', function(e) {
+function queueClosed(e) {
     // Show a notification to say the queue was closed
     alert('The Queue has been closed by the host.');
     window.location.href = meta('close-redirect');
-});
+}
 
-queueChannel.listen('QueueExpiryChanged', function(e) {
+function queueExpiryChanged(e) {
     // Expiry time was changed
     document.getElementById('expiry-display').setAttribute('data-relative-from-timestamp', e.newExpiry);
-});
+}
+
+queueChannel.listen('QueueClosed', queueClosed);
+
+queueChannel.listen('QueueExpiryChanged', queueExpiryChanged);
 
 queueChannel.listen('QueueMessageSent', function(e) {
     var messageSection = document.getElementById('message-section');
@@ -66,41 +70,78 @@ function dodoCodeChanged(e) {
     document.getElementById('dodo-code-area').innerText = e.newDodoCode;
 }
 
-if(meta('check-status')) {
-    seekerChannel.listen('StatusChanged', function(e) {
-        console.log(e);
-        if(e.position <= 0) {
-            // We reached the end of the queue!
-            document.getElementById('dodo-code-area').innerText = e.dodoCode;
-            document.getElementById('status-show-dodo-code').classList.remove('d-none');
-            document.getElementById('status-in-queue').classList.add('d-none');
+function statusChanged(e, notifyUser = true) {
+    if(e.position <= 0) {
+        // We reached the end of the queue!
+        document.getElementById('dodo-code-area').innerText = e.dodoCode;
+        document.getElementById('status-show-dodo-code').classList.remove('d-none');
+        document.getElementById('status-in-queue').classList.add('d-none');
 
+        if(notifyUser) {
             // Play a notification sound
             playNotificationSound();
 
             // Blink the title if the window is inactive
             blinkTitle('Dodo code received');
-
-            // Stop listening to this specific event:
-            seekerChannel.stopListening('StatusChanged');
-
-            // Start listening to the 'dodo code changed' event
-            seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
-        } else {
-            document.getElementById('position-area').innerText = e.position;
         }
-    });
+
+        // Stop listening to this specific event:
+        seekerChannel.stopListening('StatusChanged');
+
+        // Start listening to the 'dodo code changed' event
+        seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
+    } else {
+        document.getElementById('position-area').innerText = e.position;
+    }
 }
 
-seekerChannel.listen('SeekerBooted', function(e) {
+function seekerBooted(e) {
     // Show a notification to say they've been booted
     alert('You have been removed from the Queue.');
     window.location.href = meta('boot-redirect');
-});
+}
+
+if(meta('check-status')) {
+    seekerChannel.listen('StatusChanged', statusChanged);
+}
+
+seekerChannel.listen('SeekerBooted', seekerBooted);
 
 if(!meta('check-status')) {
     seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
 }
+
+// Handle reconnects after being disconnected
+seekerChannel.on('pusher:subscription_succeeded', function(e) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            response = JSON.parse(xmlHttp.responseText);
+            console.log(response);
+            switch(response.status) {
+                case 'closed':
+                queueClosed(response);
+                break;
+
+                case 'booted':
+                seekerBooted(response);
+                break;
+                
+                case 'active':
+                statusChanged(response, false);
+                queueExpiryChanged(response);
+                // TODO: update messages...
+                break;
+                }
+            } else if(xmlHttp.readyState == 4 && xmlHttp.status == 404) {
+                // If we get a 404 when checking the status, it's likely because
+                // the queue doesn't exist
+                queueClosed(response);
+            }
+        }
+    xmlHttp.open("GET", meta('get-status-route'), true); // true for asynchronous 
+    xmlHttp.send(null);
+});
 
 // Ping the server every 15 seconds to remain in the queue
 function maintainSession() {
@@ -154,7 +195,7 @@ function timeToGo(s, l) {
     // Utility to add leading zero
     function z(n) {
       return (n < 10? '0' : '') + n;
-    }
+  }
 
     // Convert string to date object
     var d = isoToObj(s);
@@ -181,6 +222,6 @@ window.setInterval(function() {
         element.innerText = timeToGo(
             element.getAttribute('data-relative-from-timestamp'),
             element.getAttribute('data-display-long') === 'true',
-        );
+            );
     });
 }, 1000);
