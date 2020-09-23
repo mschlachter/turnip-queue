@@ -244,6 +244,11 @@ window.setInterval(function() {
 
 // Use ajax for "remove from queue" forms
 document.addEventListener('submit',function(e){
+    if(e.defaultPrevented) {
+        // "Cancel" selected from confirm dialog
+        return false;
+    }
+
     if(e.target && e.target.classList.contains('form-boot-seeker')){
         // Send a post request to the backend with the form data
         const xhr = new XMLHttpRequest();
@@ -270,6 +275,7 @@ document.addEventListener('submit',function(e){
         return false;
     }
 
+    // Handle "Delete Message"
     if(e.target && e.target.classList.contains('form-delete-message')) {
         const xhr = new XMLHttpRequest();
         const formData = new FormData(e.target);
