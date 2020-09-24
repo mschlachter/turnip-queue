@@ -44,7 +44,7 @@
                         <div>
                             <form class="d-inline" id="form-add-half-hour" method="post" action="{{ route('queue.add-half-hour', compact('turnipQueue')) }}" data-confirm="Are you sure you want to add half an hour to the expiry time?">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-success mr-2 mb-3">
+                                <button type="submit" class="btn btn-outline-primary mr-2 mb-3">
                                     @lang('Add half-hour')
                                 </button>
                             </form>
