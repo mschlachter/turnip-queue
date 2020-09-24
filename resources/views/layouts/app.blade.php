@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @if(config('google-analytics.key'))
+    @if(config('google.analytics-key'))
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google-analytics.key') }}"></script>
     <script>
@@ -11,6 +11,15 @@
 
         gtag('config', '{{ config('google-analytics.key') }}');
     </script>
+    @endif
+    @if(config('google.tag-manager-key'))
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','{{ config('google.tag-manager-key') }}');</script>
+    <!-- End Google Tag Manager -->
     @endif
 
     <meta charset="utf-8">
@@ -50,6 +59,12 @@
     @stack('css')
 </head>
 <body>
+    @if(config('google.tag-manager-key'))
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config('google.tag-manager-key') }}"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    @endif
     <a class="skip-navigation" href="#content">@lang('Skip to main content')</a>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
