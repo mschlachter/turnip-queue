@@ -43,6 +43,13 @@ Route::name('queue.')->group(function () {
     Route::post('/queue/{turnipQueue:token}/leave', 'QueueController@leave')->name('leave');
 });
 
+Route::name('profile.')->middleware('auth')->prefix('profile/')->group(function() {
+    Route::get('/', 'ProfileController@show')->name('show');
+    Route::post('/', 'ProfileController@update')->name('update');
+    Route::post('/update-password', 'ProfileController@updatePassword')->name('update-password');
+    Route::delete('/', 'ProfileController@destroy')->name('delete');
+});
+
 
 Route::name('message.')->middleware(['verified'])->group(function () {
     Route::post('message/store', 'MessageController@store')->name('store');
