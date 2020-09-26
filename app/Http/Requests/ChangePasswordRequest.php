@@ -49,10 +49,10 @@ class ChangePasswordRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if(
-                !app(Hasher::class)->check(
-                    request('password'), auth()->user()->getAuthPassword()
-                )
+            if (!app(Hasher::class)->check(
+                request('password'),
+                auth()->user()->getAuthPassword()
+            )
             ) {
                 $validator->errors()->add('password', __('The password your entered is incorrect.'));
             }
