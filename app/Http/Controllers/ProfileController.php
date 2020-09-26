@@ -76,6 +76,7 @@ class ProfileController extends Controller
     public function destroy()
     {
         $user = auth()->user();
+        $user->delete();
         return redirect(route('login'))->withStatus('Your account has been deleted.');
     }
 }
