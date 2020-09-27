@@ -72,3 +72,5 @@ Route::name('notifications.')->group(function () {
 Auth::routes(['verify' => true]);
 
 Route::redirect('/home', '/queue/create')->name('home')->middleware('verified');
+
+Route::get('sitemap.xml', 'SitemapController@index')->name('sitemap');
