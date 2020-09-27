@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
+@section('title', __('Terms of Service - Turnip Queue'))
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">@lang('Terms and Conditions')</div>
+                <div class="card-header">@lang('Terms of Service')</div>
 
                 <div class="card-body">
                     @if (session('status'))

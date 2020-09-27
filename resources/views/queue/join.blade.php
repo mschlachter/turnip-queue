@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('Join Queue - Turnip Queue'))
+
 @push('meta')
 <meta name="robots" content="noindex">
 @endpush

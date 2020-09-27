@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('Queue Details - Turnip Queue'))
+
 @push('meta')
 <meta name="queue-token" content="{{ $turnipQueue->token }}">
 <meta name="expire-redirect" content="{{ route('queue.create') }}">

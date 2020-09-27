@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('Not Found - Turnip Queue'))
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
