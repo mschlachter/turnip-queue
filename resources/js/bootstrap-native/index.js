@@ -1,7 +1,7 @@
 import Alert from './components/alert-native.js'
 import Button from './components/button-native.js'
 // import Carousel from './components/carousel-native.js'
-// import Collapse from './components/collapse-native.js'
+import Collapse from './components/collapse-native.js'
 import Dropdown from './components/dropdown-native.js'
 // import Modal from './components/modal-native.js'
 // import Popover from './components/popover-native.js'
@@ -19,7 +19,7 @@ export default {
   Alert,
   Button,
   // Carousel,
-  // Collapse,
+  Collapse,
   Dropdown,
   // Modal,
   // Popover,

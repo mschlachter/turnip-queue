@@ -4,7 +4,7 @@ import componentsInit from './componentsInit.js'
 import Alert from '../components/alert-native.js'
 import Button from '../components/button-native.js'
 // import Carousel from '../components/carousel-native.js'
-// import Collapse from '../components/collapse-native.js'
+import Collapse from '../components/collapse-native.js'
 import Dropdown from '../components/dropdown-native.js'
 // import Modal from '../components/modal-native.js'
 // import Popover from '../components/popover-native.js'
@@ -16,7 +16,7 @@ import Dropdown from '../components/dropdown-native.js'
 componentsInit.Alert = [ Alert, '[data-dismiss="alert"]']
 componentsInit.Button = [ Button, '[data-toggle="buttons"]' ]
 // componentsInit.Carousel = [ Carousel, '[data-ride="carousel"]' ]
-// componentsInit.Collapse = [ Collapse, '[data-toggle="collapse"]' ]
+componentsInit.Collapse = [ Collapse, '[data-toggle="collapse"]' ]
 componentsInit.Dropdown = [ Dropdown, '[data-toggle="dropdown"]']
 // componentsInit.Modal = [ Modal, '[data-toggle="modal"]' ]
 // componentsInit.Popover = [ Popover, '[data-toggle="popover"],[data-tip="popover"]' ]
