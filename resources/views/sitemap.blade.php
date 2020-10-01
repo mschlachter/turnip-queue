@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>{{ route('home') }}</loc>
+    <loc>{{ route('index') }}</loc>
     <lastmod>{{ date(DateTime::ATOM, File::lastModified(base_path() . '/resources/views/home.blade.php')) }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
