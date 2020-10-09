@@ -27,7 +27,7 @@
                     <p>
                         @lang('If you believe this to be in error, try again or contact the person who sent you this link.')
                     </p>
-                    
+
                     <p>
                         <a class="btn btn-primary" href="{{ route('index') }}">
                             @lang('Go to home page')
