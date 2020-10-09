@@ -17,24 +17,18 @@
                     @endif
 
                     <p>
-                        What you're looking for was not found. You may have the wrong Turnip Queue Token, or the Queue you're trying to join has been closed. You can use the form below to join a Queue that you have the Token for.
+                        @lang('What you\'re looking for was not found. You may have the wrong Turnip Queue Token, or the Queue you\'re trying to join has been closed.')
                     </p>
 
-                    <form method="post" action="{{ route('queue.find-post') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="queue-id">
-                                @lang('Enter a Turnip Queue Token to join the queue:')
-                            </label>
-                            <input type="text" name="token" id="queue-id" class="form-control @error('token') is-invalid @enderror" />
-                            @error('token')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            @lang('Join Turnip Queue')
-                        </button>
-                    </form>
+                    <p>
+                        @lang('If you believe this to be in error, try again or contact the person who sent you this link.')
+                    </p>
+
+                    <p>
+                        <a class="btn btn-primary" href="{{ route('index') }}">
+                            @lang('Go to home page')
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
