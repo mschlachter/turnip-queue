@@ -19,7 +19,7 @@ class PurgeAbandonnedSeekers extends Command
      *
      * @var string
      */
-    protected $description = 'Mark seekers as having left the queue if they\'ve been inactive for >= 2 minutes';
+    protected $description = 'Mark seekers as having left the queue if they\'ve been inactive for >= 20 minutes';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,7 @@ class PurgeAbandonnedSeekers extends Command
      */
     public function handle()
     {
-        $seekersToPurge = TurnipSeeker::where('left_queue', false)->where('last_ping', '<=', now()->addMinutes(-2));
+        $seekersToPurge = TurnipSeeker::where('left_queue', false)->where('last_ping', '<=', now()->addMinutes(-20));
         if ($seekersCount = $seekersToPurge->count()) {
             foreach ($seekersToPurge->get() as $turnipSeeker) {
                 $turnipSeeker->update(['left_queue' => true]);
