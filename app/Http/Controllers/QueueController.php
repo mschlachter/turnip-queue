@@ -46,7 +46,7 @@ class QueueController extends Controller
     {
         // Check whether the Queue is still open
         if (!$turnipQueue->is_open) {
-            abort(404);
+            return view('queue.closed');
         }
 
         // Check whether they're already in the queue:
