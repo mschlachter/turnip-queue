@@ -6,6 +6,7 @@
 <meta name="queue-token" content="{{ $turnipQueue->token }}">
 <meta name="expire-redirect" content="{{ route('queue.create') }}">
 <meta name="boot-route" content="{{ route('queue.boot-seeker') }}">
+<meta name="current-queue-route" content="{{ route('queue.current-queue', compact('turnipQueue')) }}">
 @endpush
 
 @section('content')

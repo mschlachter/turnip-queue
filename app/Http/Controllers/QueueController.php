@@ -272,6 +272,38 @@ class QueueController extends Controller
         return view('queue.admin', compact('turnipQueue'));
     }
 
+
+    /**
+     * Administer a Turnip Queue.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCurrentQueue(TurnipQueue $turnipQueue)
+    {
+        if ($turnipQueue->user_id !== Auth::id()) {
+            abort(404);
+        }
+        if (!$turnipQueue->is_open) {
+            abort(404);
+        }
+
+        $newQueue = $turnipQueue->turnipSeekers()->inQueue()->select(
+            'id',
+            'reddit_username',
+            'in_game_username',
+            'island_name',
+            'custom_answer',
+            'joined_queue',
+            'token',
+        )->get()->toArray();
+        $concurrentVisitors = $turnipQueue->concurrent_visitors;
+
+        return [
+            'newQueue' => $newQueue,
+            'concurrentVisitors' => $concurrentVisitors,
+        ];
+    }
+
     /**
      * Update a Queue.
      *

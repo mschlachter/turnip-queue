@@ -14,86 +14,99 @@ queueDetailsForm.onreset = function() {
     }, 1);
 }
 
+function handleNewQueueData(data) {
+    var seekers = data.newQueue;
+
+    // Construct the new tbody
+    var newTBody = document.createElement('tbody');
+    for(i = 0; i < seekers.length; i++) {
+        var seekerRow = document.createElement('tr');
+
+        var reddit_username_row = document.createElement('td');
+        reddit_username_row.innerText = seekers[i].reddit_username;
+        seekerRow.appendChild(reddit_username_row);
+
+        var island_name_row = document.createElement('td');
+        island_name_row.innerText = seekers[i].in_game_username + ' from ' + seekers[i].island_name;
+        seekerRow.appendChild(island_name_row);
+
+        var custom_answer_row = document.createElement('td');
+        custom_answer_row.innerText = seekers[i].custom_answer;
+        seekerRow.appendChild(custom_answer_row);
+
+        var joined_queue_row = document.createElement('td');
+        joined_queue_row.innerText = timeToGo(seekers[i].joined_queue);
+        joined_queue_row.setAttribute('data-relative-from-timestamp', seekers[i].joined_queue);
+        seekerRow.appendChild(joined_queue_row);
+
+        var status_row = document.createElement('td');
+        status_row.innerText = i < data.concurrentVisitors ? 'Has code' : 'In queue';
+        seekerRow.appendChild(status_row);
+
+        var action_row = document.createElement('td');
+        var action_form = document.createElement('form');
+        action_form.classList.add('form-boot-seeker');
+        action_form.setAttribute('data-confirm', 'Are you sure you want to remove ' + seekers[i].reddit_username + ' from the Queue?');
+        action_form.method = 'post';
+        action_form.action = meta('boot-route');
+
+        var csrf_input = document.createElement('input');
+        csrf_input.type = 'hidden';
+        csrf_input.name = '_token';
+        csrf_input.value = meta('csrf-token');
+        action_form.appendChild(csrf_input);
+
+        var queue_token_input = document.createElement('input');
+        queue_token_input.type = 'hidden';
+        queue_token_input.name = 'queue-token';
+        queue_token_input.value = meta('queue-token');
+        action_form.appendChild(queue_token_input);
+
+        var seeker_token_input = document.createElement('input');
+        seeker_token_input.type = 'hidden';
+        seeker_token_input.name = 'seeker-token';
+        seeker_token_input.value = seekers[i].token;
+        action_form.appendChild(seeker_token_input);
+
+        var remove_button = document.createElement('button');
+        remove_button.type = 'submit';
+        remove_button.innerText = 'Remove';
+        remove_button.classList.add('btn');
+        remove_button.classList.add('btn-outline-danger');
+        action_form.appendChild(remove_button);
+
+        action_row.appendChild(action_form);
+        seekerRow.appendChild(action_row);
+
+        newTBody.appendChild(seekerRow);
+    }
+
+    // Update the table body:
+    var curTableBody = document.getElementById('queue-table-body');
+    curTableBody.innerHTML = newTBody.innerHTML;
+}
+
 // Listen for events (updates the list, in this case)
-Echo.private('App.TurnipQueue.' + meta('queue-token'))
-    .listen('QueueChanged', function(e) {
-        var seekers = e.newQueue;
-
-        // Construct the new tbody
-        var newTBody = document.createElement('tbody');
-        for(i = 0; i < seekers.length; i++) {
-            var seekerRow = document.createElement('tr');
-
-            var reddit_username_row = document.createElement('td');
-            reddit_username_row.innerText = seekers[i].reddit_username;
-            seekerRow.appendChild(reddit_username_row);
-
-            var island_name_row = document.createElement('td');
-            island_name_row.innerText = seekers[i].in_game_username + ' from ' + seekers[i].island_name;
-            seekerRow.appendChild(island_name_row);
-
-            var custom_answer_row = document.createElement('td');
-            custom_answer_row.innerText = seekers[i].custom_answer;
-            seekerRow.appendChild(custom_answer_row);
-
-            var joined_queue_row = document.createElement('td');
-            joined_queue_row.innerText = timeToGo(seekers[i].joined_queue);
-            joined_queue_row.setAttribute('data-relative-from-timestamp', seekers[i].joined_queue);
-            seekerRow.appendChild(joined_queue_row);
-
-            var status_row = document.createElement('td');
-            status_row.innerText = i < e.concurrentVisitors ? 'Has code' : 'In queue';
-            seekerRow.appendChild(status_row);
-
-            var action_row = document.createElement('td');
-            var action_form = document.createElement('form');
-            action_form.classList.add('form-boot-seeker');
-            action_form.setAttribute('data-confirm', 'Are you sure you want to remove ' + seekers[i].reddit_username + ' from the Queue?');
-            action_form.method = 'post';
-            action_form.action = meta('boot-route');
-
-            var csrf_input = document.createElement('input');
-            csrf_input.type = 'hidden';
-            csrf_input.name = '_token';
-            csrf_input.value = meta('csrf-token');
-            action_form.appendChild(csrf_input);
-
-            var queue_token_input = document.createElement('input');
-            queue_token_input.type = 'hidden';
-            queue_token_input.name = 'queue-token';
-            queue_token_input.value = meta('queue-token');
-            action_form.appendChild(queue_token_input);
-
-            var seeker_token_input = document.createElement('input');
-            seeker_token_input.type = 'hidden';
-            seeker_token_input.name = 'seeker-token';
-            seeker_token_input.value = seekers[i].token;
-            action_form.appendChild(seeker_token_input);
-
-            var remove_button = document.createElement('button');
-            remove_button.type = 'submit';
-            remove_button.innerText = 'Remove';
-            remove_button.classList.add('btn');
-            remove_button.classList.add('btn-outline-danger');
-            action_form.appendChild(remove_button);
-
-            action_row.appendChild(action_form);
-            seekerRow.appendChild(action_row);
-
-            newTBody.appendChild(seekerRow);
+let currentQueueRequestTimestamp;
+Echo.private('App.TurnipQueue.' + meta('queue-token')).listen('QueueChanged', function(e) {
+    const xmlHttp = new XMLHttpRequest();
+    const thisQueueRequestTimestamp = currentQueueRequestTimestamp = Date.now();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200 && thisQueueRequestTimestamp == currentQueueRequestTimestamp) {
+            var response = JSON.parse(xmlHttp.responseText);
+            handleNewQueueData(response);
         }
-
-        // Update the table body:
-        var curTableBody = document.getElementById('queue-table-body');
-        curTableBody.innerHTML = newTBody.innerHTML;
-    });
+    }
+    xmlHttp.open("GET", meta('current-queue-route'));
+    xmlHttp.send();
+});
 
 var queueChannel = Echo.channel('App.TurnipQueue.' + meta('queue-token'));
 
 queueChannel.listen('QueueClosed', function(e) {
-        alert('The Queue has expired.');
-        window.location.href = meta('expire-redirect');
-    });
+    alert('The Queue has expired.');
+    window.location.href = meta('expire-redirect');
+});
 
 queueChannel.listen('QueueMessageSent', function(e) {
     var messageSection = document.getElementById('message-section');
@@ -210,7 +223,7 @@ function isoToObj(s) {
 function timeToGo(s, l) {
     // Utility to add leading zero
     function z(n) {
-      return (n < 10? '0' : '') + n;
+        return (n < 10? '0' : '') + n;
     }
 
     // Convert string to date object
@@ -238,7 +251,7 @@ window.setInterval(function() {
         element.innerText = timeToGo(
             element.getAttribute('data-relative-from-timestamp'),
             element.getAttribute('data-display-long') === 'true',
-        );
+            );
     });
 }, 1000);
 
