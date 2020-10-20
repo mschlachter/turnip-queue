@@ -15,8 +15,6 @@ class QueueChanged implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $turnipQueueToken;
-    public $newQueue;
-    public $concurrentVisitors;
 
     /**
      * Create a new event instance.
@@ -26,16 +24,6 @@ class QueueChanged implements ShouldBroadcast
     public function __construct($turnipQueue)
     {
         $this->turnipQueueToken = $turnipQueue->token;
-        $this->newQueue = $turnipQueue->turnipSeekers()->inQueue()->select(
-            'id',
-            'reddit_username',
-            'in_game_username',
-            'island_name',
-            'custom_answer',
-            'joined_queue',
-            'token',
-        )->get()->toArray();
-        $this->concurrentVisitors = $turnipQueue->concurrent_visitors;
     }
 
     /**
