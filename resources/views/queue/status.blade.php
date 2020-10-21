@@ -26,15 +26,15 @@
                     @endif
 
                     <div id="status-in-queue" class="text-center @if($position <= 0) d-none @endif">
-                        <p>
+                        <div class="mb-2">
                             @lang('You are currently number')
-                        </p>
+                        </div>
                         <div class="h1" id="position-area"> 
                             {{ $position }}
                         </div>
-                        <p>
+                        <div class="mb-3">
                             @lang('in the queue')
-                        </p>
+                        </div>
                     </div>
                     <div id="status-show-dodo-code" class="text-center @if($position > 0) d-none @endif">
                         @lang('The Dodo Code to enter the island is:')
@@ -44,27 +44,27 @@
                             @endif
                         </div>
                     </div>
-                    <div class="alert alert-danger text-center">
-                        @lang('The Dodo Code will appear in this window once you reach the end of the queue.<br />Leave this window open until you have left the island.<br />Once you have left the island, you must click the button below to leave the queue.')
-                    </div>
                     <p class="text-center">
                         @lang('Queue will expire:')
                         <span id="expiry-display" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}">
                             {{ $turnipQueue->expires_at }}
                         </span>
                     </p>
-                    <form class="text-center" method="post" action="{{ route('queue.leave', compact('turnipQueue')) }}" data-confirm="Are you sure you want to leave this Turnip Queue?">
+                    <form class="text-center mb-4" method="post" action="{{ route('queue.leave', compact('turnipQueue')) }}" data-confirm="Are you sure you want to leave this Turnip Queue?">
                         @csrf
                         <button class="btn btn-outline-danger">
                             @lang('Leave the Queue')
                         </button>
                     </form>
-                    <h2 id="messages-header" class="mt-3 @if($turnipQueue->turnipQueueMessages()->count() === 0) d-none @endif">
+                    <div class="alert alert-danger text-center mb-0">
+                        @lang('The Dodo Code will appear in this window once you reach the end of the Queue.<br />Leave this window open until you have left the island.<br />Once you have left the island, you must click the button above to leave the Queue.')
+                    </div>
+                    <h2 id="messages-header" class="mt-4 @if($turnipQueue->turnipQueueMessages()->count() === 0) d-none @endif">
                         @lang('Messages from host')
                     </h2>
                     <div id="message-section">
                         @foreach($turnipQueue->turnipQueueMessages()->orderByDesc('sent_at')->get() as $turnipQueueMessage)
-                        <div class="shadow-sm rounded border py-2 px-2 mb-3" id="queue-message-{{ $turnipQueueMessage->id }}">
+                        <div class="shadow-sm rounded border py-2 px-2 mt-3" id="queue-message-{{ $turnipQueueMessage->id }}">
                             <small class="text-muted" data-relative-from-timestamp="{{ $turnipQueueMessage->sent_at->toISOString() }}">
                                 {{ $turnipQueueMessage->sent_at}}
                             </small>

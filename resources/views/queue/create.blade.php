@@ -81,8 +81,8 @@
                         </div>
                         <div class="form-group form-text text-muted small">
                             @lang('This form is protected by reCAPTCHA and the Google
-<a href="https://policies.google.com/privacy">Privacy Policy</a> and
-<a href="https://policies.google.com/terms">Terms of Service</a> apply.')
+<a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and
+<a target="_blank" rel="noopener" href="https://policies.google.com/terms">Terms of Service</a> apply.')
                         </div>
                         <button type="submit"
                             class="btn btn-primary g-recaptcha" 
