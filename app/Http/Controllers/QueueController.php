@@ -146,6 +146,17 @@ class QueueController extends Controller
 
     public function register(TurnipQueue $turnipQueue)
     {
+        // Check whether they're already in the queue:
+        $seekerToken = session('queue-' . $turnipQueue->token . '|seekerToken', null);
+
+        if ($seekerToken !== null &&
+            ($turnipSeeker = $turnipQueue->turnipSeekers()->where('token', $seekerToken)->first()) &&
+            !$turnipSeeker->left_queue
+        ) {
+            // Token exists on request (and they're still active)
+            return redirect(route('queue.join', compact('turnipQueue')));
+        }
+
         // Rules for reddit usernames come from
         // https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/validator/validator.py#L1567
 
