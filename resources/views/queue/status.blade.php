@@ -26,11 +26,15 @@
                     @endif
 
                     <div id="status-in-queue" class="text-center @if($position <= 0) d-none @endif">
-                        @lang('You are currently number')
+                        <p>
+                            @lang('You are currently number')
+                        </p>
                         <div class="h1" id="position-area"> 
                             {{ $position }}
                         </div>
-                        @lang('in the queue')
+                        <p>
+                            @lang('in the queue')
+                        </p>
                     </div>
                     <div id="status-show-dodo-code" class="text-center @if($position > 0) d-none @endif">
                         @lang('The Dodo Code to enter the island is:')
@@ -41,7 +45,7 @@
                         </div>
                     </div>
                     <div class="alert alert-danger text-center">
-                        @lang('Leave this window open until you have left the island.<br />Once you have left the island, click the button below to leave the queue.')
+                        @lang('The Dodo Code will appear in this window once you reach the end of the queue.<br />Leave this window open until you have left the island.<br />Once you have left the island, you must click the button below to leave the queue.')
                     </div>
                     <p class="text-center">
                         @lang('Queue will expire:')

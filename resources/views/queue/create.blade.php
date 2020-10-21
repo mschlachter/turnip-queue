@@ -74,7 +74,7 @@
                             <label for="custom-question">
                                 @lang('Custom question')
                             </label>
-                            <input type="text" name="custom-question" id="custom-question" class="form-control @error('custom-question') is-invalid @enderror" maxlength="255" placeholder="What is your favourite colour?" value="{{ old('custom-question') }}" />
+                            <input type="text" name="custom-question" id="custom-question" class="form-control @error('custom-question') is-invalid @enderror" maxlength="255" placeholder="Example: What is your favourite colour?" value="{{ old('custom-question') }}" />
                             @error('custom-question')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
