@@ -61,6 +61,11 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group form-text text-muted small">
+                            @lang('This form is protected by reCAPTCHA and the Google
+<a href="https://policies.google.com/privacy">Privacy Policy</a> and
+<a href="https://policies.google.com/terms">Terms of Service</a> apply.')
+                        </div>
                         <button type="submit"
                             class="btn btn-primary g-recaptcha" 
                             data-sitekey="{{ config('recaptcha.site-key') }}" 
@@ -81,5 +86,5 @@
 
 @push('js')
 <script type="text/javascript" src="{{ mix('js/queue/join.js') }}"></script>
-<script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="https://www.recaptcha.net/recaptcha/api.js"></script>
 @endpush
