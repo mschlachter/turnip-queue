@@ -30,7 +30,7 @@ class TurnipSeekerObserver
     public function updated(TurnipSeeker $turnipSeeker)
     {
         if ($turnipSeeker->isDirty('left_queue')) {
-            $turnipQueue = turnipQueue::where('id', $turnipSeeker->turnip_queue_id)->first();
+            $turnipQueue = TurnipQueue::where('id', $turnipSeeker->turnip_queue_id)->first();
             QueueChanged::dispatch($turnipQueue);
 
             $concurrentVisitors = $turnipQueue->concurrent_visitors;
