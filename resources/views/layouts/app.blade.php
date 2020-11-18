@@ -30,13 +30,18 @@
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito&display=swap" as="style">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="{{ mix('js/app.js') }}" as="script">
-    <link rel="preload" href="{{ asset('favicon/favicon-32x32.png') }}" as="image">
+    <link rel="preload" href="{{ asset('img/turnip-logo.svg') }}" as="image">
 
     <!-- Favicon, etc. -->
+    <link rel="icon" type="image/svg+xml" href="{{ asset('img/turnip-logo.svg') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#f8fafc">
+    <meta name="msapplication-config" content="{{ asset('/favicon/browserconfig.xml') }}">
+    <meta name="theme-color" content="#f8fafc">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -70,7 +75,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img class="d-inline-block align-top" src="{{ asset('favicon/favicon-32x32.png') }}" alt="logo" height="32" width="32" loading="lazy">
+                    <img class="d-inline-block align-top" src="{{ asset('img/turnip-logo.svg') }}" alt="logo" height="32" width="32" loading="lazy">
                     {{ config('app.name', 'Turnip Queue') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
