@@ -35,5 +35,9 @@ class AppServiceProvider extends ServiceProvider
         TurnipSeeker::observe(TurnipSeekerObserver::class);
         TurnipQueueMessage::observe(TurnipQueueMessageObserver::class);
         SiteNotification::observe(SiteNotificationObserver::class);
+
+        if (DB::connection() instanceof \Illuminate\Database\SQLiteConnection) {
+            DB::statement(DB::raw('PRAGMA foreign_keys=1'));
+        }
     }
 }
