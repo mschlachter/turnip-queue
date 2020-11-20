@@ -99,7 +99,7 @@
 
                 <div class="card-body">
                     <p>
-                        @lang('Account deletion is permenant, once deleted your account cannot be restored.')
+                        @lang('Account deletion is permanent, once deleted your account cannot be restored.')
                     </p>
                     <form id="form-seeker-details" method="post" action="{{ route('profile.delete') }}" data-confirm="@lang('Are you sure you want to delete your account? This action cannot be undone.')">
                         @csrf
