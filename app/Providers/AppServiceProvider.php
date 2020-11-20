@@ -11,7 +11,6 @@ use App\Observers\TurnipQueueObserver;
 use App\Observers\TurnipSeekerObserver;
 use App\Observers\TurnipQueueMessageObserver;
 use App\Observers\SiteNotificationObserver;
-use DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,9 +35,5 @@ class AppServiceProvider extends ServiceProvider
         TurnipSeeker::observe(TurnipSeekerObserver::class);
         TurnipQueueMessage::observe(TurnipQueueMessageObserver::class);
         SiteNotification::observe(SiteNotificationObserver::class);
-
-        if (DB::connection() instanceof \Illuminate\Database\SQLiteConnection) {
-            DB::statement(DB::raw('PRAGMA foreign_keys=1'));
-        }
     }
 }
