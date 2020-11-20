@@ -75,7 +75,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img class="d-inline-block align-top" src="{{ asset('img/turnip-logo.svg') }}" alt="logo" height="32" width="32" loading="lazy">
+                    <img class="d-inline-block align-top" src="{{ asset('img/turnip-logo.svg') }}" alt="logo: illustration of a white turnip with green leaves in front of a blue circle" height="32" width="32" loading="lazy">
                     {{ config('app.name', 'Turnip Queue') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
