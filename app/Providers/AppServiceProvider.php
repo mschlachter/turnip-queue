@@ -11,6 +11,7 @@ use App\Observers\TurnipQueueObserver;
 use App\Observers\TurnipSeekerObserver;
 use App\Observers\TurnipQueueMessageObserver;
 use App\Observers\SiteNotificationObserver;
+use DB;
 
 class AppServiceProvider extends ServiceProvider
 {
