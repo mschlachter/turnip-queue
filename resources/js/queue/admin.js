@@ -1,4 +1,8 @@
+// Ensure Echo is loaded to capture events
+window.requireEcho();
+
 var queueDetailsForm = document.getElementById("form-queue-details");
+
 var visitorSlider = document.getElementById("visitors");
 var visitorOutput = document.getElementById("visitors-display");
 visitorOutput.innerHTML = visitorSlider.value; // Display the default slider value

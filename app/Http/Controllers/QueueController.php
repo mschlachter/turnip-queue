@@ -115,33 +115,15 @@ class QueueController extends Controller
             'position' => $position,
             'dodoCode' => $position > 0 ? null : $turnipQueue->dodo_code,
             'newExpiry' => $turnipQueue->expires_at->toISOString(),
-            'messages' => $turnipQueue->turnipQueueMessages()
-            ->orderByDesc('sent_at')
-            ->get()
+            'messages' => $turnipQueue->turnipQueueMessages
             ->map(function ($message) {
                 return [
+                    'id' => $message->id,
                     'sent_at' => $message->sent_at->toISOString(),
                     'message' => $message->message,
                 ];
             }),
         ];
-    }
-
-    public function ping(TurnipQueue $turnipQueue)
-    {
-        // Check whether they're already in the queue:
-        $seekerToken = session('queue-' . $turnipQueue->token . '|seekerToken', null);
-
-        if ($seekerToken !== null &&
-            ($turnipSeeker = $turnipQueue->turnipSeekers()->where('token', $seekerToken)->first()) &&
-            !$turnipSeeker->left_queue
-        ) {
-            // Token exists on request (and they're still active)
-            // Update the ping time
-            $turnipSeeker->update(['last_ping' => now()]);
-            return ['success' => true];
-        }
-        return ['success' => false];
     }
 
     public function register(TurnipQueue $turnipQueue)

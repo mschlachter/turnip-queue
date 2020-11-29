@@ -6,7 +6,6 @@
 <meta name="seeker-token" content="{{ $turnipSeeker->token }}">
 <meta name="close-redirect" content="{{ route('queue.find') }}">
 <meta name="boot-redirect" content="{{ route('queue.join', compact('turnipQueue')) }}">
-<meta name="ping-route" content="{{ route('queue.ping', compact('turnipQueue')) }}">
 <meta name="get-status-route" content="{{ route('queue.get-status', compact('turnipQueue')) }}">
 <meta name="check-status" content="{{ $position > 0 }}">
 @endpush

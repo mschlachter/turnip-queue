@@ -1,6 +1,3 @@
-// Detect a 'queue closed' event
-var queueChannel = Echo.channel('App.TurnipQueue.' + meta('queue-token'));
-
 function queueClosed(e) {
     // Show a notification to say the queue was closed
     alert('The Queue has been closed by the host.');
@@ -12,13 +9,8 @@ function queueExpiryChanged(e) {
     document.getElementById('expiry-display').setAttribute('data-relative-from-timestamp', e.newExpiry);
 }
 
-queueChannel.listen('QueueClosed', queueClosed);
-
-queueChannel.listen('QueueExpiryChanged', queueExpiryChanged);
-
-queueChannel.listen('QueueMessageSent', function(e) {
+function messageSent(message) {
     var messageSection = document.getElementById('message-section');
-    var message = e.turnipQueueMessage;
 
     var messageDiv = document.createElement('div');
     messageDiv.id = 'queue-message-' + message.id;
@@ -53,18 +45,32 @@ queueChannel.listen('QueueMessageSent', function(e) {
 
     // Blink the title if the window is inactive
     blinkTitle('New message from host');
-});
+}
 
-queueChannel.listen('QueueMessageDeleted', function(e) {
-    document.getElementById('queue-message-' + e.turnipQueueMessageId).remove();
+function messageDeleted(divId) {
+    document.getElementById(divId).remove();
 
     if(document.getElementById('message-section').children.length === 0) {
         document.getElementById('messages-header').classList.add('d-none');
     }
-});
+}
 
-// Events for position changed or booted from queue
-var seekerChannel = Echo.private('App.TurnipSeeker.' + meta('seeker-token'));
+function updateMessages(messages) {
+    // Add messages currently missing
+    messages.forEach(function(message) {
+        messageElement = document.getElementById('queue-message-' + message.id);
+        if (messageElement === null) {
+            messageSent(message);
+        }
+    });
+
+    // Delete messages not in the list
+    let messageIds = messages.map(m => 'queue-message-' + m.id);
+    let visibleMessages = Array(...document.getElementById('message-section').children).map(c => c.id);
+    let toRemove = visibleMessages.filter(m => !messageIds.includes(m));
+
+    toRemove.forEach(id => messageDeleted(id));
+}
 
 function dodoCodeChanged(e) {
     document.getElementById('dodo-code-area').innerText = e.newDodoCode;
@@ -73,11 +79,8 @@ function dodoCodeChanged(e) {
 function statusChanged(e, notifyUser = true) {
     if(e.position <= 0) {
         // We reached the end of the queue!
-        document.getElementById('dodo-code-area').innerText = e.dodoCode;
-        document.getElementById('status-show-dodo-code').classList.remove('d-none');
-        document.getElementById('status-in-queue').classList.add('d-none');
 
-        if(notifyUser) {
+        if(notifyUser && document.getElementById('status-show-dodo-code').classList.contains('d-none')) {
             // Play a notification sound
             playNotificationSound();
 
@@ -85,11 +88,10 @@ function statusChanged(e, notifyUser = true) {
             blinkTitle('Dodo code received');
         }
 
-        // Stop listening to this specific event:
-        seekerChannel.stopListening('StatusChanged');
-
-        // Start listening to the 'dodo code changed' event
-        seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
+        // Update visuals
+        document.getElementById('dodo-code-area').innerText = e.dodoCode;
+        document.getElementById('status-show-dodo-code').classList.remove('d-none');
+        document.getElementById('status-in-queue').classList.add('d-none');
     } else {
         document.getElementById('position-area').innerText = e.position;
     }
@@ -101,23 +103,11 @@ function seekerBooted(e) {
     window.location.href = meta('boot-redirect');
 }
 
-if(meta('check-status')) {
-    seekerChannel.listen('StatusChanged', statusChanged);
-}
-
-seekerChannel.listen('SeekerBooted', seekerBooted);
-
-if(!meta('check-status')) {
-    seekerChannel.listen('DodoCodeChanged', dodoCodeChanged);
-}
-
-// Handle reconnects after being disconnected
-seekerChannel.on('pusher:subscription_succeeded', function(e) {
+function getCurrentStatus() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             response = JSON.parse(xmlHttp.responseText);
-            console.log(response);
             switch(response.status) {
                 case 'closed':
                 queueClosed(response);
@@ -130,7 +120,7 @@ seekerChannel.on('pusher:subscription_succeeded', function(e) {
                 case 'active':
                 statusChanged(response, false);
                 queueExpiryChanged(response);
-                // TODO: update messages...
+                updateMessages(response.messages);
                 break;
             }
         } else if(xmlHttp.readyState == 4 && xmlHttp.status == 404) {
@@ -141,22 +131,10 @@ seekerChannel.on('pusher:subscription_succeeded', function(e) {
         }
     xmlHttp.open("GET", meta('get-status-route'), true); // true for asynchronous 
     xmlHttp.send(null);
-});
-
-// Ping the server every 15 seconds to remain in the queue
-function maintainSession() {
-    var xmlHttp = new XMLHttpRequest();
-    // We don't use this for now but maybe in the future ...?
-    // xmlHttp.onreadystatechange = function() { 
-        // if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-            // result = JSON.parse(xmlHttp.responseText).result;
-        // }
-    // }
-    xmlHttp.open("GET", meta('ping-route'), true); // true for asynchronous 
-    xmlHttp.send(null);
 }
 
-window.setInterval(maintainSession, 15 * 1000);
+// Ping the server every 5 seconds to remain in the queue
+window.setInterval(getCurrentStatus, 5 * 1000);
 
 // Functions to blink the title when out of focus (when needed)
 var timer = "";
@@ -222,6 +200,6 @@ window.setInterval(function() {
         element.innerText = timeToGo(
             element.getAttribute('data-relative-from-timestamp'),
             element.getAttribute('data-display-long') === 'true',
-            );
+        );
     });
 }, 1000);

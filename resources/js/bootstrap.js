@@ -43,12 +43,18 @@ window.meta = function(key) {
  * allows your team to easily build robust real-time web applications.
  */
 
-import Echo from "laravel-echo"
+import Echo from "laravel-echo";
+window.echo_loaded = false;
 
-window.Pusher = require('pusher-js');
+window.requireEcho = function() {
+    if (window.echo_loaded) return;
+    window.echo_loaded = true;
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: meta('pusher-token'),
-    cluster: 'us2',
-});
+    window.Pusher = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: meta('pusher-token'),
+        cluster: 'us2',
+    });
+};
