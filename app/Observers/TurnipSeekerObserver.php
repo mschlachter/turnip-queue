@@ -32,17 +32,6 @@ class TurnipSeekerObserver
         if ($turnipSeeker->isDirty('left_queue')) {
             $turnipQueue = TurnipQueue::where('id', $turnipSeeker->turnip_queue_id)->first();
             QueueChanged::dispatch($turnipQueue);
-
-            $concurrentVisitors = $turnipQueue->concurrent_visitors;
-
-            foreach ($turnipQueue->turnipSeekers()->inQueue()->get() as $index => $otherSeeker) {
-                // Event to update their position in the queue...
-                StatusChanged::broadcast(
-                    $turnipQueue,
-                    $otherSeeker,
-                    $index - $concurrentVisitors + 1
-                );
-            }
         }
     }
 
