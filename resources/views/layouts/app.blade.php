@@ -1,29 +1,32 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @if(config('google.analytics-key'))
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @if(config('analytics.google-analytics-key'))
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google-analytics.key') }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('analytics.google-analytics-key') }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', '{{ config('google-analytics.key') }}');
+        gtag('config', '{{ config('analytics.google-analytics-key') }}');
     </script>
     @endif
-    @if(config('google.tag-manager-key'))
+    @if(config('analytics.tag-manager-key'))
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','{{ config('google.tag-manager-key') }}');</script>
+    })(window,document,'script','dataLayer','{{ config('analytics.tag-manager-key') }}');</script>
     <!-- End Google Tag Manager -->
     @endif
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @if(config('analytics.use-plausible'))
+    <script async="" defer="" data-domain="{{ config('analytics.plausible-domain') }}" src="{{ config('analytics.plausible-script') }}"></script>
+    @endif
 
     <!-- Preload for speed -->
     <link rel="preload" href="{{ mix('css/app.css') }}" as="style">
