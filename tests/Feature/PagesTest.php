@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use App\TurnipQueue;
 use App\User;
-use Str;
 use Illuminate\Support\Facades\Event;
 
 class PagesTest extends TestCase
@@ -58,7 +58,7 @@ class PagesTest extends TestCase
      */
     public function testJoinQueuePage()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // Generate a token
         do {

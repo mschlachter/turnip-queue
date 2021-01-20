@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyRecaptchaMiddleware;
+use \App\Http\Controllers\HomeController;
+use \App\Http\Controllers\QueueController;
+use \App\Http\Controllers\ProfileController;
+use \App\Http\Controllers\MessageController;
+use \App\Http\Controllers\DonationController;
+use \App\Http\Controllers\TermsController;
+use \App\Http\Controllers\SiteNotificationController;
+use \App\Http\Controllers\SitemapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,65 +22,65 @@ use App\Http\Middleware\VerifyRecaptchaMiddleware;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::name('queue.')->group(function () {
-    Route::get('/queue', 'QueueController@index')->name('find');
-    Route::post('/queue', 'QueueController@search')->name('find-post');
+    Route::get('/queue', [QueueController::class, 'index'])->name('find');
+    Route::post('/queue', [QueueController::class, 'search'])->name('find-post');
 
     Route::middleware(['verified'])->group(function () {
-        Route::get('/queue/create', 'QueueController@create')->name('create');
-        Route::post('/queue/create', 'QueueController@store')->name('store')
+        Route::get('/queue/create', [QueueController::class, 'create'])->name('create');
+        Route::post('/queue/create', [QueueController::class, 'store'])->name('store')
         ->middleware(VerifyRecaptchaMiddleware::class);
-        Route::post('/queue/admin/boot-seeker', 'QueueController@bootSeeker')->name('boot-seeker');
+        Route::post('/queue/admin/boot-seeker', [QueueController::class, 'bootSeeker'])->name('boot-seeker');
 
-        Route::get('/queue/admin/{turnipQueue:token}', 'QueueController@admin')->name('admin');
-        Route::post('/queue/admin/{turnipQueue:token}', 'QueueController@update')->name('update');
-        Route::get('/queue/admin/{turnipQueue:token}/current-queue', 'QueueController@getCurrentQueue')
+        Route::get('/queue/admin/{turnipQueue:token}', [QueueController::class, 'admin'])->name('admin');
+        Route::post('/queue/admin/{turnipQueue:token}', [QueueController::class, 'update'])->name('update');
+        Route::get('/queue/admin/{turnipQueue:token}/current-queue', [QueueController::class, 'getCurrentQueue'])
         ->name('current-queue');
-        Route::post('/queue/admin/{turnipQueue:token}/add-half-hour', 'QueueController@addHalfHour')
+        Route::post('/queue/admin/{turnipQueue:token}/add-half-hour', [QueueController::class, 'addHalfHour'])
         ->name('add-half-hour');
-        Route::post('/queue/admin/{turnipQueue:token}/close', 'QueueController@close')->name('close');
+        Route::post('/queue/admin/{turnipQueue:token}/close', [QueueController::class, 'close'])->name('close');
     });
 
-    Route::get('/queue/{turnipQueue:token}', 'QueueController@join')->name('join');
-    Route::post('/queue/{turnipQueue:token}', 'QueueController@register')->name('register')
+    Route::get('/queue/{turnipQueue:token}', [QueueController::class, 'join'])->name('join');
+    Route::post('/queue/{turnipQueue:token}', [QueueController::class, 'register'])->name('register')
     ->middleware(VerifyRecaptchaMiddleware::class);
 
-    Route::get('/queue/{turnipQueue:token}/ping', 'QueueController@ping')->name('ping');
-    Route::get('/queue/{turnipQueue:token}/get-seeker-status', 'QueueController@getSeekerStatus')
+    Route::get('/queue/{turnipQueue:token}/ping', [QueueController::class, 'ping'])->name('ping');
+    Route::get('/queue/{turnipQueue:token}/get-seeker-status', [QueueController::class, 'getSeekerStatus'])
     ->name('get-status');
-    Route::post('/queue/{turnipQueue:token}/leave', 'QueueController@leave')->name('leave');
+    Route::post('/queue/{turnipQueue:token}/leave', [QueueController::class, 'leave'])->name('leave');
 });
 
 Route::name('profile.')->middleware('auth')->prefix('profile/')->group(function () {
-    Route::get('/', 'ProfileController@show')->name('show');
-    Route::post('/', 'ProfileController@update')->name('update');
-    Route::post('/update-password', 'ProfileController@updatePassword')->name('update-password');
-    Route::delete('/', 'ProfileController@destroy')->name('delete');
+    Route::get('/', [ProfileController::class, 'show'])->name('show');
+    Route::post('/', [ProfileController::class, 'update'])->name('update');
+    Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('update-password');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('delete');
 });
 
 
 Route::name('message.')->middleware(['verified'])->group(function () {
-    Route::post('message/store', 'MessageController@store')->name('store');
-    Route::post('message/destroy/{turnipQueueMessage:id}', 'MessageController@destroy')->name('destroy');
+    Route::post('message/store', [MessageController::class, 'store'])->name('store');
+    Route::post('message/destroy/{turnipQueueMessage:id}', [MessageController::class, 'destroy'])->name('destroy');
 });
 
 Route::name('donate.')->group(function () {
-    Route::get('/donate', 'DonationController@index')->name('index');
-    Route::get('/donate/thank-you', 'DonationController@thankYou')->name('thank-you');
+    Route::get('/donate', [DonationController::class, 'index'])->name('index');
+    Route::get('/donate/thank-you', [DonationController::class, 'thankYou'])->name('thank-you');
 });
 
 Route::name('terms.')->group(function () {
-    Route::get('/terms-and-conditions', 'TermsController@index')->name('index');
+    Route::get('/terms-and-conditions', [TermsController::class, 'index'])->name('index');
 });
 
 Route::name('notifications.')->group(function () {
-    Route::get('/notifications/dismiss', 'SiteNotificationController@dismiss')->name('dismiss');
+    Route::get('/notifications/dismiss', [SiteNotificationController::class, 'dismiss'])->name('dismiss');
 });
 
 Auth::routes(['verify' => true]);
 
 Route::redirect('/home', '/queue/create')->name('home')->middleware('verified');
 
-Route::get('sitemap.xml', 'SitemapController@index')->name('sitemap');
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
