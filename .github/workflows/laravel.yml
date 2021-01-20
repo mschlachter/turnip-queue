@@ -1,4 +1,6 @@
 name: Laravel
+with:
+  php-version: '7.4'
 
 on:
   push:
