@@ -7,8 +7,8 @@ checkForChangedFiles() {
 }
 
 packageJsonHasChanged() {
-  echo "Changes to package.json detected, installing updates"
+  echo "Changes to package-lock.json detected, installing updates"
   npm i
 }
 
-checkForChangedFiles package.json packageJsonHasChanged
+checkForChangedFiles package-lock.json packageJsonHasChanged
