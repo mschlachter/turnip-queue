@@ -10,7 +10,7 @@ Turnip Queue is designed to make a queue for people wishing to visit your island
 
 There are a few prerequisites by way of software and api keys in order to install this package. They include:
 
-- PHP 7.2.5 or higher
+- PHP 7.3.0 or higher
 - MySQL or another Laravel-compatible database
 - Redis or another backend for the Laravel Queue (`file` works for local development)
 - Composer
@@ -95,4 +95,4 @@ This package is Open-Source software licensed under the [Attribution 4.0 Interna
 
 ## Acknowledgements
 
-Sound effect for the notification was obtained from <a href="https://www.zapsplat.com">https://www.zapsplat.com</a>
+Sound effect for the notification was obtained from [zapsplat.com](https://www.zapsplat.com)
