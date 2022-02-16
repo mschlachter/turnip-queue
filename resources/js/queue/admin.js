@@ -43,6 +43,13 @@ function handleNewQueueData(data) {
         joined_queue_row.setAttribute('data-relative-from-timestamp', seekers[i].joined_queue);
         seekerRow.appendChild(joined_queue_row);
 
+        if (seekers[i].received_code){
+            var received_code_row = document.createElement('td');
+            received_code_row.innerText = timeToGo(seekers[i].received_code);
+            received_code_row.setAttribute('data-relative-from-timestamp', seekers[i].received_code);
+            seekerRow.appendChild(received_code_row);
+        }
+
         var status_row = document.createElement('td');
         status_row.innerText = i < data.concurrentVisitors ? 'Has code' : 'In queue';
         seekerRow.appendChild(status_row);
@@ -245,7 +252,7 @@ function timeToGo(s, l) {
 
     if(l) {
         // return formatted string
-        return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';   
+        return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';
     }
     return z(hours) + ':' + z(mins) + ':' + z(secs);
 }

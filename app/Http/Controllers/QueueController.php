@@ -24,7 +24,7 @@ class QueueController extends Controller
     /**
      * Search for a queue based on the token.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function search()
     {
@@ -63,11 +63,11 @@ class QueueController extends Controller
 
             // Get their current position in the queue
             $position = $turnipQueue->turnipSeekers()
-            ->where('left_queue', false)
-            ->where('id', '<', $turnipSeeker->id)
-            ->count()
+                    ->where('left_queue', false)
+                    ->where('id', '<', $turnipSeeker->id)
+                    ->count()
                 // Adjusts for the visitors already shown the code
-            - $turnipQueue->concurrent_visitors + 1;
+                - $turnipQueue->concurrent_visitors + 1;
 
             // Show them their place in the queue
             return view('queue.status', compact('turnipQueue', 'turnipSeeker', 'position'));
@@ -104,25 +104,35 @@ class QueueController extends Controller
 
         // Get their current position in the queue
         $position = $turnipQueue->turnipSeekers()
-        ->where('left_queue', false)
-        ->where('id', '<', $turnipSeeker->id)
-        ->count()
-            // Adjusts for the visitors already shown the code
-        - $turnipQueue->concurrent_visitors + 1;
+            ->where('left_queue', false)
+            ->where('id', '<', $turnipSeeker->id)
+            ->whereNull('received_code')
+            ->count() + 1; // +1 makes more human-friendly numbers
+
+        if ($position <= 1 && is_null($turnipSeeker->received_code)) {
+            $open_spaces = $turnipQueue->concurrent_visitors - $turnipQueue->turnipSeekers()
+                    ->where('left_queue', false)
+                    ->whereNotNull('received_code')
+                    ->count();
+            if ($open_spaces > 0) {
+                $turnipSeeker->update(['received_code' => now()]);
+            }
+        }
 
         return [
             'status' => 'active',
             'position' => $position,
-            'dodoCode' => $position > 0 ? null : $turnipQueue->dodo_code,
+            'dodoCode' => is_null($turnipSeeker->received_code) ? null : $turnipQueue->dodo_code,
+            'receivedToken' => $turnipSeeker->receivedToken && $turnipSeeker->receivedToken->toISOString(),
             'newExpiry' => $turnipQueue->expires_at->toISOString(),
             'messages' => $turnipQueue->turnipQueueMessages
-            ->map(function ($message) {
-                return [
-                    'id' => $message->id,
-                    'sent_at' => $message->sent_at->toISOString(),
-                    'message' => $message->message,
-                ];
-            }),
+                ->map(function ($message) {
+                    return [
+                        'id' => $message->id,
+                        'sent_at' => $message->sent_at->toISOString(),
+                        'message' => $message->message,
+                    ];
+                }),
         ];
     }
 
@@ -151,7 +161,7 @@ class QueueController extends Controller
 
         // Generate a token
         do {
-            $token = (string) Str::uuid();
+            $token = (string)Str::uuid();
         } while (TurnipQueue::where("token", "=", $token)->first() instanceof TurnipQueue);
 
         TurnipSeeker::create([
@@ -226,7 +236,7 @@ class QueueController extends Controller
 
         // Generate a token
         do {
-            $token = (string) Str::uuid();
+            $token = (string)Str::uuid();
         } while (TurnipQueue::where("token", "=", $token)->first() instanceof TurnipQueue);
 
         $turnipQueue = TurnipQueue::create([
@@ -239,7 +249,7 @@ class QueueController extends Controller
         ]);
 
         return redirect(route('queue.admin', compact('turnipQueue')))
-        ->withStatus('Your Turnip Queue has been created.');
+            ->withStatus('Your Turnip Queue has been created.');
     }
 
     /**
@@ -269,7 +279,7 @@ class QueueController extends Controller
     /**
      * Administer a Turnip Queue.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return array
      */
     public function getCurrentQueue(TurnipQueue $turnipQueue)
     {
@@ -287,6 +297,7 @@ class QueueController extends Controller
             'island_name',
             'custom_answer',
             'joined_queue',
+            'received_code',
             'token',
         )->get()->toArray();
         $concurrentVisitors = $turnipQueue->concurrent_visitors;
@@ -329,7 +340,7 @@ class QueueController extends Controller
         ]);
 
         return redirect(route('queue.admin', compact('turnipQueue')))
-        ->withStatus('Your Turnip Queue has been updated.');
+            ->withStatus('Your Turnip Queue has been updated.');
     }
 
     /**
@@ -373,15 +384,15 @@ class QueueController extends Controller
         ]);
 
         return redirect(route('queue.create'))
-        ->withStatus('Your Turnip Queue has been closed.');
+            ->withStatus('Your Turnip Queue has been closed.');
     }
 
     public function bootSeeker()
     {
         $turnipQueue = TurnipQueue::where('token', request('queue-token'))->firstOrFail();
         $turnipSeeker = $turnipQueue->turnipSeekers()
-        ->where('token', request('seeker-token'))
-        ->firstOrFail();
+            ->where('token', request('seeker-token'))
+            ->firstOrFail();
 
         if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);

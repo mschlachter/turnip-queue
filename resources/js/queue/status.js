@@ -37,7 +37,7 @@ function messageSent(message) {
     } else {
         messageSection.appendChild(messageDiv);
     }
-    
+
     document.getElementById('messages-header').classList.remove('d-none');
 
     // Play a notification sound
@@ -77,7 +77,7 @@ function dodoCodeChanged(e) {
 }
 
 function statusChanged(e, notifyUser = true) {
-    if(e.position <= 0) {
+    if(e.dodoCode) {
         // We reached the end of the queue!
 
         if(notifyUser && document.getElementById('status-show-dodo-code').classList.contains('d-none')) {
@@ -94,6 +94,8 @@ function statusChanged(e, notifyUser = true) {
         document.getElementById('status-in-queue').classList.add('d-none');
     } else {
         document.getElementById('position-area').innerText = e.position;
+        document.getElementById('status-show-dodo-code').classList.add('d-none');
+        document.getElementById('status-in-queue').classList.remove('d-none');
     }
 }
 
@@ -105,7 +107,7 @@ function seekerBooted(e) {
 
 function getCurrentStatus() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
+    xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             response = JSON.parse(xmlHttp.responseText);
             switch(response.status) {
@@ -116,7 +118,7 @@ function getCurrentStatus() {
                 case 'booted':
                 seekerBooted(response);
                 break;
-                
+
                 case 'active':
                 statusChanged(response, false);
                 queueExpiryChanged(response);
@@ -129,11 +131,11 @@ function getCurrentStatus() {
                 queueClosed(response);
             }
         }
-    xmlHttp.open("GET", meta('get-status-route'), true); // true for asynchronous 
+    xmlHttp.open("GET", meta('get-status-route'), true); // true for asynchronous
     xmlHttp.send(null);
 }
 
-// Ping the server every 5 seconds to remain in the queue
+// Fetch the current status every 5 seconds
 window.setInterval(getCurrentStatus, 5 * 1000);
 
 // Functions to blink the title when out of focus (when needed)
@@ -143,7 +145,7 @@ var originalTitle = document.querySelector('title').innerText;
 window.onblur = function() {
     isBlurred = true;
 }
-window.onfocus = function() { 
+window.onfocus = function() {
     isBlurred = false;
     document.title = originalTitle;
     clearInterval(timer);
@@ -190,7 +192,7 @@ function timeToGo(s, l) {
 
     if(l) {
         // return formatted string
-        return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';   
+        return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';
     }
     return sign + z(hours) + ':' + z(mins) + ':' + z(secs);
 }

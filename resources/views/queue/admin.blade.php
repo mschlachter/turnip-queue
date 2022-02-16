@@ -163,6 +163,9 @@
                                     Joined queue
                                 </th>
                                 <th>
+                                    Rcvd. Code
+                                </th>
+                                <th>
                                     Status
                                 </th>
                                 <th>
@@ -189,8 +192,11 @@
                                 <td data-relative-from-timestamp="{{ $seeker->joined_queue->toISOString() }}">
                                     {{ $seeker->joined_queue }}
                                 </td>
+                                <td @if($seeker->received_code)data-relative-from-timestamp="{{ $seeker->received_code->toISOString() }}"@endif>
+                                    {{ $seeker->received_code }}
+                                </td>
                                 <td>
-                                    {{ $loop->index < $turnipQueue->concurrent_visitors ? __('Has code') : __('In queue') }}
+                                    {{ $seeker->received_code ? __('Has code') : __('In queue') }}
                                 </td>
                                 <td>
                                     <form class="form-boot-seeker" data-confirm="Are you sure you want to remove {{ $seeker->reddit_username }} from the Queue?" method="post" action="{{ route('queue.boot-seeker') }}">
