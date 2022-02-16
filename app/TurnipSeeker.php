@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TurnipSeeker extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'turnip_queue_id',
         'reddit_username',
@@ -17,6 +17,7 @@ class TurnipSeeker extends Model
         'custom_answer',
         'token',
         'joined_queue',
+        'received_code',
         'last_ping',
         'left_queue',
     ];
@@ -37,6 +38,7 @@ class TurnipSeeker extends Model
      */
     protected $casts = [
         'joined_queue' => 'datetime',
+        'received_code' => 'datetime',
         'left_queue' => 'boolean',
     ];
 

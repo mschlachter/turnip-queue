@@ -47,7 +47,6 @@ Route::name('queue.')->group(function () {
     Route::post('/queue/{turnipQueue:token}', [QueueController::class, 'register'])->name('register')
     ->middleware(VerifyRecaptchaMiddleware::class);
 
-    Route::get('/queue/{turnipQueue:token}/ping', [QueueController::class, 'ping'])->name('ping');
     Route::get('/queue/{turnipQueue:token}/get-seeker-status', [QueueController::class, 'getSeekerStatus'])
     ->name('get-status');
     Route::post('/queue/{turnipQueue:token}/leave', [QueueController::class, 'leave'])->name('leave');
