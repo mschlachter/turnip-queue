@@ -205,6 +205,7 @@
                                         <input type="hidden" name="seeker-token" value="{{ $seeker->token }}">
                                         <button type="submit" class="btn btn-outline-danger">Remove</button>
                                     </form>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
