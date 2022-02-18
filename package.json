@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "laravel-echo": "^1.8.1",
-        "node-forge": "^0.10.0",
+        "node-forge": "^1.0.0",
         "pusher-js": "^7.0.0",
         "shorter-js": "^0.1.5"
     }
