@@ -104,10 +104,10 @@ class QueueController extends Controller
 
         // Get their current position in the queue
         $position = $turnipQueue->turnipSeekers()
-            ->where('left_queue', false)
-            ->where('id', '<', $turnipSeeker->id)
-            ->whereNull('received_code')
-            ->count() + 1; // +1 makes more human-friendly numbers
+                ->where('left_queue', false)
+                ->where('id', '<', $turnipSeeker->id)
+                ->whereNull('received_code')
+                ->count() + 1; // +1 makes more human-friendly numbers
 
         if ($position <= 1 && is_null($turnipSeeker->received_code)) {
             $open_spaces = $turnipQueue->concurrent_visitors - $turnipQueue->turnipSeekers()
@@ -149,15 +149,22 @@ class QueueController extends Controller
             return redirect(route('queue.join', compact('turnipQueue')));
         }
 
-        // Rules for reddit usernames come from
-        // https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/validator/validator.py#L1567
-
-        $validated = request()->validate([
-            'reddit-username' => 'required|string|min:3|max:20|regex:/^[\w-]+$/',
+        $validationRules = [
             'in-game-username' => 'required|string|max:20',
             'island-name' => 'required|string|max:10',
-            'custom-answer' => 'required|string|max:255',
-        ]);
+        ];
+
+        // Rules for reddit usernames come from
+        // https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/validator/validator.py#L1567
+        if ($turnipQueue->ask_reddit_username) {
+            $validationRules['reddit-username'] = 'required|string|min:3|max:20|regex:/^[\w-]+$/';
+        }
+
+        if (!is_null($turnipQueue->custom_question)) {
+            $validationRules['custom-answer'] = 'required|string|max:255';
+        }
+
+        $validated = request()->validate($validationRules);
 
         // Generate a token
         do {
@@ -166,10 +173,10 @@ class QueueController extends Controller
 
         TurnipSeeker::create([
             'turnip_queue_id' => $turnipQueue->id,
-            'reddit_username' => $validated['reddit-username'],
+            'reddit_username' => $validated['reddit-username'] ?? null,
             'in_game_username' => $validated['in-game-username'],
             'island_name' => $validated['island-name'],
-            'custom_answer' => $validated['custom-answer'],
+            'custom_answer' => $validated['custom-answer'] ?? null,
             'token' => $token,
             'joined_queue' => now(),
             'last_ping' => now(),
@@ -219,7 +226,8 @@ class QueueController extends Controller
             'dodo-code' => 'required|string|min:4|max:6|regex:/^[0-9A-HJ-NP-Y]+$/i',
             'duration' => 'required|integer|min:1|max:5',
             'visitors' => 'required|integer|min:1|max:10',
-            'custom-question' => 'required|string|max:255',
+            'ask-reddit-username' => 'nullable|boolean',
+            'custom-question' => 'nullable|string|max:255',
         ], [], [
             'dodo-code' => 'Dodo Code',
             'duration' => 'time to keep open',
@@ -245,6 +253,7 @@ class QueueController extends Controller
             'dodo_code' => strtoupper($validated['dodo-code']),
             'expires_at' => now()->addHours($validated['duration']),
             'concurrent_visitors' => $validated['visitors'],
+            'ask_reddit_username' => $validated['ask-reddit-username'] ?? false,
             'custom_question' => $validated['custom-question'],
         ]);
 
@@ -325,7 +334,8 @@ class QueueController extends Controller
         $validated = request()->validate([
             'dodo-code' => 'required|string|min:4|max:6|regex:/^[0-9A-HJ-NP-Y]+$/i',
             'visitors' => 'required|integer|min:1|max:10',
-            'custom-question' => 'required|string|max:255',
+            'ask-reddit-username' => 'nullable|boolean',
+            'custom-question' => 'nullable|string|max:255',
         ], [], [
             'dodo-code' => 'Dodo Code',
             'duration' => 'time to keep open',
@@ -336,6 +346,7 @@ class QueueController extends Controller
         $turnipQueue->update([
             'dodo_code' => strtoupper($validated['dodo-code']),
             'concurrent_visitors' => $validated['visitors'],
+            'ask_reddit_username' => $validated['ask-reddit-username'] ?? false,
             'custom_question' => $validated['custom-question'],
         ]);
 

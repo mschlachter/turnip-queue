@@ -29,7 +29,7 @@ class TurnipSeekerObserver
      */
     public function updated(TurnipSeeker $turnipSeeker)
     {
-        if ($turnipSeeker->isDirty('left_queue')) {
+        if ($turnipSeeker->isDirty('left_queue') || $turnipSeeker->isDirty('received_code')) {
             $turnipQueue = TurnipQueue::where('id', $turnipSeeker->turnip_queue_id)->first();
             QueueChanged::dispatch($turnipQueue);
         }

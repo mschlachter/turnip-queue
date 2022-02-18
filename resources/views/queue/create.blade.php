@@ -33,7 +33,7 @@
                     <form id="form-queue-details" method="post" action="{{ route('queue.store') }}">
                         @csrf
                         <p>
-                            @lang('All fields are required.')
+                            @lang('All fields are required unless marked optional.')
                         </p>
                         <div class="form-group">
                             <label for="dodo-code">
@@ -71,8 +71,16 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" name="ask-reddit-username" id="ask-reddit-username" class="form-check-input" value="1" @if(!old() || old('ask-reddit-username'))checked="checked"@endif/>
+                                <label for="ask-reddit-username" class="form-check-label">
+                                    @lang('Ask for Reddit username')
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="custom-question">
-                                @lang('Custom question')
+                                @lang('Custom question (optional)')
                             </label>
                             <input type="text" name="custom-question" id="custom-question" class="form-control @error('custom-question') is-invalid @enderror" maxlength="255" placeholder="Example: What is your favourite colour?" value="{{ old('custom-question') }}" />
                             @error('custom-question')
@@ -85,9 +93,9 @@
 <a target="_blank" rel="noopener" href="https://policies.google.com/terms">Terms of Service</a> apply.')
                         </div>
                         <button type="submit"
-                            class="btn btn-primary g-recaptcha" 
-                            data-sitekey="{{ config('recaptcha.site-key') }}" 
-                            data-callback='recaptchaCallback' 
+                            class="btn btn-primary g-recaptcha"
+                            data-sitekey="{{ config('recaptcha.site-key') }}"
+                            data-callback='recaptchaCallback'
                             data-action='submit'>
                             @lang('Create Turnip Queue')
                         </button>
