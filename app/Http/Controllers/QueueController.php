@@ -49,13 +49,27 @@ class QueueController extends Controller
             return view('queue.closed');
         }
 
-        // Check whether they're already in the queue:
-        $seekerToken = session('queue-' . $turnipQueue->token . '|seekerToken', null);
+        $turnipSeeker = null;
 
-        if ($seekerToken !== null &&
-            ($turnipSeeker = $turnipQueue->turnipSeekers()->where('token', $seekerToken)->first()) &&
-            !$turnipSeeker->left_queue
-        ) {
+        // Get token from url first
+        $seekerToken = request()->get('token');
+        if (!is_null($seekerToken)) {
+            $turnipSeeker = $turnipQueue->turnipSeekers()
+                ->where('token', $seekerToken)->where('left_queue', false)->first();
+            if (!is_null($turnipSeeker)) {
+                // Save is session as backup
+                session()->put('queue-' . $turnipQueue->token . '|seekerToken', $seekerToken);
+            }
+        }
+
+        // Check session next
+        if (is_null($turnipSeeker)) {
+            $seekerToken = session('queue-' . $turnipQueue->token . '|seekerToken', null);
+            $turnipSeeker = $turnipQueue->turnipSeekers()
+                ->where('token', $seekerToken)->where('left_queue', false)->first();
+        }
+
+        if (!is_null($turnipSeeker)) {
             // Token exists on request (and they're still active)
 
             // Update the ping time
@@ -185,7 +199,7 @@ class QueueController extends Controller
 
         session()->put('queue-' . $turnipQueue->token . '|seekerToken', $token);
 
-        return redirect(route('queue.join', compact('turnipQueue')));
+        return redirect(route('queue.join', compact('turnipQueue', 'token')));
     }
 
     public function leave(TurnipQueue $turnipQueue)
