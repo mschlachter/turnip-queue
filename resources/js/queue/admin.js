@@ -26,29 +26,33 @@ function handleNewQueueData(data) {
     for(i = 0; i < seekers.length; i++) {
         var seekerRow = document.createElement('tr');
 
+        if (document.getElementById('reddit-username-header')) {
         var reddit_username_row = document.createElement('td');
         reddit_username_row.innerText = seekers[i].reddit_username;
         seekerRow.appendChild(reddit_username_row);
+       }
 
         var island_name_row = document.createElement('td');
         island_name_row.innerText = seekers[i].in_game_username + ' from ' + seekers[i].island_name;
         seekerRow.appendChild(island_name_row);
 
+        if (document.getElementById('custom-answer-header')) {
         var custom_answer_row = document.createElement('td');
         custom_answer_row.innerText = seekers[i].custom_answer;
         seekerRow.appendChild(custom_answer_row);
+        }
 
         var joined_queue_row = document.createElement('td');
         joined_queue_row.innerText = timeToGo(seekers[i].joined_queue);
         joined_queue_row.setAttribute('data-relative-from-timestamp', seekers[i].joined_queue);
         seekerRow.appendChild(joined_queue_row);
 
-        if (seekers[i].received_code){
-            var received_code_row = document.createElement('td');
+        var received_code_row = document.createElement('td');
+        if (seekers[i].received_code) {
             received_code_row.innerText = timeToGo(seekers[i].received_code);
             received_code_row.setAttribute('data-relative-from-timestamp', seekers[i].received_code);
-            seekerRow.appendChild(received_code_row);
         }
+        seekerRow.appendChild(received_code_row);
 
         var status_row = document.createElement('td');
         status_row.innerText = i < data.concurrentVisitors ? 'Has code' : 'In queue';

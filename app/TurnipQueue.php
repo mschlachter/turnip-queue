@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TurnipQueue extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'user_id',
         'token',
@@ -16,6 +16,7 @@ class TurnipQueue extends Model
         'expires_at',
         'concurrent_visitors',
         'custom_question',
+        'ask_reddit_username',
         'is_open',
     ];
 

@@ -25,6 +25,7 @@
                         <p>
                             @lang('All fields are required.')
                         </p>
+                        @if($turnipQueue->ask_reddit_username)
                         <div class="form-group">
                             <label for="reddit-username">
                                 @lang('Reddit username')
@@ -34,6 +35,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="in-game-username">
                                 @lang('In-game username')
@@ -52,6 +54,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        @if(!is_null($turnipQueue->custom_question))
                         <div class="form-group">
                             <label for="custom-answer">
                                 {{ $turnipQueue->custom_question }}
@@ -61,15 +64,16 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        @endif
                         <div class="form-group form-text text-muted small">
                             @lang('This form is protected by reCAPTCHA and the Google
 <a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and
 <a target="_blank" rel="noopener" href="https://policies.google.com/terms">Terms of Service</a> apply.')
                         </div>
                         <button type="submit"
-                            class="btn btn-primary g-recaptcha" 
-                            data-sitekey="{{ config('recaptcha.site-key') }}" 
-                            data-callback='recaptchaCallback' 
+                            class="btn btn-primary g-recaptcha"
+                            data-sitekey="{{ config('recaptcha.site-key') }}"
+                            data-callback='recaptchaCallback'
                             data-action='submit'>
                             @lang('Join Turnip Queue')
                         </button>
