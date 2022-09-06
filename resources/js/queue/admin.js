@@ -96,9 +96,38 @@ function handleNewQueueData(data) {
         newTBody.appendChild(seekerRow);
     }
 
+    // Construct the new queue list
+    var template = document.getElementById('queue-list-template').children[0];
+    var newQueueList = document.createElement('div');
+    for(i = 0; i < seekers.length; i++) {
+        var seekerRow = template.cloneNode(true);
+
+        seekerRow.id = 'member-' + seekers[i].token;
+
+        seekerRow.getByClass = seekerRow.getElementsByClassName;
+        Array.from(seekerRow.getByClass('in-game-username')).forEach(e => e.innerText = seekers[i].in_game_username);
+        Array.from(seekerRow.getByClass('island-name')).forEach(e => e.innerText = seekers[i].island_name);
+        Array.from(seekerRow.getByClass('reddit-username-text')).forEach(e => e.innerText = seekers[i].reddit_username);
+        Array.from(seekerRow.getByClass('answer-text')).forEach(e => e.innerText = seekers[i].custom_answer);
+
+        if (seekers[i].received_code) {
+            Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "Has code");
+            Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.dataset['relativeFromTimestamp'] = seekers[i].received_code);
+        } else {
+            Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "In queue");
+            Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.dataset['relativeFromTimestamp'] = seekers[i].joined_queue);
+        }
+
+        Array.from(seekerRow.getByClass('form-boot-seeker')).forEach(e => e.dataset['confirm'] = "Are you sure you want to remove " + seekers[i].in_game_username + " from the Queue?");
+        Array.from(seekerRow.getByClass('seeker-token')).forEach(e => e.value = seekers[i].token);
+
+
+        newQueueList.appendChild(seekerRow);
+    }
+
     // Update the table body:
-    var curTableBody = document.getElementById('queue-table-body');
-    curTableBody.innerHTML = newTBody.innerHTML;
+    document.getElementById('queue-table-body').innerHTML = newTBody.innerHTML;
+    document.getElementById('current-queue-list').innerHTML = newQueueList.innerHTML;
 }
 
 // Listen for events (updates the list, in this case)
@@ -265,8 +294,8 @@ window.setInterval(function() {
     document.querySelectorAll('[data-relative-from-timestamp]').forEach(function(element) {
         element.innerText = timeToGo(
             element.getAttribute('data-relative-from-timestamp'),
-            element.getAttribute('data-display-long') === 'true',
-            );
+            element.getAttribute('data-display-long') === 'true'
+        );
     });
 }, 1000);
 

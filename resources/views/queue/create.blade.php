@@ -35,7 +35,7 @@
                         <p>
                             @lang('All fields are required unless marked optional.')
                         </p>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="dodo-code">
                                 @lang('Dodo Code')
                             </label>
@@ -44,7 +44,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="duration">
                                 @lang('Time to keep Queue open (hours)')
                             </label>
@@ -57,7 +57,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="visitors">
                                 @lang('Visitors to allow at a time')
                             </label>
@@ -70,7 +70,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="form-check">
                                 <input type="checkbox" name="ask-reddit-username" id="ask-reddit-username" class="form-check-input" value="1" @if(!old() || old('ask-reddit-username'))checked="checked"@endif/>
                                 <label for="ask-reddit-username" class="form-check-label">
@@ -78,7 +78,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="custom-question">
                                 @lang('Custom question (optional)')
                             </label>
@@ -87,7 +87,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group form-text text-muted small">
+                        <div class="mb-3 form-text text-muted small">
                             @lang('This form is protected by reCAPTCHA and the Google
 <a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and
 <a target="_blank" rel="noopener" href="https://policies.google.com/terms">Terms of Service</a> apply.')
