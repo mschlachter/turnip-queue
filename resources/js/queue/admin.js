@@ -113,9 +113,11 @@ function handleNewQueueData(data) {
         if (seekers[i].received_code) {
             Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "Has code");
             Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.dataset['relativeFromTimestamp'] = seekers[i].received_code);
+            Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.innerText = timeToGo(seekers[i].received_code), false);
         } else {
             Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "In queue");
             Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.dataset['relativeFromTimestamp'] = seekers[i].joined_queue);
+            Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.innerText = timeToGo(seekers[i].joined_queue), false);
         }
 
         Array.from(seekerRow.getByClass('form-boot-seeker')).forEach(e => e.dataset['confirm'] = "Are you sure you want to remove " + seekers[i].in_game_username + " from the Queue?");
