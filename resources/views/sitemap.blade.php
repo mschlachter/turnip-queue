@@ -9,6 +9,12 @@
     <priority>1.00</priority>
   </url>
   <url>
+    <loc>{{ route('info.faq') }}</loc>
+    <lastmod>{{ date(DateTime::ATOM, File::lastModified(base_path() . '/resources/views/info/faq.blade.php')) }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>{{ route('queue.find') }}</loc>
     <lastmod>{{ date(DateTime::ATOM, File::lastModified(base_path() . '/resources/views/queue/find.blade.php')) }}</lastmod>
     <changefreq>weekly</changefreq>
