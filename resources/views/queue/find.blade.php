@@ -18,7 +18,7 @@
 
                     <form method="post" action="{{ route('queue.find-post') }}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="queue-id">
                                 @lang('Enter a Turnip Queue Token to join the Queue:')
                             </label>

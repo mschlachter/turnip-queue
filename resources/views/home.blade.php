@@ -114,12 +114,12 @@
                             </ol>
                         </div>
                         <div class="col-md-8 order-md-5 offset-md-4">
-                            <p class="ml-ol">
+                            <p class="ms-ol">
                                 <a class="btn btn-primary" href="{{ route('register') }}">
                                     @lang('Sign up now')
                                 </a>
                             </p>
-                            <p class="mb-5 ml-ol">
+                            <p class="mb-5 ms-ol">
                                 <small>
                                     @lang('Membership needed to open a Queue, no account needed to join an existing Queue.')
                                 </small>

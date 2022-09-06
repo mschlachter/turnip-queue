@@ -31,7 +31,7 @@
                             </a>
                         </p>
                         <div>
-                            <button class="btn btn-outline-secondary mr-2 mb-3" id="btn-copy-link">
+                            <button class="btn btn-outline-secondary me-2 mb-3" id="btn-copy-link">
                                 <svg style="width:0.75rem;vertical-align: -0.125em;" aria-hidden="true"
                                      focusable="false" data-prefix="far" data-icon="clipboard"
                                      class="svg-inline--fa fa-clipboard fa-w-12" role="img"
@@ -53,7 +53,7 @@
                                 Post to r/acturnips
                             </a>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <p class="label">
                                 @lang('Queue will expire:')
                                 <span id="expiry-display"
@@ -65,7 +65,7 @@
                                       action="{{ route('queue.add-half-hour', compact('turnipQueue')) }}"
                                       data-confirm="Are you sure you want to add half an hour to the expiry time?">
                                     @csrf
-                                    <button type="submit" class="btn btn-outline-primary mr-2 mb-3">
+                                    <button type="submit" class="btn btn-outline-primary me-2 mb-3">
                                         @lang('Add half-hour')
                                     </button>
                                 </form>
@@ -83,7 +83,7 @@
                         <form id="form-queue-details" method="post"
                               action="{{ route('queue.update', compact('turnipQueue')) }}">
                             @csrf
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="dodo-code">
                                     @lang('Dodo Code')
                                 </label>
@@ -94,7 +94,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="visitors">
                                     @lang('Visitors to allow at a time')
                                 </label>
@@ -110,7 +110,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" name="ask-reddit-username" id="ask-reddit-username"
                                            class="form-check-input" value="1"
@@ -120,7 +120,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="custom-question">
                                     @lang('Custom question (optional)')
                                 </label>
@@ -132,7 +132,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary mr-2 mt-3">
+                            <button type="submit" class="btn btn-primary me-2 mt-3">
                                 @lang('Update Queue details')
                             </button>
                             <button type="reset" class="btn btn-outline-secondary mt-3">
@@ -171,7 +171,7 @@
                         <form id="form-send-message" method="post" action="{{ route('message.store') }}">
                             @csrf
                             <input type="hidden" name="queue-token" value="{{ $turnipQueue->token }}">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="message-text">
                                     @lang('Message text')
                                 </label>
@@ -189,10 +189,27 @@
                 </div>
 
                 <div class="card mt-3">
-                    <div class="card-header">@lang('Current Queue')</div>
+                    <div class="card-header">
+                            <div class="row">
+                            <span class="col mr-auto">
+                                @lang('Current Queue')
+                            </span>
+                            <button class="btn btn-outline-secondary col-auto ml-auto btn-sm" type="button" onclick="document.querySelectorAll('#current-queue-table,#current-queue-list').forEach(x => {x.classList.toggle('show')})">
+                                Toggle display
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="card-body">
-                        <table class="table w-100">
+                        <div class="d-none" id="queue-list-template">
+                            <x-queue.queue-member :seeker="$templateSeeker" :turnipQueue="$turnipQueue"/>
+                        </div>
+                        <div class="collapse show" id="current-queue-list">
+                            @foreach($turnipQueue->turnipSeekers as $seeker)
+                                <x-queue.queue-member :seeker="$seeker" :turnipQueue="$turnipQueue"/>
+                            @endforeach
+                        </div>
+                        <table class="table w-100 collapse" id="current-queue-table">
                             <thead>
                             <tr>
                                 @if($turnipQueue->ask_reddit_username)
@@ -218,7 +235,7 @@
                                     Status
                                 </th>
                                 <th>
-                                    <span class="sr-only">
+                                    <span class="visually-hidden">
                                         Actions
                                     </span>
                                 </th>

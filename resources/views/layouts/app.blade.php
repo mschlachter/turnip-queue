@@ -87,7 +87,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('queue.find') }}">{{ __('Join Queue') }}</a>
                             </li>
@@ -97,7 +97,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -135,7 +135,7 @@
             </div>
         </nav>
 
-        <div class="container"> 
+        <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8" id="site-notification-holder">
                     @foreach(App\SiteNotification::active()->get() as $notification)
@@ -164,10 +164,10 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="row">
-                            <a href="{{ route('terms.index') }}" class="col-auto mr-auto">
+                            <a href="{{ route('terms.index') }}" class="col-auto me-auto">
                                 Terms of Service
                             </a>
-                            <a href="{{ route('donate.index') }}" class="col-auto ml-auto">
+                            <a href="{{ route('donate.index') }}" class="col-auto ms-auto">
                                 Donate
                             </a>
                         </div>

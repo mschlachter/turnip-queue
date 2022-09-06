@@ -26,7 +26,7 @@
                             @lang('All fields are required.')
                         </p>
                         @if($turnipQueue->ask_reddit_username)
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="reddit-username">
                                 @lang('Reddit username')
                             </label>
@@ -36,7 +36,7 @@
                             @enderror
                         </div>
                         @endif
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="in-game-username">
                                 @lang('In-game username')
                             </label>
@@ -45,7 +45,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="island-name">
                                 @lang('Island name')
                             </label>
@@ -55,7 +55,7 @@
                             @enderror
                         </div>
                         @if(!is_null($turnipQueue->custom_question))
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="custom-answer">
                                 {{ $turnipQueue->custom_question }}
                             </label>
@@ -65,7 +65,7 @@
                             @enderror
                         </div>
                         @endif
-                        <div class="form-group form-text text-muted small">
+                        <div class="mb-3 form-text text-muted small">
                             @lang('This form is protected by reCAPTCHA and the Google
 <a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and
 <a target="_blank" rel="noopener" href="https://policies.google.com/terms">Terms of Service</a> apply.')

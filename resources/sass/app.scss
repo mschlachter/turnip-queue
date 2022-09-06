@@ -28,13 +28,13 @@
 }
 
 ol {
-	counter-reset:item; 
-	margin:0; 
-	padding-left:0; 
+	counter-reset:item;
+	margin:0;
+	padding-left:0;
 
 	>li {
-		counter-increment:item; 
-		list-style:none inside; 
+		counter-increment:item;
+		list-style:none inside;
 		margin: 40px 0;
 		overflow: hidden;
 		font-size: 16px !important;
@@ -53,7 +53,7 @@ ol {
 			width: 55px;
 			background: $primary;
 			color: #fff;
-			text-align: center; 
+			text-align: center;
 			font: 32px 'Lato', Helvetica, Arial, sans-serif;
 			font-weight: 200;
 			float: left;
@@ -61,7 +61,7 @@ ol {
 	}
 }
 
-.ml-ol {
+.ms-ol {
 	margin-left: 75px;
 }
 
@@ -69,4 +69,29 @@ ol {
 
 .grecaptcha-badge {
 	visibility: hidden;
+}
+
+// Only used on admin page
+.queue-member {
+    &:not(:last-child) {
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .custom-question {
+        display: inline-block;
+        border: 1px solid #666;
+        padding: 0.25em 0.5em;
+        margin-top: 1.5em;
+
+        .question-text {
+            width: max-content;
+            background: $white;
+            margin-top: -1em;
+            padding: 0 0.25em;
+        }
+        .answer-text {
+        }
+    }
 }

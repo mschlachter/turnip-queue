@@ -57,7 +57,7 @@ class QueueController extends Controller
             $turnipSeeker = $turnipQueue->turnipSeekers()
                 ->where('token', $seekerToken)->where('left_queue', false)->first();
             if (!is_null($turnipSeeker)) {
-                // Save is session as backup
+                // Save in session as backup
                 session()->put('queue-' . $turnipQueue->token . '|seekerToken', $seekerToken);
             }
         }
@@ -77,11 +77,10 @@ class QueueController extends Controller
 
             // Get their current position in the queue
             $position = $turnipQueue->turnipSeekers()
-                    ->where('left_queue', false)
-                    ->where('id', '<', $turnipSeeker->id)
-                    ->count()
-                // Adjusts for the visitors already shown the code
-                - $turnipQueue->concurrent_visitors + 1;
+                ->where('left_queue', false)
+                ->where('id', '<', $turnipSeeker->id)
+                ->whereNull('received_code')
+                ->count() + 1; // +1 makes more human-friendly numbers
 
             // Show them their place in the queue
             return view('queue.status', compact('turnipQueue', 'turnipSeeker', 'position'));
@@ -295,7 +294,10 @@ class QueueController extends Controller
             }
         ]);
 
-        return view('queue.admin', compact('turnipQueue'));
+        # Empty seeker for the template
+        $templateSeeker = new TurnipSeeker();
+
+        return view('queue.admin', compact('turnipQueue', 'templateSeeker'));
     }
 
 

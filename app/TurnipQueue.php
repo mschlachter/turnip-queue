@@ -32,7 +32,7 @@ class TurnipQueue extends Model
 
     public function turnipSeekers()
     {
-        return $this->hasMany(TurnipSeeker::class);
+        return $this->hasMany(TurnipSeeker::class)->orderBy('joined_queue');
     }
 
     public function turnipQueueMessages()

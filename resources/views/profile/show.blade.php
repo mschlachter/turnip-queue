@@ -20,7 +20,7 @@
 
                     <form id="form-seeker-details" method="post" action="{{ route('profile.update') }}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="name">
                                 @lang('Name')
                             </label>
@@ -29,7 +29,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="email">
                                 @lang('E-Mail Address')
                             </label>
@@ -60,7 +60,7 @@
 
                     <form id="form-seeker-details" method="post" action="{{ route('profile.update-password') }}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="password">
                                 @lang('Current Password')
                             </label>
@@ -69,7 +69,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="new_password">
                                 @lang('New Password')
                             </label>
@@ -78,7 +78,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="new_password_confirmation">
                                 @lang('Confirm Password')
                             </label>
