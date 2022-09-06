@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyRecaptchaMiddleware;
 use \App\Http\Controllers\HomeController;
+use \App\Http\Controllers\InfoController;
 use \App\Http\Controllers\QueueController;
 use \App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\MessageController;
@@ -63,6 +64,12 @@ Route::name('profile.')->middleware('auth')->prefix('profile/')->group(function 
 Route::name('message.')->middleware(['verified'])->group(function () {
     Route::post('message/store', [MessageController::class, 'store'])->name('store');
     Route::post('message/destroy/{turnipQueueMessage:id}', [MessageController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('info.')->group(function() {
+    Route::get('/faq', [InfoController::class, 'faq'])->name('faq');
+    Route::get('/contact', [InfoController::class, 'contact'])->name('contact');
+    Route::post('/contact', [InfoController::class, 'sendMessage'])->name('send-message')->middleware(VerifyRecaptchaMiddleware::class);
 });
 
 Route::name('donate.')->group(function () {

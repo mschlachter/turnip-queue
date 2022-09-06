@@ -24,21 +24,21 @@
                         </div>
                     @endif
 
-                    <div id="status-in-queue" class="text-center @if($position <= 0) d-none @endif">
+                    <div id="status-in-queue" class="text-center @if($turnipSeeker->received_code) d-none @endif">
                         <div class="mb-2">
                             @lang('You are currently number')
                         </div>
-                        <div class="h1" id="position-area"> 
+                        <div class="h1" id="position-area">
                             {{ $position }}
                         </div>
                         <div class="mb-3">
                             @lang('in the queue')
                         </div>
                     </div>
-                    <div id="status-show-dodo-code" class="text-center @if($position > 0) d-none @endif">
+                    <div id="status-show-dodo-code" class="text-center @if($turnipSeeker->received_code === null) d-none @endif">
                         @lang('The Dodo Code to enter the island is:')
-                        <div class="h1" id="dodo-code-area"> 
-                            @if($position <= 0)
+                        <div class="h1" id="dodo-code-area">
+                            @if($turnipSeeker->received_code)
                             {{ $turnipQueue->dodo_code }}
                             @endif
                         </div>

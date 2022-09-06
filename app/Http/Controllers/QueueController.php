@@ -82,6 +82,22 @@ class QueueController extends Controller
                 ->whereNull('received_code')
                 ->count() + 1; // +1 makes more human-friendly numbers
 
+            // Check whether they should have the code
+            $shouldGetCode = $turnipQueue->turnipSeekers()
+                ->where('left_queue', false)
+                ->where('id', '<', $turnipSeeker->id)
+                ->count() < $turnipQueue->concurrent_visitors;
+
+            if ($shouldGetCode && is_null($turnipSeeker->received_code)) {
+                $open_spaces = $turnipQueue->concurrent_visitors - $turnipQueue->turnipSeekers()
+                        ->where('left_queue', false)
+                        ->whereNotNull('received_code')
+                        ->count();
+                if ($open_spaces > 0) {
+                    $turnipSeeker->update(['received_code' => now()]);
+                }
+            }
+
             // Show them their place in the queue
             return view('queue.status', compact('turnipQueue', 'turnipSeeker', 'position'));
         }
@@ -122,7 +138,12 @@ class QueueController extends Controller
                 ->whereNull('received_code')
                 ->count() + 1; // +1 makes more human-friendly numbers
 
-        if ($position <= 1 && is_null($turnipSeeker->received_code)) {
+        $shouldGetCode = $turnipQueue->turnipSeekers()
+            ->where('left_queue', false)
+            ->where('id', '<', $turnipSeeker->id)
+            ->count() < $turnipQueue->concurrent_visitors;
+
+        if ($shouldGetCode && is_null($turnipSeeker->received_code)) {
             $open_spaces = $turnipQueue->concurrent_visitors - $turnipQueue->turnipSeekers()
                     ->where('left_queue', false)
                     ->whereNotNull('received_code')

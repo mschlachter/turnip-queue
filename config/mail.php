@@ -107,4 +107,11 @@ return [
         ],
     ],
 
+    'feedback_recipients' => [
+        [
+            'name' => env('MAIL_FEEDBACK_NAME', 'Example'),
+            'email' => env('MAIL_FEEDBACK_ADDRESS', 'hello@example.com'),
+        ],
+    ],
+
 ];
