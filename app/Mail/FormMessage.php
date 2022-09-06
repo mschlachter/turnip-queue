@@ -34,6 +34,6 @@ class FormMessage extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.form-message')->subject('New Form Message from Turnip Queue');
+        return $this->markdown('emails.form-message')->subject('New Form Message from Turnip Queue')->replyTo($this->form_email);
     }
 }
