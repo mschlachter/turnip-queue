@@ -155,7 +155,7 @@
                                           action="{{ route('message.destroy', compact('turnipQueueMessage')) }}"
                                           class="form-delete-message">
                                         @csrf
-                                        <button type="submit" class="btn btn-link float-right btn-sm">
+                                        <button type="submit" class="btn btn-link float-end btn-sm">
                                             @lang('Delete message')
                                         </button>
                                     </form>
