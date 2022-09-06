@@ -180,7 +180,7 @@ queueChannel.listen('QueueMessageSent', function(e) {
     delete_button.innerText = 'Delete message';
     delete_button.classList.add('btn');
     delete_button.classList.add('btn-link');
-    delete_button.classList.add('float-right');
+    delete_button.classList.add('float-end');
     delete_button.classList.add('btn-sm');
     delete_form.appendChild(delete_button);
 

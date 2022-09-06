@@ -94,6 +94,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('queue.create') }}">{{ __('Create Queue') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('info.faq') }}">{{ __('FAQ') }}</a>
+                            </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
