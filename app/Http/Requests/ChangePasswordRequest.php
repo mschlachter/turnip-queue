@@ -25,7 +25,7 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => ['required', 'string'],
+            'password' => ['required', 'current_password'],
             'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
@@ -38,24 +38,5 @@ class ChangePasswordRequest extends FormRequest
     protected function getRedirectUrl()
     {
         return parent::getRedirectUrl() . '#password-section';
-    }
-
-    /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            if (!app(Hasher::class)->check(
-                request('password'),
-                auth()->user()->getAuthPassword()
-            )
-            ) {
-                $validator->errors()->add('password', __('The password your entered is incorrect.'));
-            }
-        });
     }
 }
