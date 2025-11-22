@@ -30,7 +30,7 @@
                             <label for="reddit-username">
                                 @lang('Reddit username')
                             </label>
-                            <input type="text" name="reddit-username" id="reddit-username" class="form-control @error('reddit-username') is-invalid @enderror" maxlength="20" value="{{ old('reddit-username') }}" pattern="^[\w-]+$" />
+                            <input type="text" name="reddit-username" id="reddit-username" class="form-control @error('reddit-username') is-invalid @enderror" maxlength="20" value="{{ old('reddit-username') }}" pattern="^[A-Za-z0-9_\-]+$" />
                             @error('reddit-username')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

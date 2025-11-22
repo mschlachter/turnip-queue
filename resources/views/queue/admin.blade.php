@@ -232,6 +232,9 @@
                                     Rcvd. Code
                                 </th>
                                 <th>
+                                    Last Ping
+                                </th>
+                                <th>
                                     Status
                                 </th>
                                 <th>
@@ -264,6 +267,9 @@
                                     </td>
                                     <td @if($seeker->received_code)data-relative-from-timestamp="{{ $seeker->received_code->toISOString() }}"@endif>
                                         {{ $seeker->received_code }}
+                                    </td>
+                                    <td data-relative-from-timestamp="{{ $seeker->last_ping->toISOString() }}">
+                                        {{ $seeker->last_ping }}
                                     </td>
                                     <td>
                                         {{ $seeker->received_code ? __('Has code') : __('In queue') }}

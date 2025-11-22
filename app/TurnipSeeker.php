@@ -39,6 +39,7 @@ class TurnipSeeker extends Model
     protected $casts = [
         'joined_queue' => 'datetime',
         'received_code' => 'datetime',
+        'last_ping' => 'datetime',
         'left_queue' => 'boolean',
     ];
 
@@ -50,5 +51,10 @@ class TurnipSeeker extends Model
     public function turnipQueue()
     {
         return $this->belongsTo(TurnipQueue::class);
+    }
+
+    public function getIsActive()
+    {
+        return $this->last_ping?->greaterThan(now()->subSeconds(20));
     }
 }
