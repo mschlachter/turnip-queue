@@ -9,11 +9,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.4.0",
+        "fakerphp/faker": "^1.24",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^4.0",
-        "pusher/pusher-php-server": "^7.2" 
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.4",
