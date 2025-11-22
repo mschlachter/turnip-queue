@@ -10,7 +10,7 @@ Turnip Queue is designed to make a queue for people wishing to visit your island
 
 There are a few prerequisites by way of software and api keys in order to install this package. They include:
 
-- PHP 7.3.0 or higher
+- PHP 8.4.0 or higher
 - MySQL or another Laravel-compatible database
 - Redis or another backend for the Laravel Queue (`file` works for local development)
 - Composer
@@ -63,7 +63,12 @@ There are a few prerequisites by way of software and api keys in order to instal
     npm install && npm run watch
     ```
 
-Navigate to the site with your browser and you should be good to go. If you're using Valet, it'll likely be located at [http://turnip-queue.test](http://turnip-queue.test)
+7)  For development, start the development server
+    ```sh
+    php artisan serve
+    ```
+
+Navigate to the site with your browser and you should be good to go.
 
 ### Cronjobs and Supervisor tasks
 

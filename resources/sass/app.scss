@@ -80,7 +80,7 @@ ol {
     }
 
     .custom-question {
-        display: inline-block;
+        display: block;
         border: 1px solid #666;
         padding: 0.25em 0.5em;
         margin-top: 1.5em;
@@ -91,7 +91,13 @@ ol {
             margin-top: -1em;
             padding: 0 0.25em;
         }
-        .answer-text {
-        }
     }
+
+	.queue-connected-icon path {
+		fill: $success;
+	}
+
+	.queue-disconnected-icon path {
+		fill: $danger;
+	}
 }

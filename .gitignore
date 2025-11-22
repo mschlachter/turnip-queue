@@ -17,3 +17,5 @@ yarn-error.log
 
 .kdev4/
 *.kdev4
+
+*.sqlite

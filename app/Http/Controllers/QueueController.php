@@ -191,7 +191,7 @@ class QueueController extends Controller
         // Rules for reddit usernames come from
         // https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/validator/validator.py#L1567
         if ($turnipQueue->ask_reddit_username) {
-            $validationRules['reddit-username'] = 'required|string|min:3|max:20|regex:/^[\w-]+$/';
+            $validationRules['reddit-username'] = 'required|string|min:3|max:20|regex:/^[A-Za-z0-9_\-]+$/';
         }
 
         if (!is_null($turnipQueue->custom_question)) {
@@ -285,7 +285,7 @@ class QueueController extends Controller
             'user_id' => Auth::id(),
             'token' => $token,
             'dodo_code' => strtoupper($validated['dodo-code']),
-            'expires_at' => now()->addHours($validated['duration']),
+            'expires_at' => now()->addHours((int)$validated['duration']),
             'concurrent_visitors' => $validated['visitors'],
             'ask_reddit_username' => $validated['ask-reddit-username'] ?? false,
             'custom_question' => $validated['custom-question'],
@@ -344,6 +344,7 @@ class QueueController extends Controller
             'custom_answer',
             'joined_queue',
             'received_code',
+            'last_ping',
             'token',
         )->get()->toArray();
         $concurrentVisitors = $turnipQueue->concurrent_visitors;
@@ -394,7 +395,7 @@ class QueueController extends Controller
     /**
      * Close a Turnip Queue.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function addHalfHour(TurnipQueue $turnipQueue)
     {

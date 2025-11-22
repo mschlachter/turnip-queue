@@ -136,8 +136,8 @@
 @push('js')
 <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
         "url": "{{  route('home') }}"
     }
 </script>

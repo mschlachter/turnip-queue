@@ -54,6 +54,13 @@ function handleNewQueueData(data) {
         }
         seekerRow.appendChild(received_code_row);
 
+        var last_ping_row = document.createElement('td');
+        if (seekers[i].last_ping) {
+            last_ping_row.innerText = timeToGo(seekers[i].last_ping);
+            last_ping_row.setAttribute('data-relative-from-timestamp', seekers[i].last_ping);
+        }
+        seekerRow.appendChild(last_ping_row);
+
         var status_row = document.createElement('td');
         status_row.innerText = i < data.concurrentVisitors ? 'Has code' : 'In queue';
         seekerRow.appendChild(status_row);
@@ -111,13 +118,22 @@ function handleNewQueueData(data) {
         Array.from(seekerRow.getByClass('answer-text')).forEach(e => e.innerText = seekers[i].custom_answer);
 
         if (seekers[i].received_code) {
-            Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "Has code");
+            Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "Received code:");
             Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.dataset['relativeFromTimestamp'] = seekers[i].received_code);
             Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.innerText = timeToGo(seekers[i].received_code), false);
         } else {
-            Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "In queue");
+            Array.from(seekerRow.getByClass('queue-status-text')).forEach(e => e.innerText = "Waiting in queue...");
             Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.dataset['relativeFromTimestamp'] = seekers[i].joined_queue);
             Array.from(seekerRow.getByClass('queue-status-time')).forEach(e => e.innerText = timeToGo(seekers[i].joined_queue), false);
+        }
+
+        Array.from(seekerRow.getByClass('queue-active-indicator')).forEach(e => e.dataset['lastPing'] = seekers[i].last_ping);
+        if (Date.now() - new Date(seekers[i].last_ping).getTime() < 20 * 1000) {
+            Array.from(seekerRow.getByClass('queue-disconnected-icon')).forEach(e => e.classList.add('d-none'));
+            Array.from(seekerRow.getByClass('queue-connected-icon')).forEach(e => e.classList.remove('d-none'));
+        } else {
+            Array.from(seekerRow.getByClass('queue-connected-icon')).forEach(e => e.classList.add('d-none'));
+            Array.from(seekerRow.getByClass('queue-disconnected-icon')).forEach(e => e.classList.remove('d-none'));
         }
 
         Array.from(seekerRow.getByClass('form-boot-seeker')).forEach(e => e.dataset['confirm'] = "Are you sure you want to remove " + seekers[i].in_game_username + " from the Queue?");
@@ -134,7 +150,7 @@ function handleNewQueueData(data) {
 
 // Listen for events (updates the list, in this case)
 let currentQueueRequestTimestamp;
-Echo.private('App.TurnipQueue.' + meta('queue-token')).listen('QueueChanged', function(e) {
+function loadNewQueueData() {
     const xmlHttp = new XMLHttpRequest();
     const thisQueueRequestTimestamp = currentQueueRequestTimestamp = Date.now();
     xmlHttp.onreadystatechange = function() {
@@ -145,7 +161,11 @@ Echo.private('App.TurnipQueue.' + meta('queue-token')).listen('QueueChanged', fu
     }
     xmlHttp.open("GET", meta('current-queue-route'));
     xmlHttp.send();
-});
+}
+
+window.setInterval(loadNewQueueData, 5000); // Refresh at least every 5 seconds
+
+Echo.private('App.TurnipQueue.' + meta('queue-token')).listen('QueueChanged', loadNewQueueData);
 
 var queueChannel = Echo.channel('App.TurnipQueue.' + meta('queue-token'));
 
