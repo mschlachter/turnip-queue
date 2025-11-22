@@ -128,7 +128,7 @@ function handleNewQueueData(data) {
         }
 
         Array.from(seekerRow.getByClass('queue-active-indicator')).forEach(e => e.dataset['lastPing'] = seekers[i].last_ping);
-        if (Date.now() - new Date(seekers[i].last_ping).getTime() < 20 * 1000) {
+        if (Date.now() - new Date(seekers[i].last_ping).getTime() < 60 * 1000) {
             Array.from(seekerRow.getByClass('queue-disconnected-icon')).forEach(e => e.classList.add('d-none'));
             Array.from(seekerRow.getByClass('queue-connected-icon')).forEach(e => e.classList.remove('d-none'));
         } else {

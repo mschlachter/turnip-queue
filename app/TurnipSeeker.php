@@ -55,6 +55,6 @@ class TurnipSeeker extends Model
 
     public function getIsActive()
     {
-        return $this->last_ping?->greaterThan(now()->subSeconds(20));
+        return $this->last_ping?->greaterThan(now()->subMinutes(1));
     }
 }
