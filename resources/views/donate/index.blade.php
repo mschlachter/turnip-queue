@@ -23,12 +23,10 @@
                         @lang('Donations will go toward costs associated with hosting (domain name, server droplet, server management software) and third-party services that are used for the operation of the site. If donations significantly offset these costs, I\'ll be able to upgrade the infrastructure and it\'ll also encourage me to spend more time developing and improving the site.')
                     </p>
                     <p>
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                            <input type="hidden" name="cmd" value="_s-xclick" />
-                            <input type="hidden" name="hosted_button_id" value="UJWHCMUMH4ZWQ" />
-                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-                            <img alt="" border="0" src="https://www.paypal.com/en_CA/i/scr/pixel.gif" width="1" height="1" />
-                        </form>
+                        <stripe-buy-button
+                            buy-button-id="buy_btn_1T3yQOFcOXHjh5EpSCS5uYm7"
+                            publishable-key="pk_live_51GyM74FcOXHjh5EpNlUQhXrtEmhaqgPL188lNObLB5EJfYT0YOs4G952UV08IcX1uQSgoTFChoWTGB3WjxhnPzCH002kBj3hCk"
+                        ></stripe-buy-button>
                     </p>
                     <p>
                         @lang('Alternatively, if you would prefer to donate your time, you can help out with the project on GitHub. Whether it\'s reporting a bug you find, suggesting a feature, or contributing a fix or improvement, any help is welcome.')
@@ -45,3 +43,7 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script async src="https://js.stripe.com/v3/buy-button.js"></script>
+@endpush
