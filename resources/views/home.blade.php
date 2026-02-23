@@ -20,7 +20,7 @@
                                 <picture>
                                     <source srcset="{{ asset('img/Daisy_Mae_NH.webp') }} 1x, {{ asset('img/Daisy_Mae_NH_x2.webp') }} 2x, {{ asset('img/Daisy_Mae_NH_x4.webp') }} 4x" type="image/webp"/>
                                     <source srcset="{{ asset('img/Daisy_Mae_NH.png') }} 1x, {{ asset('img/Daisy_Mae_NH_x2.png') }} 2x, {{ asset('img/Daisy_Mae_NH_x4.png') }} 4x" type="image/png"/>
-                                    <img src="{{ asset('img/Daisy_Mae_NH.png') }}" width="215" height="310" alt="Daisy Mae" style="margin-left: 15%;" />
+                                    <img src="{{ asset('img/Daisy_Mae_NH.png') }}" width="215" height="310" alt="Daisy Mae" style="margin-left: 15%;" fetchpriority="high" />
                                 </picture>
                                 <figcaption class="text-left text-md-center">
                                     <small>
