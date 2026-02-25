@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\BroadcastController;
+use Illuminate\Broadcasting\BroadcastController as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Broadcasting\BroadcastController as BaseController;
-use App\Http\Controllers\BroadcastController;
 
 class BroadcastServiceProvider extends ServiceProvider
 {

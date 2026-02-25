@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
-use Tests\TestCase;
 use App\TurnipQueue;
 use App\User;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class PagesTest extends TestCase
 {
@@ -16,7 +15,7 @@ class PagesTest extends TestCase
      *
      * @return void
      */
-    public function testPublicPages()
+    public function test_public_pages()
     {
         // Home Page
         $response = $this->get('/');
@@ -56,14 +55,14 @@ class PagesTest extends TestCase
      *
      * @return void
      */
-    public function testJoinQueuePage()
+    public function test_join_queue_page()
     {
         $user = User::factory()->create();
 
         // Generate a token
         do {
             $token = (string) Str::uuid();
-        } while (TurnipQueue::where("token", "=", $token)->first() instanceof TurnipQueue);
+        } while (TurnipQueue::where('token', '=', $token)->first() instanceof TurnipQueue);
 
         $turnipQueue = TurnipQueue::create([
             'user_id' => $user->id,
@@ -75,7 +74,7 @@ class PagesTest extends TestCase
         ]);
 
         // Test that the 'join queue' page loads
-        $response = $this->get('/queue/' . $token);
+        $response = $this->get('/queue/'.$token);
         $response->assertStatus(200);
 
         Event::fake();

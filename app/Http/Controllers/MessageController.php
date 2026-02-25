@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\TurnipQueueMessage;
-use Illuminate\Http\Request;
 use App\TurnipQueue;
+use App\TurnipQueueMessage;
 use Auth;
+use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
@@ -32,7 +32,6 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,7 +41,7 @@ class MessageController extends Controller
         if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);
         }
-        if (!$turnipQueue->is_open) {
+        if (! $turnipQueue->is_open) {
             abort(404);
         }
 
@@ -59,13 +58,13 @@ class MessageController extends Controller
         if (request()->ajax()) {
             return $turnipQueueMessage;
         }
+
         return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\TurnipQueueMessage  $turnipQueueMessage
      * @return \Illuminate\Http\Response
      */
     public function show(TurnipQueueMessage $turnipQueueMessage)
@@ -76,7 +75,6 @@ class MessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\TurnipQueueMessage  $turnipQueueMessage
      * @return \Illuminate\Http\Response
      */
     public function edit(TurnipQueueMessage $turnipQueueMessage)
@@ -87,8 +85,6 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TurnipQueueMessage  $turnipQueueMessage
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, TurnipQueueMessage $turnipQueueMessage)
@@ -99,7 +95,6 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TurnipQueueMessage  $turnipQueueMessage
      * @return \Illuminate\Http\Response
      */
     public function destroy(TurnipQueueMessage $turnipQueueMessage)
@@ -109,7 +104,7 @@ class MessageController extends Controller
         if ($turnipQueue->user_id !== Auth::id()) {
             abort(404);
         }
-        if (!$turnipQueue->is_open) {
+        if (! $turnipQueue->is_open) {
             abort(404);
         }
 
@@ -120,6 +115,7 @@ class MessageController extends Controller
                 'success' => true,
             ];
         }
+
         return back();
     }
 }

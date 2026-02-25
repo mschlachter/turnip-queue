@@ -2,17 +2,15 @@
 
 namespace App\Observers;
 
+use App\Events\QueueChanged;
 use App\turnipQueue;
 use App\TurnipSeeker;
-use App\Events\QueueChanged;
-use App\Events\StatusChanged;
 
 class TurnipSeekerObserver
 {
     /**
      * Handle the turnip seeker "created" event.
      *
-     * @param  \App\TurnipSeeker  $turnipSeeker
      * @return void
      */
     public function created(TurnipSeeker $turnipSeeker)
@@ -24,7 +22,6 @@ class TurnipSeekerObserver
     /**
      * Handle the turnip seeker "updated" event.
      *
-     * @param  \App\TurnipSeeker  $turnipSeeker
      * @return void
      */
     public function updated(TurnipSeeker $turnipSeeker)
@@ -38,7 +35,6 @@ class TurnipSeekerObserver
     /**
      * Handle the turnip seeker "deleted" event.
      *
-     * @param  \App\TurnipSeeker  $turnipSeeker
      * @return void
      */
     public function deleted(TurnipSeeker $turnipSeeker)
@@ -49,7 +45,6 @@ class TurnipSeekerObserver
     /**
      * Handle the turnip seeker "restored" event.
      *
-     * @param  \App\TurnipSeeker  $turnipSeeker
      * @return void
      */
     public function restored(TurnipSeeker $turnipSeeker)
@@ -60,7 +55,6 @@ class TurnipSeekerObserver
     /**
      * Handle the turnip seeker "force deleted" event.
      *
-     * @param  \App\TurnipSeeker  $turnipSeeker
      * @return void
      */
     public function forceDeleted(TurnipSeeker $turnipSeeker)

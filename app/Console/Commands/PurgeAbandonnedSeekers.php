@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\TurnipSeeker;
+use Illuminate\Console\Command;
 
 class PurgeAbandonnedSeekers extends Command
 {
@@ -43,8 +43,9 @@ class PurgeAbandonnedSeekers extends Command
             foreach ($seekersToPurge->get() as $turnipSeeker) {
                 $turnipSeeker->update(['left_queue' => true]);
             }
-            $this->info('Seekers purged from queues: ' . $seekersCount);
+            $this->info('Seekers purged from queues: '.$seekersCount);
         }
+
         return $seekersCount;
     }
 }

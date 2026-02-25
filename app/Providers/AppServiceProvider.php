@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\TurnipQueue;
-use App\TurnipSeeker;
-use App\TurnipQueueMessage;
-use App\SiteNotification;
+use App\Observers\SiteNotificationObserver;
+use App\Observers\TurnipQueueMessageObserver;
 use App\Observers\TurnipQueueObserver;
 use App\Observers\TurnipSeekerObserver;
-use App\Observers\TurnipQueueMessageObserver;
-use App\Observers\SiteNotificationObserver;
+use App\SiteNotification;
+use App\TurnipQueue;
+use App\TurnipQueueMessage;
+use App\TurnipSeeker;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

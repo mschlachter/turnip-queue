@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \Illuminate\Contracts\Hashing\Hasher;
 
 class ChangePasswordRequest extends FormRequest
 {
@@ -37,6 +36,6 @@ class ChangePasswordRequest extends FormRequest
      */
     protected function getRedirectUrl()
     {
-        return parent::getRedirectUrl() . '#password-section';
+        return parent::getRedirectUrl().'#password-section';
     }
 }

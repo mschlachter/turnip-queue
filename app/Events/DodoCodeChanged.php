@@ -2,20 +2,18 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\TurnipQueue;
 
 class DodoCodeChanged implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $turnipQueue;
+
     public $newDodoCode;
 
     /**
@@ -42,8 +40,9 @@ class DodoCodeChanged implements ShouldBroadcast
             ->orderBy('id')
             ->limit($this->turnipQueue->concurrent_visitors)
             ->get();
+
         return $seekersToNotify->map(function ($turnipSeeker) {
-            return new PrivateChannel('App.TurnipSeeker.' . $turnipSeeker->token);
+            return new PrivateChannel('App.TurnipSeeker.'.$turnipSeeker->token);
         })->all();
     }
 }

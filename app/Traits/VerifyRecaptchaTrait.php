@@ -2,16 +2,16 @@
 
 namespace App\Traits;
 
-use \Illuminate\Validation\ValidationException;
 use Http;
+use Illuminate\Validation\ValidationException;
 
 trait VerifyRecaptchaTrait
 {
     protected function verifyRecaptchaOrFail()
     {
-        if (!$this->verifyRecaptcha()) {
+        if (! $this->verifyRecaptcha()) {
             $error = ValidationException::withMessages([
-               'recaptcha' => 'ReCaptcha verification failed, please try again.',
+                'recaptcha' => 'ReCaptcha verification failed, please try again.',
             ]);
             throw $error;
         }
@@ -20,10 +20,10 @@ trait VerifyRecaptchaTrait
     protected function verifyRecaptcha()
     {
         $responseToken = request('g-recaptcha-response');
-        if (!$responseToken) {
+        if (! $responseToken) {
             return false;
         }
-        
+
         $secret = config('recaptcha.secret-key');
         $apiUrl = 'https://www.google.com/recaptcha/api/siteverify';
 

@@ -2,9 +2,7 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -15,7 +13,9 @@ class StatusChanged implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $turnipSeekerToken;
+
     public $position;
+
     public $dodoCode;
 
     /**
@@ -39,6 +39,6 @@ class StatusChanged implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.TurnipSeeker.' . $this->turnipSeekerToken);
+        return new PrivateChannel('App.TurnipSeeker.'.$this->turnipSeekerToken);
     }
 }
