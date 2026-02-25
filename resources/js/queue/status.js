@@ -40,7 +40,7 @@ function messageSent(message) {
     timestamp.setAttribute('data-relative-from-timestamp', message.sent_at);
     timestamp.setAttribute('data-display-long', 'true');
     timestamp.classList.add('text-muted');
-    timestamp.innerText = timeToGo(message.sent_at);
+    timestamp.innerText = timeToGo(message.sent_at, true);
     messageDiv.appendChild(timestamp);
 
     var messageContent = document.createElement('div');
