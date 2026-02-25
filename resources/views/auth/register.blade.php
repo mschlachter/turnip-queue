@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" id="registration-form" action="{{ route('register') }}">
                         @csrf
 
                         <div class="mb-3 row">
@@ -63,9 +63,16 @@
 
                         <div class="mb-3 row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit"
+                                    class="btn btn-primary g-recaptcha"
+                                    data-sitekey="{{ config('recaptcha.site-key') }}"
+                                    data-callback='recaptchaCallback'
+                                    data-action='submit'>
                                     {{ __('Register') }}
                                 </button>
+                                @error('recaptcha')
+                                    <div class="invalid-feedback d-block mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </form>
@@ -75,3 +82,13 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script type="text/javascript">
+// Recaptcha success callback
+window.recaptchaCallback = function(token) {
+	document.getElementById('registration-form').submit();
+}
+</script>
+<script src="https://www.recaptcha.net/recaptcha/api.js"></script>
+@endpush
