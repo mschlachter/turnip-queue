@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TurnipQueueMessage extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'turnip_queue_id',
         'sent_at',

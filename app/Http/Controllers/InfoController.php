@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SendMessageRequest;
 use App\Mail\FormMessage;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class InfoController extends Controller
@@ -14,9 +13,7 @@ class InfoController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Show the FAQ page.
@@ -52,4 +49,3 @@ class InfoController extends Controller
         return back()->withStatus('Your message has been sent.');
     }
 }
-

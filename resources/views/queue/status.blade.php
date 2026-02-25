@@ -34,6 +34,10 @@
                         <div class="mb-3">
                             @lang('in the queue')
                         </div>
+                        @lang('Last checked')
+                        <span id="ping-time" data-relative-from-timestamp="{{ now()->toISOString() }}" data-display-long="true">
+                            {{ now()->toISOString() }}
+                        </span>
                     </div>
                     <div id="status-show-dodo-code" class="text-center @if($turnipSeeker->received_code === null) d-none @endif">
                         @lang('The Dodo Code to enter the island is:')
@@ -44,8 +48,8 @@
                         </div>
                     </div>
                     <p class="text-center">
-                        @lang('Queue will expire:')
-                        <span id="expiry-display" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}">
+                        @lang('Queue is set to automatically close')
+                        <span id="expiry-display" data-relative-from-timestamp="{{ $turnipQueue->expires_at->toISOString() }}" data-display-long="true">
                             {{ $turnipQueue->expires_at }}
                         </span>
                     </p>
@@ -56,7 +60,7 @@
                         </button>
                     </form>
                     <div class="alert alert-danger text-center mb-0">
-                        @lang('The Dodo Code will appear in this window once you reach the end of the Queue.<br />Leave this window open until you have left the island.<br />Once you have left the island, you must click the button above to leave the Queue.')
+                        @lang('The Dodo Code will appear in this window once you reach the end of the Queue.<br />Leave this window open until you have left the island.<br />Once you have left the island, please click the button above to leave the Queue.')
                     </div>
                     <h2 id="messages-header" class="mt-4 @if($turnipQueue->turnipQueueMessages()->count() === 0) d-none @endif">
                         @lang('Messages from host')
@@ -64,7 +68,7 @@
                     <div id="message-section">
                         @foreach($turnipQueue->turnipQueueMessages()->orderByDesc('sent_at')->get() as $turnipQueueMessage)
                         <div class="shadow-sm rounded border py-2 px-2 mt-3" id="queue-message-{{ $turnipQueueMessage->id }}">
-                            <small class="text-muted" data-relative-from-timestamp="{{ $turnipQueueMessage->sent_at->toISOString() }}">
+                            <small class="text-muted" data-relative-from-timestamp="{{ $turnipQueueMessage->sent_at->toISOString() }}" data-display-long="true">
                                 {{ $turnipQueueMessage->sent_at}}
                             </small>
                             <div class="message-text whitespace-preline">{{ $turnipQueueMessage->message }}</div>

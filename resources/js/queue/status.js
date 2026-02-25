@@ -1,3 +1,19 @@
+// Use timeout to reduce flickering when calling manually
+var timestampTimeout;
+function updateTimestamps() {
+    window.clearTimeout(timestampTimeout);
+    timestampTimeout = window.setTimeout(updateTimestamps, 1000);
+
+    document.querySelectorAll('[data-relative-from-timestamp]').forEach(function(element) {
+        element.innerText = timeToGo(
+            element.getAttribute('data-relative-from-timestamp'),
+            element.getAttribute('data-display-long') === 'true',
+        );
+    });
+}
+
+updateTimestamps();
+
 function queueClosed(e) {
     // Show a notification to say the queue was closed
     alert('The Queue has been closed by the host.');
@@ -22,8 +38,9 @@ function messageSent(message) {
 
     var timestamp = document.createElement('small');
     timestamp.setAttribute('data-relative-from-timestamp', message.sent_at);
+    timestamp.setAttribute('data-display-long', 'true');
     timestamp.classList.add('text-muted');
-    timestamp.innerText = timeToGo(message.sent_at);
+    timestamp.innerText = timeToGo(message.sent_at, true);
     messageDiv.appendChild(timestamp);
 
     var messageContent = document.createElement('div');
@@ -97,6 +114,9 @@ function statusChanged(e, notifyUser = true) {
         document.getElementById('status-show-dodo-code').classList.add('d-none');
         document.getElementById('status-in-queue').classList.remove('d-none');
     }
+
+    document.getElementById('ping-time').setAttribute('data-relative-from-timestamp', (new Date()).toISOString());
+    updateTimestamps();
 }
 
 function seekerBooted(e) {
@@ -126,11 +146,11 @@ function getCurrentStatus() {
                 break;
             }
         } else if(xmlHttp.readyState == 4 && xmlHttp.status == 404) {
-                // If we get a 404 when checking the status, it's likely because
-                // the queue doesn't exist
-                queueClosed(response);
-            }
+            // If we get a 404 when checking the status, it's likely because
+            // the queue doesn't exist
+            queueClosed(response);
         }
+    }
     xmlHttp.open("GET", meta('get-status-route'), true); // true for asynchronous
     xmlHttp.send(null);
 }
@@ -167,23 +187,28 @@ function playNotificationSound() {
 
 // Use 'time to go' logic for the close time
 function isoToObj(s) {
-    var b = s.split(/[-TZ:]/i);
+    var b = s.split(/[-TZ:+]/i);
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5]));
 }
 
 function timeToGo(s, l) {
     // Utility to add leading zero
     function z(n) {
-      return (n < 10? '0' : '') + n;
-  }
+        return (n < 10? '0' : '') + n;
+    }
 
     // Convert string to date object
     var d = isoToObj(s);
     var diff = d - new Date();
 
     // Allow for previous times
-    var sign = diff < 0? '-' : '';
+    var inThePast = diff <= 0;
     diff = Math.abs(diff);
+
+    // Boost less than a second to be one second
+    if (diff < 1e3) {
+        diff = 1e3;
+    }
 
     // Get time components
     var hours = diff/3.6e6 | 0;
@@ -192,16 +217,29 @@ function timeToGo(s, l) {
 
     if(l) {
         // return formatted string
-        return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';
-    }
-    return sign + z(hours) + ':' + z(mins) + ':' + z(secs);
-}
+        var result = '';
 
-window.setInterval(function() {
-    document.querySelectorAll('[data-relative-from-timestamp]').forEach(function(element) {
-        element.innerText = timeToGo(
-            element.getAttribute('data-relative-from-timestamp'),
-            element.getAttribute('data-display-long') === 'true',
-        );
-    });
-}, 1000);
+        if (!inThePast) {
+            result += 'in ';
+        }
+
+        if (hours != 0) {
+            result += z(hours) + ' hours, ';
+        }
+
+        if (mins != 0 || hours != 0) {
+            result += z(mins) + ' minutes, ';
+        }
+
+        result += z(secs) + ' seconds';
+
+        if (inThePast) {
+            result += ' ago';
+        }
+
+        return result;
+
+        // return sign + ' ' + z(hours) + ' hours, ' + z(mins) + ' minutes, ' + z(secs) + ' seconds';
+    }
+    return (inThePast ? '-' : '') + z(hours) + ':' + z(mins) + ':' + z(secs);
+}

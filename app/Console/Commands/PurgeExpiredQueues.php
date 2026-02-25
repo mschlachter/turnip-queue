@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\TurnipQueue;
+use Illuminate\Console\Command;
 
 class PurgeExpiredQueues extends Command
 {
@@ -43,8 +43,9 @@ class PurgeExpiredQueues extends Command
             foreach ($queuesToPurge->get() as $turnipSeeker) {
                 $turnipSeeker->update(['is_open' => false]);
             }
-            $this->info('Queues purged: ' . $queuesCount);
+            $this->info('Queues purged: '.$queuesCount);
         }
+
         return $queuesCount;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Broadcast;
 use App\TurnipQueue;
 use App\TurnipSeeker;
+use Illuminate\Support\Facades\Broadcast;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +36,7 @@ Broadcast::channel('App.TurnipSeeker.{token}', function ($user, $token) {
     }
 
     // Authentication scheme is: does request token match session token?
-    $seekerToken = session('queue-' . $turnipSeeker->turnipQueue->token . '|seekerToken', null);
+    $seekerToken = session('queue-'.$turnipSeeker->turnipQueue->token.'|seekerToken', null);
+
     return $seekerToken === $token;
 });

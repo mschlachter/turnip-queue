@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\SiteNotification;
 
 class SiteNotificationController extends Controller
@@ -11,6 +10,6 @@ class SiteNotificationController extends Controller
     {
         $id = request('id');
         $notif = SiteNotification::active()->findOrFail($id);
-        session()->put('notif-dismissed|' . $id, true);
+        session()->put('notif-dismissed|'.$id, true);
     }
 }

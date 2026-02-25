@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use Illuminate\Http\Request;
-use \Illuminate\Validation\ValidationException;
+use App\User;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -14,12 +12,12 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
         $user = auth()->user();
+
         return view('profile.show', compact('user'));
     }
 
@@ -46,6 +44,7 @@ class ProfileController extends Controller
         $validated = $request->validated();
         $user = auth()->user();
         $user->update($validated);
+
         return back()->withStatus('Your name has been saved.');
     }
 
@@ -63,8 +62,9 @@ class ProfileController extends Controller
         $user->update([
             'password' => Hash::make($validated['new_password']),
         ]);
-        return redirect(url()->previous() . '#password-section')
-        ->with(['password-status' => 'Your password has been changed.']);
+
+        return redirect(url()->previous().'#password-section')
+            ->with(['password-status' => 'Your password has been changed.']);
     }
 
     /**
@@ -77,6 +77,7 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $user->delete();
+
         return redirect(route('login'))->withStatus('Your account has been deleted.');
     }
 }

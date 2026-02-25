@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \Illuminate\Contracts\Hashing\Hasher;
 
 class SendMessageRequest extends FormRequest
 {
