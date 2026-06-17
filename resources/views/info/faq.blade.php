@@ -69,6 +69,19 @@
             </details>
 
             <details class="card mb-3">
+                <summary class="card-header">@lang('What happens when I close a Queue that I\'m hosting?')</summary>
+
+                <div class="card-body">
+                    <p>
+                        Closing a Queue both stops new people from joining and removes everyone currently in the Queue. People who have reached the end of the Queue and received the code will also lose access to it. The same thing happens when a Queue expires.
+                    </p>
+                    <p>
+                        There's currently no way to stop new people from joining a Queue without also kicking out the people currently in it, although <a href="https://github.com/mschlachter/turnip-queue/issues/90" target="_blank" rel="noopener">that is planned as a future enhancement</a>.
+                    </p>
+                </div>
+            </details>
+
+            <details class="card mb-3">
                 <summary class="card-header">@lang('I have additional questions or have encountered an issue, how can I contact you?')</summary>
 
                 <div class="card-body">
